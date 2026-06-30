@@ -1,4 +1,5 @@
 name: AI Agents
-description: 自律エージェントの設計と実験。Claudeを中心に何ができるか試す。
+description: "バグバウンティや脆弱性調査への応用を中心に探求中。MCPを活用した自律コーディングや、AIを「道具として精度よく使いこなす」視点で実験を続けている。コーディングの専門家ではなく、AIを最大限に引き出す側として関わる。"
+description_en: "Exploring AI agents primarily for bug bounty and vulnerability research. Experimenting with MCP-powered autonomous coding — not as a developer, but as someone who gets the most out of AI as a precision instrument."
 icon: 🤖
-order: 8
+order: 9

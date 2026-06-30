@@ -1,5 +1,6 @@
 name: kaya-site
-description: このサイト。Astro + Keystatic CMS + Vercel で構築。ノーコードで編集可能。
+description: "このサイト。Astro 6 + Keystatic CMS + Vercel で構築。ノーコードCMSでコードなしにコンテンツを編集可能。日英切り替え対応。"
+description_en: "This site. Built with Astro 6 + Keystatic CMS + Vercel. Content is fully editable through a no-code CMS interface. Supports Japanese / English language toggle."
 url: https://github.com/Haruka-Kaya/kaya-site
 tags:
   - Astro

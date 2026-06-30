@@ -21,13 +21,19 @@ export default config({
       path: 'src/content/singletons/about',
       schema: {
         tagline: fields.text({
-          label: 'Tagline',
+          label: 'タグライン（日本語）',
           description: '名前の下に表示される短い説明',
         }),
+        tagline_en: fields.text({
+          label: 'Tagline (English)',
+        }),
         bio: fields.text({
-          label: 'Bio',
+          label: '自己紹介（日本語）',
           multiline: true,
-          description: '自己紹介文',
+        }),
+        bio_en: fields.text({
+          label: 'Bio (English)',
+          multiline: true,
         }),
         location: fields.text({
           label: 'Location',
@@ -35,7 +41,7 @@ export default config({
         }),
         avatar: fields.text({
           label: 'Avatar URL',
-          description: 'プロフィール画像のURL（空欄でGitHubアバター使用）',
+          description: '空欄でGitHubアバター使用',
         }),
       },
     }),
@@ -61,7 +67,11 @@ export default config({
       schema: {
         name: fields.slug({ name: { label: 'Hobby Name' } }),
         description: fields.text({
-          label: 'Description',
+          label: '説明（日本語）',
+          multiline: true,
+        }),
+        description_en: fields.text({
+          label: 'Description (English)',
           multiline: true,
         }),
         icon: fields.text({
@@ -81,7 +91,11 @@ export default config({
       schema: {
         name: fields.slug({ name: { label: 'Project Name' } }),
         description: fields.text({
-          label: 'Description',
+          label: '説明（日本語）',
+          multiline: true,
+        }),
+        description_en: fields.text({
+          label: 'Description (English)',
           multiline: true,
         }),
         url: fields.text({ label: 'URL' }),

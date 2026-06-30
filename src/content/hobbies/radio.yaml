@@ -1,0 +1,5 @@
+name: Radio
+description: "第二級陸上特殊無線技士・4アマ取得。デジタル無線技術に幅広く興味があり、Meshtastic（LoRaメッシュネットワーク）も実験中。電波の仕組みを理解することでFPVやドローン運用にも活かせる。"
+description_en: "Holds 2nd-class land special radio operator and 4th-class amateur radio licenses. Broadly interested in digital radio technology, including Meshtastic (LoRa mesh networking). Understanding radio fundamentals directly feeds into FPV and drone operations."
+icon: 📻
+order: 3

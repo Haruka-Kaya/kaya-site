@@ -110,6 +110,12 @@ section {
   margin-bottom: 3rem;
 }
 
+/* Language toggle — default: Japanese */
+.lang-en { display: none; }
+
+html[data-lang="en"] .lang-en { display: revert; }
+html[data-lang="en"] .lang-ja { display: none; }
+
 @keyframes fadeInUp {
   from {
     opacity: 0;

@@ -1,4 +1,5 @@
 name: Linux
-description: カーネルからシェルまで。自分の環境を完全に制御する快感。
+description: "Debian・Ubuntu・Arch（入門中）を日常的に使用。サーバー運用・ハードウェア理解のベースとして欠かせない。Linuxをいじっているうちにセキュリティへの興味が自然と育った。"
+description_en: "Daily user of Debian, Ubuntu, and Arch (still learning). An indispensable foundation for server operations and hardware understanding. Linux tinkering was the natural gateway into security research."
 icon: 🐧
-order: 4
+order: 5

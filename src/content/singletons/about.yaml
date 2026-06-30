@@ -1,4 +1,6 @@
-tagline: Security Researcher, FPV Pilot & Linux Enthusiast
-bio: "Haruka Kaya — セキュリティリサーチャー、FPVドローンパイロット、ロープアクセス技術者。バグバウンティ・CTFを通じて脆弱性を探す傍ら、空を飛び、岩壁を登る。AIエージェントの可能性も追いかけ中。"
+tagline: FPVドローン自作・セキュリティリサーチ・アマチュア無線・ロープアクセス
+tagline_en: FPV drone builder, security researcher, licensed radio operator & rope access enthusiast based in Japan.
+bio: "Haruka Kaya。コーダーというよりも、必要なハードウェアやAIツールを理解して使いこなすことに強みを持つタイプ。\n\nDarwinFPV Cementシリーズの自作機や防水FPV機を飛ばしながら、陸上特殊無線技士の取得に向けてデジタルVTXの合法運用を目指している。DJI Air 3SはDIPSに登録して旅行先の空撮に活用。\n\nセキュリティはLinuxをいじるうちに自然と引き込まれ、HackerOneでのバグバウンティとTryHackMeでの継続学習を続けている。AIエージェント（特にMCP）をバグバウンティや自律コーディングに応用することにも取り組み中。\n\nスキー歴12年。アイスクライミングへの挑戦も視野に入れながら、ロープアクセスのレスキュー技術とセミスタティックロープを自主練習している。"
+bio_en: "Haruka Kaya — less of a coder, more of a person who knows how to effectively wield hardware and AI tools to get things done.\n\nBuilds custom FPV quads (DarwinFPV Cement series, including a waterproof build) and is working toward a land special radio operator license for legal digital VTX operation. Also operates a DJI Air 3S registered with DIPS for legal aerial photography during travel.\n\nGot pulled into security while tinkering with Linux. Now hunting bugs on HackerOne and training continuously on TryHackMe. Actively applying AI agents (especially MCP) to bug bounty workflows and autonomous coding.\n\n12 years of skiing. Practicing rope access rescue techniques and semi-static systems with an eye toward eventually trying ice climbing."
 location: Japan
 avatar: ""

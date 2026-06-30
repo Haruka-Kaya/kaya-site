@@ -2,11 +2,12 @@
 interface Props {
   name: string;
   description: string;
+  description_en: string;
   url: string;
   tags: string[];
   featured: boolean;
 }
-const { name, description, url, tags, featured } = Astro.props;
+const { name, description, description_en, url, tags, featured } = Astro.props;
 ---
 
 <div class="project-card" class:list={[{ featured }]}>
@@ -22,7 +23,8 @@ const { name, description, url, tags, featured } = Astro.props;
       </a>
     )}
   </div>
-  <p class="project-desc">{description}</p>
+  <p class="project-desc lang-ja">{description}</p>
+  <p class="project-desc lang-en">{description_en || description}</p>
   {tags.length > 0 && (
     <div style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:1rem;">
       {tags.map(tag => <span class="tag">{tag}</span>)}
@@ -54,6 +56,7 @@ const { name, description, url, tags, featured } = Astro.props;
     font-size: 0.875rem;
     color: var(--muted);
     line-height: 1.6;
+    margin: 0;
   }
   .project-link {
     flex-shrink: 0;

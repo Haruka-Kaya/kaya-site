@@ -1,4 +1,5 @@
 name: Bug Bounty
-description: 実際のサービスの脆弱性を探して報告。責任ある開示で世界を少し安全に。
+description: "HackerOneをメインプラットフォームとして活動中。Criticalレベルの脆弱性を発見した経験あり。責任ある開示（Responsible Disclosure）を通じて実際のサービスの安全性向上に貢献している。"
+description_en: "Active on HackerOne. Has found Critical-severity vulnerabilities in production services. Contributing to real-world security improvements through responsible disclosure."
 icon: 🐛
-order: 6
+order: 7

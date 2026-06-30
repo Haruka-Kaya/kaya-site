@@ -2,8 +2,6 @@
 import { createReader } from '@keystatic/core/reader';
 import keystaticConfig from '../../keystatic.config';
 import Nav from '../components/Nav.astro';
-import Hero from '../components/Hero.astro';
-import About from '../components/About.astro';
 import HobbyCard from '../components/HobbyCard.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import Footer from '../components/Footer.astro';
@@ -29,35 +27,68 @@ const github = settings?.github ?? 'https://github.com/Haruka-Kaya';
 ---
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja" data-lang="ja">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content={about?.tagline ?? settings?.site_title ?? name} />
+  <meta name="description" content={about?.tagline ?? name} />
   <title>{settings?.site_title ?? name}</title>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <script is:inline>
+    (function () {
+      var lang = localStorage.getItem('site-lang') || 'ja';
+      document.documentElement.setAttribute('data-lang', lang);
+    })();
+  </script>
 </head>
 <body>
 
   <Nav name={name} github={github} />
 
   <main>
-    <Hero
-      name={name}
-      tagline={about?.tagline ?? ''}
-      github={github}
-      avatar={about?.avatar ?? ''}
-    />
+    <!-- Hero -->
+    <section id="hero" style="min-height:100vh;display:flex;align-items:center;padding-top:60px;">
+      <div class="container fade-in" style="padding-top:3rem;padding-bottom:3rem;">
+        <p class="section-label" style="margin-bottom:1rem;">
+          <span class="lang-ja">こんにちは、</span>
+          <span class="lang-en">Hello, I'm</span>
+        </p>
+        <h1 style="font-size:clamp(2.5rem,6vw,4.5rem);font-weight:800;line-height:1.1;letter-spacing:-0.02em;color:var(--text);margin-bottom:1.25rem;">
+          {name}
+        </h1>
+        <p style="font-size:1.1rem;color:var(--muted);max-width:560px;line-height:1.7;margin-bottom:2.5rem;">
+          <span class="lang-ja">{about?.tagline ?? ''}</span>
+          <span class="lang-en">{about?.tagline_en || about?.tagline || ''}</span>
+        </p>
+        <div style="display:flex;gap:0.875rem;flex-wrap:wrap;">
+          <a href="#projects" class="btn-primary">
+            <span class="lang-ja">プロジェクトを見る</span>
+            <span class="lang-en">View Projects</span>
+          </a>
+          <a href="#hobbies" class="btn-ghost">
+            <span class="lang-ja">趣味を探る</span>
+            <span class="lang-en">Explore Hobbies</span>
+          </a>
+        </div>
+      </div>
+    </section>
 
+    <!-- About -->
     <section id="about" style="border-top:1px solid var(--border);">
       <div class="container">
         <p class="section-label">About</p>
-        <h2 class="section-heading">Who I am</h2>
-        <p style="color:var(--muted);line-height:1.8;font-size:1rem;max-width:640px;white-space:pre-line;">
+        <h2 class="section-heading">
+          <span class="lang-ja">自己紹介</span>
+          <span class="lang-en">Who I am</span>
+        </h2>
+        <p style="color:var(--muted);line-height:1.85;font-size:1rem;max-width:660px;white-space:pre-line;" class="lang-ja">
           {about?.bio ?? ''}
+        </p>
+        <p style="color:var(--muted);line-height:1.85;font-size:1rem;max-width:660px;white-space:pre-line;" class="lang-en">
+          {about?.bio_en || about?.bio || ''}
         </p>
         {about?.location && (
           <div style="margin-top:1.5rem;display:inline-flex;align-items:center;gap:0.4rem;color:var(--muted);font-size:0.875rem;">
@@ -71,17 +102,25 @@ const github = settings?.github ?? 'https://github.com/Haruka-Kaya';
       </div>
     </section>
 
+    <!-- Hobbies -->
     {hobbies.length > 0 && (
       <section id="hobbies" style="border-top:1px solid var(--border);">
         <div class="container">
           <p class="section-label">Interests</p>
-          <h2 class="section-heading">Hobbies & Interests</h2>
-          <p class="section-sub">Things I spend my time on outside of work.</p>
+          <h2 class="section-heading">
+            <span class="lang-ja">趣味 & 興味</span>
+            <span class="lang-en">Hobbies & Interests</span>
+          </h2>
+          <p class="section-sub">
+            <span class="lang-ja">仕事の外で時間を使っていること。</span>
+            <span class="lang-en">Things I spend my time on outside of work.</span>
+          </p>
           <div class="hobbies-grid">
             {hobbies.map(h => (
               <HobbyCard
                 name={h.entry.name}
                 description={h.entry.description ?? ''}
+                description_en={h.entry.description_en ?? ''}
                 icon={h.entry.icon ?? ''}
               />
             ))}
@@ -90,17 +129,22 @@ const github = settings?.github ?? 'https://github.com/Haruka-Kaya';
       </section>
     )}
 
+    <!-- Projects -->
     {projects.length > 0 && (
       <section id="projects" style="border-top:1px solid var(--border);">
         <div class="container">
           <p class="section-label">Work</p>
           <h2 class="section-heading">Projects</h2>
-          <p class="section-sub">Things I've built.</p>
+          <p class="section-sub">
+            <span class="lang-ja">作ったもの。</span>
+            <span class="lang-en">Things I've built.</span>
+          </p>
           <div class="projects-grid">
             {projects.map(p => (
               <ProjectCard
                 name={p.entry.name}
                 description={p.entry.description ?? ''}
+                description_en={p.entry.description_en ?? ''}
                 url={p.entry.url ?? ''}
                 tags={p.entry.tags ?? []}
                 featured={p.entry.featured ?? false}
@@ -125,13 +169,18 @@ const github = settings?.github ?? 'https://github.com/Haruka-Kaya';
 <style>
   .hobbies-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(1, 1fr);
     gap: 1rem;
   }
   .projects-grid {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
     gap: 1rem;
+  }
+  @media (min-width: 480px) {
+    .hobbies-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
   @media (min-width: 640px) {
     .projects-grid {
@@ -140,7 +189,7 @@ const github = settings?.github ?? 'https://github.com/Haruka-Kaya';
   }
   @media (min-width: 768px) {
     .hobbies-grid {
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(3, 1fr);
     }
     .projects-grid {
       grid-template-columns: repeat(3, 1fr);

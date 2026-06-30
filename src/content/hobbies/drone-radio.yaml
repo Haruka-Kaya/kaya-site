@@ -1,4 +1,5 @@
-name: Drone Radio
-description: 長距離FPV・固定翼ドローンと無線通信。LRS/アマチュア無線。
-icon: 📡
+name: Drone
+description: "DJI Air 3Sを所持。DIPSへの機体登録と飛行許可申請を適切に行い合法運用。旅行先での空撮・写真撮影がメイン用途。FPVとは別軸の、鳥瞰視点で世界を切り取る楽しさ。"
+description_en: "Owns a DJI Air 3S registered with DIPS (Japan's drone registry) with proper flight approvals in place. Mainly used for aerial photography and travel documentation. A different dimension from FPV — the art of framing the world from above."
+icon: 🛸
 order: 2

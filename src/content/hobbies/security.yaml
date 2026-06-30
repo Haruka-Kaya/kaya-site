@@ -1,4 +1,5 @@
 name: Security
-description: システムのふるまいを理解し、弱点を見つけ、守り方を考える。
+description: "LinuxをいじっているうちにOSINT・脆弱性調査に引き込まれた。「なぜこう動くのか」を追いかける感覚がセキュリティにそのまま活きている。HackerOneとTryHackMeを中心に継続学習中。"
+description_en: "Got pulled in while tinkering with Linux — OSINT and vulnerability research felt like a natural extension of asking \"why does this work the way it does?\" Continuously learning through HackerOne and TryHackMe."
 icon: 🔐
-order: 5
+order: 6
