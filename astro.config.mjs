@@ -4,7 +4,7 @@ import keystatic from '@keystatic/astro';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
-  output: 'static',
+  output: 'server',
   adapter: vercel(),
   integrations: [keystatic()],
   vite: {
