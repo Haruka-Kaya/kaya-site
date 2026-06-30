@@ -1,5 +1,16 @@
 name: FPV Drone
-description: "YouTubeがきっかけでDarwinFPV Cementシリーズにハマり、自作を始める。防水仕様の機体も自分で設計・製作。BetaFPV Meteor 75や3.5インチ機で自宅近くを日常フライト。陸上特殊無線技士を目指してデジタルVTXの合法運用に取り組み中。"
-description_en: "Got into FPV through YouTube and started building custom quads around the DarwinFPV Cement series — including a waterproof build designed from scratch. Flies a BetaFPV Meteor 75 and 3.5\" builds near home. Currently working toward a land special radio operator license to legally operate digital VTX systems."
+description: "YouTubeがきっかけでDarwinFPV Cementシリーズにハマり自作機を組み上げた。防水仕様機も設計・製作済み。GEPRC GEP-F722-45A AIO V2を使った最新ビルドを進行中。BetaFPV Meteor 75で日常フライト。第二級陸上特殊無線技士取得済みでデジタルVTXを合法運用。"
+description_en: "Got into FPV through YouTube and built custom quads from scratch — including a waterproof build. Working on a new build with GEPRC GEP-F722-45A AIO V2. Daily flier with BetaFPV Meteor 75. Holds 2nd-class land special radio operator license for legal digital VTX."
+detail: "YouTubeでFPV動画を見ていたらいてもたってもいられなくなって、DarwinFPV Cementシリーズの自作機を組み上げた。最初から全部自分でやった──フレーム選定からモーター・ESC・フライトコントローラの配線、Betaflightの設定まで。防水仕様の機体も自分で設計して製作した。
+
+現在の主な機材：
+・DarwinFPV Cement 5インチ（自作・防水仕様含む）
+・GEPRC GEP-F722-45A AIO V2（最新ビルド用）
+・BetaFPV Meteor 75（日常フライト用）
+・3.5インチ機（汎用）
+
+部品調達はGetFPVとAliExpressを使い分けている。スロットルは低めで日常的に飛ばすスタイルで、FPVゴーグルの没入感に完全にハマっている。
+
+第二級陸上特殊無線技士を取得済みで、デジタルVTXを合法運用できる体制にある。"
 icon: 🚁
 order: 1

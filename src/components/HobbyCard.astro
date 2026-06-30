@@ -4,25 +4,40 @@ interface Props {
   description: string;
   description_en: string;
   icon: string;
+  slug: string;
 }
-const { name, description, description_en, icon } = Astro.props;
+const { name, description, description_en, icon, slug } = Astro.props;
 ---
 
-<div class="hobby-card">
-  <div class="hobby-icon">{icon}</div>
-  <h3 class="hobby-name">{name}</h3>
-  <p class="hobby-desc lang-ja">{description}</p>
-  <p class="hobby-desc lang-en">{description_en || description}</p>
-</div>
+<a href={'/hobbies/' + slug} class="hobby-card-link">
+  <div class="hobby-card">
+    <div class="hobby-icon">{icon}</div>
+    <h3 class="hobby-name">{name}</h3>
+    <p class="hobby-desc lang-ja">{description}</p>
+    <p class="hobby-desc lang-en">{description_en || description}</p>
+    <span class="hobby-more">
+      <span class="lang-ja">詳しく見る →</span>
+      <span class="lang-en">Learn more →</span>
+    </span>
+  </div>
+</a>
 
 <style>
+  .hobby-card-link {
+    text-decoration: none;
+    display: block;
+    height: 100%;
+  }
   .hobby-card {
     background-color: var(--surface);
     border: 1px solid var(--border);
     border-radius: 0.75rem;
     padding: 1.5rem;
     transition: border-color 0.2s, background-color 0.2s, transform 0.2s;
-    cursor: default;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
   }
   .hobby-card:hover {
     border-color: var(--accent);
@@ -44,6 +59,14 @@ const { name, description, description_en, icon } = Astro.props;
     font-size: 0.875rem;
     color: var(--muted);
     line-height: 1.6;
-    margin: 0;
+    margin: 0 0 auto 0;
+    flex: 1;
+  }
+  .hobby-more {
+    display: inline-block;
+    margin-top: 1rem;
+    font-size: 0.8rem;
+    color: var(--accent);
+    font-family: 'JetBrains Mono', monospace;
   }
 </style>

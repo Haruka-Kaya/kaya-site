@@ -1,6 +1,18 @@
-tagline: FPVドローン自作・セキュリティリサーチ・アマチュア無線・ロープアクセス
-tagline_en: FPV drone builder, security researcher, licensed radio operator & rope access enthusiast based in Japan.
-bio: "Haruka Kaya。コーダーというよりも、必要なハードウェアやAIツールを理解して使いこなすことに強みを持つタイプ。\n\nDarwinFPV Cementシリーズの自作機や防水FPV機を飛ばしながら、陸上特殊無線技士の取得に向けてデジタルVTXの合法運用を目指している。DJI Air 3SはDIPSに登録して旅行先の空撮に活用。\n\nセキュリティはLinuxをいじるうちに自然と引き込まれ、HackerOneでのバグバウンティとTryHackMeでの継続学習を続けている。AIエージェント（特にMCP）をバグバウンティや自律コーディングに応用することにも取り組み中。\n\nスキー歴12年。アイスクライミングへの挑戦も視野に入れながら、ロープアクセスのレスキュー技術とセミスタティックロープを自主練習している。"
-bio_en: "Haruka Kaya — less of a coder, more of a person who knows how to effectively wield hardware and AI tools to get things done.\n\nBuilds custom FPV quads (DarwinFPV Cement series, including a waterproof build) and is working toward a land special radio operator license for legal digital VTX operation. Also operates a DJI Air 3S registered with DIPS for legal aerial photography during travel.\n\nGot pulled into security while tinkering with Linux. Now hunting bugs on HackerOne and training continuously on TryHackMe. Actively applying AI agents (especially MCP) to bug bounty workflows and autonomous coding.\n\n12 years of skiing. Practicing rope access rescue techniques and semi-static systems with an eye toward eventually trying ice climbing."
+tagline: FPVドローン自作 / セキュリティリサーチ / アマチュア無線 / ロープアクセス
+tagline_en: FPV drone builder · security researcher · licensed radio operator · rope access enthusiast
+bio: "コーダーというよりも、ハードウェアとAIツールを理解して使いこなすことが得意なタイプ。
+
+DarwinFPV Cementシリーズの自作機や防水FPV機を飛ばしながら、第二級陸上特殊無線技士の免許を活かしてデジタルVTXを合法運用している。DJI Air 3SはDIPSに登録してドローン保険にも加入済み。旅行先での空撮に使っている。
+
+セキュリティはLinuxをいじるうちに自然と引き込まれた。HackerOneでCriticalレベルの脆弱性を発見・報告した経験があり、TryHackMeで継続学習中。AIエージェント（特にMCP）をバグバウンティや自律コーディングへ応用することに取り組んでいる。
+
+スキー12年。アイスクライミングを視野に入れながら、セミスタティックロープのレスキュー技術を自主練習している。"
+bio_en: "Less of a coder, more of someone who understands and wields hardware and AI tools effectively.
+
+Builds custom FPV quads (DarwinFPV Cement series, including a waterproof build) and holds a 2nd-class land special radio operator license for legal digital VTX operation. Also operates a DJI Air 3S registered with DIPS and insured for liability — mainly used for aerial photography during travel.
+
+Got pulled into security while tinkering with Linux. Has found and responsibly disclosed Critical-severity vulnerabilities through HackerOne, and continuously trains on TryHackMe. Actively applying AI agents (MCP-based autonomous workflows) to bug bounty and security research.
+
+12 years of skiing. Practicing rope access rescue techniques with semi-static systems, with ice climbing as a long-term goal."
 location: Japan
 avatar: ""

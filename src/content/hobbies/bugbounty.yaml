@@ -1,5 +1,10 @@
 name: Bug Bounty
-description: "HackerOneをメインプラットフォームとして活動中。Criticalレベルの脆弱性を発見した経験あり。責任ある開示（Responsible Disclosure）を通じて実際のサービスの安全性向上に貢献している。"
-description_en: "Active on HackerOne. Has found Critical-severity vulnerabilities in production services. Contributing to real-world security improvements through responsible disclosure."
+description: "HackerOneをメインプラットフォームとして活動中。Criticalレベルの脆弱性を実際の本番サービスで発見・開示した経験あり。AIエージェント（MCP）をバグバウンティワークフローに組み込む実験も継続中。"
+description_en: "Active on HackerOne. Has found and responsibly disclosed Critical-severity vulnerabilities in production services. Experimenting with AI agents (MCP) to automate recon and enumeration workflows."
+detail: "HackerOneをメインプラットフォームとして活動している。Criticalレベルの脆弱性を実際の本番サービスで発見して、責任ある開示（Responsible Disclosure）のプロセスを通じて報告した経験がある。
+
+バグバウンティはリアルな環境での実践なので、CTFとはまったく異なる緊張感がある。攻撃対象のスコープを読み込んで、見落とされがちな境界を探すのが自分のアプローチ。
+
+AIエージェント（MCP）をバグバウンティのワークフローに組み込んで、偵察と列挙を自動化する実験を続けている。AIを「ハッキングの道具」として精度よく使いこなす方向性で取り組んでいる。"
 icon: 🐛
 order: 7

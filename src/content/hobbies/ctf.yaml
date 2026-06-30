@@ -1,5 +1,10 @@
 name: CTF
-description: "TryHackMeで学習中のソロプレイヤー。まだまだ成長段階だが、問題を解けたときの快感はほかに代え難い。Web・pwn・revers・cryptoと幅広く触れながら基礎を固めている。"
-description_en: "Solo CTF player leveling up through TryHackMe. Still growing, but the rush of solving a challenge is unlike anything else. Covering web, pwn, reverse engineering, and crypto to build a well-rounded foundation."
+description: "TryHackMeで学習中のソロプレイヤー。Web・pwn・reversing・cryptoと幅広く触れながら基礎を固めている。問題を解けたときの快感がやめられない。"
+description_en: "Solo CTF player leveling up through TryHackMe. Covering web, pwn, reverse engineering, and crypto. The rush of solving a challenge keeps me coming back."
+detail: "TryHackMeでソロで取り組んでいる。まだまだ成長段階で、詰まることも多い。でも問題を解けた瞬間の感覚はほかに代えられない。
+
+カバーしているカテゴリ：Web・pwn・リバースエンジニアリング・暗号（crypto）。どれかに偏るよりも幅広く基礎を固めることを意識している。
+
+バグバウンティで実際の環境に出ていくためのトレーニングとしてCTFを位置づけている。理論と実践をつなぐ橋として、地道に続けていくつもりだ。"
 icon: 🚩
 order: 8

@@ -1,0 +1,132 @@
+---
+export const prerender = true;
+import { createReader } from '@keystatic/core/reader';
+import keystaticConfig from '../../../keystatic.config';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import '../../styles/global.css';
+
+export async function getStaticPaths() {
+  const reader = createReader(process.cwd(), keystaticConfig);
+  const slugs = await reader.collections.hobbies.list();
+  return slugs.map((slug) => ({ params: { slug } }));
+}
+
+const { slug } = Astro.params;
+const reader = createReader(process.cwd(), keystaticConfig);
+const [hobby, settings] = await Promise.all([
+  reader.collections.hobbies.read(slug!),
+  reader.singletons.settings.read(),
+]);
+
+const siteName = settings?.name ?? 'Haruka Kaya';
+const github = settings?.github ?? 'https://github.com/Haruka-Kaya';
+
+if (!hobby) return Astro.redirect('/');
+
+const displayName = typeof hobby.name === 'string' ? hobby.name : (hobby.name as any)?.name ?? slug;
+---
+
+<!DOCTYPE html>
+<html lang="ja" data-lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content={hobby.description ?? displayName} />
+  <title>{displayName} — {settings?.site_title ?? siteName}</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <script is:inline>
+    (function () {
+      var lang = localStorage.getItem('site-lang') || 'ja';
+      document.documentElement.setAttribute('data-lang', lang);
+    })();
+  </script>
+</head>
+<body>
+  <Nav name={siteName} github={github} />
+
+  <main>
+    <section style="min-height:calc(100vh - 120px);padding-top:80px;">
+      <div class="container">
+
+        <a href="/#hobbies" class="back-link">
+          ←&nbsp;<span class="lang-ja">趣味一覧に戻る</span><span class="lang-en">Back to hobbies</span>
+        </a>
+
+        <div class="hobby-header">
+          <span class="hobby-icon-xl">{hobby.icon}</span>
+          <div>
+            <p class="section-label">{slug}</p>
+            <h1 class="hobby-title">{displayName}</h1>
+          </div>
+        </div>
+
+        <p class="hobby-tagline lang-ja">{hobby.description ?? ''}</p>
+        <p class="hobby-tagline lang-en">{hobby.description_en || hobby.description || ''}</p>
+
+        {hobby.detail && (
+          <div class="hobby-detail">
+            <p class="lang-ja" style="white-space:pre-line;color:var(--muted);line-height:1.9;font-size:1rem;">{hobby.detail}</p>
+          </div>
+        )}
+
+      </div>
+    </section>
+  </main>
+
+  <Footer
+    name={siteName}
+    github={github}
+    email={settings?.email ?? ''}
+    twitter={settings?.twitter ?? ''}
+  />
+</body>
+</html>
+
+<style>
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 0.875rem;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+    margin-bottom: 3rem;
+    transition: color 0.15s;
+    text-decoration: none;
+  }
+  .back-link:hover { color: var(--accent); }
+  .hobby-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .hobby-icon-xl {
+    font-size: 3.5rem;
+    line-height: 1;
+  }
+  .hobby-title {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.02em;
+    margin: 0.25rem 0 0 0;
+  }
+  .hobby-tagline {
+    font-size: 1rem;
+    color: var(--text);
+    line-height: 1.7;
+    margin-bottom: 2rem;
+    max-width: 660px;
+    font-weight: 500;
+  }
+  .hobby-detail {
+    max-width: 660px;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+</style>

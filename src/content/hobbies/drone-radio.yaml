@@ -1,5 +1,10 @@
 name: Drone
-description: "DJI Air 3Sを所持。DIPSへの機体登録と飛行許可申請を適切に行い合法運用。旅行先での空撮・写真撮影がメイン用途。FPVとは別軸の、鳥瞰視点で世界を切り取る楽しさ。"
-description_en: "Owns a DJI Air 3S registered with DIPS (Japan's drone registry) with proper flight approvals in place. Mainly used for aerial photography and travel documentation. A different dimension from FPV — the art of framing the world from above."
+description: "DJI Air 3SをDIPSに登録・ドローン保険加入済みで合法運用。旅行先での空撮がメイン。FPVとは別軸の、鳥瞰視点で世界を切り取る楽しさ。"
+description_en: "DJI Air 3S registered with DIPS and insured through aeroentry.jp. Mainly used for aerial photography during travel. A different dimension from FPV — framing the world from above."
+detail: "DJI Air 3Sを所持していて、旅行先での空撮がメインの使い道。ただ飛ばすだけじゃなく、ちゃんとやることにこだわっている。
+
+DIPSへの機体登録と飛行許可申請はすべて自分で通した。さらにDJIドローン保険（aeroentry.jp）にも加入していて、万が一の賠償リスクにも備えている。法令遵守をきちんとクリアした上で飛ばすことが前提。
+
+FPVの「スピードと没入感」とはまったく別の楽しさがある──鳥瞰視点で世界を静かに切り取る感覚。旅先の景色を空から撮ると、地上では気づかなかった構造や模様が浮かび上がってくる。"
 icon: 🛸
 order: 2

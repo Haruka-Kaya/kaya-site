@@ -74,6 +74,11 @@ export default config({
           label: 'Description (English)',
           multiline: true,
         }),
+        detail: fields.text({
+          label: '詳細説明（日本語）',
+          description: '個別ページに表示される詳しい説明',
+          multiline: true,
+        }),
         icon: fields.text({
           label: 'Icon (emoji)',
         }),

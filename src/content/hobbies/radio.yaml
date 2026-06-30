@@ -1,5 +1,10 @@
 name: Radio
-description: "第二級陸上特殊無線技士・4アマ取得。デジタル無線技術に幅広く興味があり、Meshtastic（LoRaメッシュネットワーク）も実験中。電波の仕組みを理解することでFPVやドローン運用にも活かせる。"
-description_en: "Holds 2nd-class land special radio operator and 4th-class amateur radio licenses. Broadly interested in digital radio technology, including Meshtastic (LoRa mesh networking). Understanding radio fundamentals directly feeds into FPV and drone operations."
+description: "第二級陸上特殊無線技士・第四級アマチュア無線技士取得。Meshtastic（LoRaメッシュ）を実験中。M5Stack CardputerなどESP32系のハックにも興味がある。"
+description_en: "Holds 2nd-class land special radio operator and 4th-class amateur radio licenses. Experimenting with Meshtastic (LoRa mesh networking). Interested in ESP32-based hacks with M5Stack Cardputer."
+detail: "第二級陸上特殊無線技士と第四級アマチュア無線技士を取得している。FPVのデジタルVTXを合法運用するために取り組み始めたが、気づいたら電波そのものが面白くなっていた。
+
+今探求しているのはMeshtastic──LoRaを使ったメッシュネットワーク。インターネット不要で長距離通信ができる仕組みで、災害時通信やオフグリッド運用の文脈で可能性が広い。
+
+M5Stack CardputerというESP32ベースの超小型ハンドヘルドコンピュータにも興味があって、Radio関連のハックを試している。電波の仕組みを理解することで、FPVもドローン運用もより深く楽しめる。"
 icon: 📻
 order: 3

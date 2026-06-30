@@ -1,5 +1,13 @@
 name: AI Agents
-description: "バグバウンティや脆弱性調査への応用を中心に探求中。MCPを活用した自律コーディングや、AIを「道具として精度よく使いこなす」視点で実験を続けている。コーディングの専門家ではなく、AIを最大限に引き出す側として関わる。"
-description_en: "Exploring AI agents primarily for bug bounty and vulnerability research. Experimenting with MCP-powered autonomous coding — not as a developer, but as someone who gets the most out of AI as a precision instrument."
+description: "Anthropic Claude・Groq・Vast.ai A100を使ってAIエージェントを実践活用中。MCPを活用した自律コーディングやバグバウンティ自動化を実験中。microsoft/agent-governance-toolkitにセキュリティIssueを提出した経験あり。"
+description_en: "Hands-on with AI agents using Anthropic Claude, Groq, and Vast.ai A100 GPUs. Experimenting with MCP-powered autonomous coding and bug bounty automation. Has filed security-focused issues on microsoft/agent-governance-toolkit."
+detail: "AIエージェントを「道具として精度よく使いこなす」視点で取り組んでいる。コーディングの専門家ではなく、AIを最大限に引き出す側として関わるのが自分のスタイル。
+
+使っているインフラ：
+・Anthropic Claude（有料プラン）：メインのAIアシスタント・自律エンジニアリング
+・Groq API：高速推論が必要なときの選択肢
+・Vast.ai A100：Qwen2.5（1Mトークンコンテキスト）などの大規模モデルを動かすGPUクラウド
+
+MCPを活用したバグバウンティの偵察自動化や自律コーディングの実験を続けている。また、microsoft/agent-governance-toolkitに対してAIエージェントシステムのセキュリティ観点でのIssueを提出した（#3137, #3192）。AIエージェントシステム自体のセキュリティにも強い関心がある。"
 icon: 🤖
 order: 9
