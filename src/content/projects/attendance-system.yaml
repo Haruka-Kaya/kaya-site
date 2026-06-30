@@ -1,0 +1,9 @@
+name: Attendance System
+description: 部活動向け出欠管理システム。Flask REST API + Flutter モバイルアプリ。Coolify / VPS で自前運用。
+url: https://github.com/Haruka-Kaya/attendance-system
+tags:
+  - Python
+  - Flask
+  - Flutter
+  - SQLite
+featured: true

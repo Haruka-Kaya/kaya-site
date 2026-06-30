@@ -1,0 +1,46 @@
+---
+interface Props {
+  name: string;
+  description: string;
+  icon: string;
+}
+const { name, description, icon } = Astro.props;
+---
+
+<div class="hobby-card">
+  <div class="hobby-icon">{icon}</div>
+  <h3 class="hobby-name">{name}</h3>
+  <p class="hobby-desc">{description}</p>
+</div>
+
+<style>
+  .hobby-card {
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    transition: border-color 0.2s, background-color 0.2s, transform 0.2s;
+    cursor: default;
+  }
+  .hobby-card:hover {
+    border-color: var(--accent);
+    background-color: var(--surface-hover);
+    transform: translateY(-2px);
+  }
+  .hobby-icon {
+    font-size: 2rem;
+    margin-bottom: 0.875rem;
+    line-height: 1;
+  }
+  .hobby-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+  .hobby-desc {
+    font-size: 0.875rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+</style>

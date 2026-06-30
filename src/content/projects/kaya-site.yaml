@@ -1,0 +1,8 @@
+name: kaya-site
+description: このサイト。Astro + Keystatic CMS + Vercel で構築。ノーコードで編集可能。
+url: https://github.com/Haruka-Kaya/kaya-site
+tags:
+  - Astro
+  - Keystatic
+  - TypeScript
+featured: false

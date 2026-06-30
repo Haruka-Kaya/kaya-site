@@ -1,0 +1,30 @@
+---
+interface Props {
+  bio: string;
+  location: string;
+}
+const { bio, location } = Astro.props;
+---
+
+<section id="about">
+  <div class="container">
+    <p class="section-label">About</p>
+    <h2 class="section-heading">Who I am</h2>
+    <div style="display:grid;grid-template-columns:1fr;gap:3rem;max-width:720px;">
+      <div>
+        <p style="color:var(--muted);line-height:1.8;font-size:1rem;white-space:pre-line;">
+          {bio}
+        </p>
+        {location && (
+          <div style="margin-top:1.5rem;display:flex;align-items:center;gap:0.5rem;color:var(--muted);font-size:0.875rem;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            {location}
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+</section>

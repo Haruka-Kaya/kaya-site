@@ -1,0 +1,67 @@
+---
+interface Props {
+  name: string;
+  description: string;
+  url: string;
+  tags: string[];
+  featured: boolean;
+}
+const { name, description, url, tags, featured } = Astro.props;
+---
+
+<div class="project-card" class:list={[{ featured }]}>
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:0.75rem;">
+    <h3 class="project-name">{name}</h3>
+    {url && (
+      <a href={url} target="_blank" rel="noopener" class="project-link" aria-label={`Open ${name}`}>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <line x1="10" y1="14" x2="21" y2="3"></line>
+        </svg>
+      </a>
+    )}
+  </div>
+  <p class="project-desc">{description}</p>
+  {tags.length > 0 && (
+    <div style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:1rem;">
+      {tags.map(tag => <span class="tag">{tag}</span>)}
+    </div>
+  )}
+</div>
+
+<style>
+  .project-card {
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .project-card:hover {
+    border-color: #3f3f46;
+    transform: translateY(-2px);
+  }
+  .project-card.featured {
+    border-color: rgba(99, 102, 241, 0.3);
+  }
+  .project-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .project-desc {
+    font-size: 0.875rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  .project-link {
+    flex-shrink: 0;
+    color: var(--muted);
+    transition: color 0.15s;
+    margin-top: 0.125rem;
+  }
+  .project-link:hover {
+    color: var(--accent);
+  }
+</style>

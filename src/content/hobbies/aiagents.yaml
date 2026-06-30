@@ -1,0 +1,4 @@
+name: AI Agents
+description: 自律エージェントの設計と実験。Claudeを中心に何ができるか試す。
+icon: 🤖
+order: 8

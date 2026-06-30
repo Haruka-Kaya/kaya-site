@@ -1,0 +1,149 @@
+---
+import { createReader } from '@keystatic/core/reader';
+import keystaticConfig from '../../keystatic.config';
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import About from '../components/About.astro';
+import HobbyCard from '../components/HobbyCard.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+const reader = createReader(process.cwd(), keystaticConfig);
+
+const [about, settings, allHobbies, allProjects] = await Promise.all([
+  reader.singletons.about.read(),
+  reader.singletons.settings.read(),
+  reader.collections.hobbies.all(),
+  reader.collections.projects.all(),
+]);
+
+const hobbies = allHobbies
+  .sort((a, b) => (a.entry.order ?? 0) - (b.entry.order ?? 0));
+
+const projects = allProjects
+  .sort((a, b) => (b.entry.featured ? 1 : 0) - (a.entry.featured ? 1 : 0));
+
+const name = settings?.name ?? 'Haruka Kaya';
+const github = settings?.github ?? 'https://github.com/Haruka-Kaya';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content={about?.tagline ?? settings?.site_title ?? name} />
+  <title>{settings?.site_title ?? name}</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <Nav name={name} github={github} />
+
+  <main>
+    <Hero
+      name={name}
+      tagline={about?.tagline ?? ''}
+      github={github}
+      avatar={about?.avatar ?? ''}
+    />
+
+    <section id="about" style="border-top:1px solid var(--border);">
+      <div class="container">
+        <p class="section-label">About</p>
+        <h2 class="section-heading">Who I am</h2>
+        <p style="color:var(--muted);line-height:1.8;font-size:1rem;max-width:640px;white-space:pre-line;">
+          {about?.bio ?? ''}
+        </p>
+        {about?.location && (
+          <div style="margin-top:1.5rem;display:inline-flex;align-items:center;gap:0.4rem;color:var(--muted);font-size:0.875rem;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            {about.location}
+          </div>
+        )}
+      </div>
+    </section>
+
+    {hobbies.length > 0 && (
+      <section id="hobbies" style="border-top:1px solid var(--border);">
+        <div class="container">
+          <p class="section-label">Interests</p>
+          <h2 class="section-heading">Hobbies & Interests</h2>
+          <p class="section-sub">Things I spend my time on outside of work.</p>
+          <div class="hobbies-grid">
+            {hobbies.map(h => (
+              <HobbyCard
+                name={h.entry.name}
+                description={h.entry.description ?? ''}
+                icon={h.entry.icon ?? ''}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    {projects.length > 0 && (
+      <section id="projects" style="border-top:1px solid var(--border);">
+        <div class="container">
+          <p class="section-label">Work</p>
+          <h2 class="section-heading">Projects</h2>
+          <p class="section-sub">Things I've built.</p>
+          <div class="projects-grid">
+            {projects.map(p => (
+              <ProjectCard
+                name={p.entry.name}
+                description={p.entry.description ?? ''}
+                url={p.entry.url ?? ''}
+                tags={p.entry.tags ?? []}
+                featured={p.entry.featured ?? false}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+  </main>
+
+  <Footer
+    name={name}
+    github={github}
+    email={settings?.email ?? ''}
+    twitter={settings?.twitter ?? ''}
+  />
+
+</body>
+</html>
+
+<style>
+  .hobbies-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1rem;
+  }
+  @media (min-width: 640px) {
+    .projects-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 768px) {
+    .hobbies-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+    .projects-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

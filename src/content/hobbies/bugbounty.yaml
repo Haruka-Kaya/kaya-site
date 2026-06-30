@@ -1,0 +1,4 @@
+name: Bug Bounty
+description: 実際のサービスの脆弱性を探して報告。責任ある開示で世界を少し安全に。
+icon: 🐛
+order: 6

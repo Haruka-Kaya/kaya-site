@@ -1,0 +1,4 @@
+name: Linux
+description: カーネルからシェルまで。自分の環境を完全に制御する快感。
+icon: 🐧
+order: 4

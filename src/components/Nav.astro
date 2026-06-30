@@ -1,0 +1,26 @@
+---
+interface Props {
+  name: string;
+  github: string;
+}
+const { name, github } = Astro.props;
+const initials = name.split(' ').map(n => n[0]).join('');
+---
+
+<header style="position:fixed;top:0;left:0;right:0;z-index:50;background-color:rgba(17,17,17,0.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);">
+  <nav class="container" style="height:60px;display:flex;align-items:center;justify-content:space-between;">
+    <a href="/" style="font-family:'JetBrains Mono',monospace;font-size:0.85rem;font-weight:600;color:var(--text);">
+      {initials.toLowerCase()}<span style="color:var(--accent)">.</span>dev
+    </a>
+    <div style="display:flex;align-items:center;gap:1.75rem;">
+      <a href="#about" style="font-size:0.875rem;color:var(--muted);transition:color 0.15s;" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">About</a>
+      <a href="#hobbies" style="font-size:0.875rem;color:var(--muted);transition:color 0.15s;" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">Hobbies</a>
+      <a href="#projects" style="font-size:0.875rem;color:var(--muted);transition:color 0.15s;" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">Projects</a>
+      {github && (
+        <a href={github} target="_blank" rel="noopener" class="btn-ghost" style="padding:0.4rem 0.875rem;font-size:0.8rem;">
+          GitHub
+        </a>
+      )}
+    </div>
+  </nav>
+</header>

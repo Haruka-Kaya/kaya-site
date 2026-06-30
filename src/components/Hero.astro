@@ -1,0 +1,49 @@
+---
+interface Props {
+  name: string;
+  tagline: string;
+  github: string;
+  avatar: string;
+}
+const { name, tagline, github, avatar } = Astro.props;
+const avatarUrl = avatar || (github ? github.replace('github.com/', 'avatars.githubusercontent.com/').replace(/\/?$/, '') + '?s=200' : '');
+---
+
+<section id="hero" style="min-height:100vh;display:flex;align-items:center;padding-top:60px;">
+  <div class="container fade-in" style="padding-top:3rem;padding-bottom:3rem;">
+    <div style="display:grid;grid-template-columns:1fr auto;gap:3rem;align-items:center;">
+      <div>
+        <p class="section-label" style="margin-bottom:1rem;">Hello, I'm</p>
+        <h1 style="font-size:clamp(2.5rem,6vw,4.5rem);font-weight:800;line-height:1.1;letter-spacing:-0.02em;color:var(--text);margin-bottom:1.25rem;">
+          {name}
+        </h1>
+        <p style="font-size:1.1rem;color:var(--muted);max-width:520px;line-height:1.7;margin-bottom:2.5rem;">
+          {tagline}
+        </p>
+        <div style="display:flex;gap:0.875rem;flex-wrap:wrap;">
+          <a href="#projects" class="btn-primary">View Projects</a>
+          <a href="#hobbies" class="btn-ghost">Explore Hobbies</a>
+        </div>
+      </div>
+      {avatarUrl && (
+        <div style="display:none;" class="avatar-wrapper">
+          <img
+            src={avatarUrl}
+            alt={name}
+            width="180"
+            height="180"
+            style="border-radius:50%;border:2px solid var(--border);object-fit:cover;"
+          />
+        </div>
+      )}
+    </div>
+  </div>
+</section>
+
+<style>
+  @media (min-width: 640px) {
+    .avatar-wrapper {
+      display: block !important;
+    }
+  }
+</style>
