@@ -1,13 +1,17 @@
 name: AI Agents
-description: "Anthropic Claude・Groq・Vast.ai A100を使ってAIエージェントを実践活用中。MCPを活用した自律コーディングやバグバウンティ自動化を実験中。microsoft/agent-governance-toolkitにセキュリティIssueを提出した経験あり。"
-description_en: "Hands-on with AI agents using Anthropic Claude, Groq, and Vast.ai A100 GPUs. Experimenting with MCP-powered autonomous coding and bug bounty automation. Has filed security-focused issues on microsoft/agent-governance-toolkit."
+description: "Anthropic Claude・Gemini Live API・Vast.ai A100を使ってAIエージェントを実践活用中。MCP自律調査基盤・ゼロトラスト対応ガバナンスツールキットをそれぞれ自作。エージェントシステム自体のセキュリティ研究も並行して進めている。"
+description_en: "Hands-on with AI agents using Anthropic Claude, Gemini Live API, and Vast.ai A100. Has built an MCP-powered autonomous research platform and a zero-trust agent governance toolkit from scratch. Also researching the security of agent systems themselves."
 detail: "AIエージェントを「道具として精度よく使いこなす」視点で取り組んでいる。コーディングの専門家ではなく、AIを最大限に引き出す側として関わるのが自分のスタイル。
+
+自前で構築したプロジェクト：
+・Authorized Research Platform（TypeScript）: Claude MCPエージェントが偵察・列挙・証拠保全を自律実行。PEPでスコープ外操作を遮断するゼロトラスト設計。OWASP Agentic Top 10全対応
+・Jiyu Kenkyu AI（TypeScript）: Gemini Live APIの二重ループで子どもの発話を構造化しレポートへ変換
+
+・Agent Governance Toolkit（Python）: AIエージェントシステムのガバナンスパターンをOSSで公開
 
 使っているインフラ：
 ・Anthropic Claude（有料プラン）：メインのAIアシスタント・自律エンジニアリング
-・Groq API：高速推論が必要なときの選択肢
-・Vast.ai A100：Qwen2.5（1Mトークンコンテキスト）などの大規模モデルを動かすGPUクラウド
-
-MCPを活用したバグバウンティの偵察自動化や自律コーディングの実験を続けている。また、microsoft/agent-governance-toolkitに対してAIエージェントシステムのセキュリティ観点でのIssueを提出した（#3137, #3192）。AIエージェントシステム自体のセキュリティにも強い関心がある。"
+・Gemini Live API：リアルタイム音声対話（ephemeral token・v1alpha必須）
+・Vast.ai A100：Qwen2.5（1Mトークンコンテキスト）などの大規模モデル運用用"
 icon: 🤖
 order: 9

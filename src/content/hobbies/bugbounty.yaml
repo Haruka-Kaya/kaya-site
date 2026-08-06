@@ -1,10 +1,10 @@
 name: Bug Bounty
-description: "HackerOneをメインプラットフォームとして活動中。Criticalレベルの脆弱性を実際の本番サービスで発見・開示した経験あり。AIエージェント（MCP）をバグバウンティワークフローに組み込む実験も継続中。"
-description_en: "Active on HackerOne. Has found and responsibly disclosed Critical-severity vulnerabilities in production services. Experimenting with AI agents (MCP) to automate recon and enumeration workflows."
-detail: "HackerOneをメインプラットフォームとして活動している。Criticalレベルの脆弱性を実際の本番サービスで発見して、責任ある開示（Responsible Disclosure）のプロセスを通じて報告した経験がある。
+description: "HackerOneをメインプラットフォームとして活動中。GitLabでCritical（CVSS 9.6、CWE-522）を含む複数の深刻な脆弱性を本番サービスで発見・開示済み。AIエージェント（MCP）をバグバウンティワークフローに組み込んだ自律調査基盤も構築。"
+description_en: "Active on HackerOne. Has found and responsibly disclosed multiple high-severity vulnerabilities in production services, including a Critical (CVSS 9.6, CWE-522) in GitLab. Also built an autonomous research platform that plugs Claude MCP agents into the recon and enumeration workflow."
+detail: "HackerOneをメインプラットフォームとして活動している。GitLabのDependency ProxyでJWTに生のPersonal Access Tokenが埋め込まれる問題（CWE-522、CVSS 9.6 Critical）を発見・報告した経験がある。
 
 バグバウンティはリアルな環境での実践なので、CTFとはまったく異なる緊張感がある。攻撃対象のスコープを読み込んで、見落とされがちな境界を探すのが自分のアプローチ。
 
-AIエージェント（MCP）をバグバウンティのワークフローに組み込んで、偵察と列挙を自動化する実験を続けている。AIを「ハッキングの道具」として精度よく使いこなす方向性で取り組んでいる。"
+AIエージェント（MCP）をバグバウンティのワークフローに組み込んで、偵察と列挙を自動化する自律調査基盤（Authorized Research Platform）を自前で構築した。PEP（実行前ポリシー評価）でスコープ外の操作を防ぐゼロトラスト設計になっている。"
 icon: 🐛
 order: 7

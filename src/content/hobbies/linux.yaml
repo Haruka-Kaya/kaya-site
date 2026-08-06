@@ -1,9 +1,9 @@
 name: Linux
-description: "Debian・Ubuntu・Arch（入門中）を日常的に使用。Coolifyで自前VPSを管理。DigiKeyから電子部品を調達して回路も組む。ハードウェアとソフトウェアの境界を行き来するのが楽しい。"
-description_en: "Daily user of Debian, Ubuntu, and Arch (learning). Manages own VPS with Coolify. Sources electronics from DigiKey. Happiest at the intersection of hardware and software."
+description: "Debian・Ubuntu・Arch（入門中）を日常的に使用。FlaskバックエンドをさくらのCGIサーバ（FreeBSD）で自前運用。DigiKeyから電子部品を調達して回路も組む。ハードウェアとソフトウェアの境界を行き来するのが楽しい。"
+description_en: "Daily user of Debian, Ubuntu, and Arch (learning). Self-hosts a Flask backend on a FreeBSD shared server (Sakura) via CGI. Sources electronics from DigiKey. Happiest at the intersection of hardware and software."
 detail: "DebianとUbuntuを日常的に使っていて、Archも入門中。OSの内側への好奇心が出発点で、サーバー運用・ハードウェア制御・セキュリティ調査のすべてにLinuxが土台としてある。
 
-実際にCoolifyを使って自前のVPSを管理している──FlaskバックエンドをDockerコンテナで動かし、Let's Encryptで自動HTTPS、DuckDNSでドメイン管理。全部自分で構築した。
+Flaskバックエンドをさくらのレンタルサーバ（FreeBSD 13 / Python 3.8）でCGI方式で自前運用している──JWT認証・SQLite・GitHub Actions による自動デプロイまで全部自前で構築した。以前はCoolify+VPSで動かしていたが、コスト最適化のためさくらCGIへ移行した。
 
 電子工作の側面もあって、DigiKeyから電子部品を調達して回路を組む。ハードウェアとソフトウェアの境界を行き来するのが一番楽しい瞬間で、Linuxをいじっているうちにセキュリティに引き込まれたのは自然な流れだった。"
 icon: 🐧

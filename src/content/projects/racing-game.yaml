@@ -1,0 +1,10 @@
+name: Racing Game
+description: "Three.jsとRapier物理エンジンで作った3Dドライビングゲーム。SwiftShaderを使ったヘッドレス検証パイプラインで、GPU不要の自動テストを実現。ポストプロセスとIBLを廃止した理由など、設計判断の過程も記録。"
+description_en: "3D driving game built with Three.js and the Rapier physics engine. Includes a headless verification pipeline using SwiftShader for GPU-free automated testing. Design decisions — including why post-processing and IBL were removed — are documented throughout."
+url: ""
+tags:
+  - Three.js
+  - Rapier
+  - TypeScript
+  - WebGL
+featured: false

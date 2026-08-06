@@ -1,0 +1,10 @@
+name: Agent Governance Toolkit
+description: "AIエージェントシステムのセキュリティ・信頼性・ガバナンスを扱うオープンソースツールキット。OWASP Agentic Top 10の全10項目をカバー。ポリシー強制・ゼロトラストID・実行サンドボックス・信頼性エンジニアリングのパターンをPythonで実装。"
+description_en: "Open-source toolkit for AI agent security, reliability, and governance. Covers all 10 of the OWASP Agentic Top 10 — policy enforcement, zero-trust identity, execution sandboxing, and reliability engineering patterns implemented in Python."
+url: https://github.com/Haruka-Kaya/agent-governance-toolkit
+tags:
+  - Python
+  - Security
+  - AI Agents
+  - OWASP
+featured: true

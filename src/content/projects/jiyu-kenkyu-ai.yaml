@@ -1,0 +1,9 @@
+name: Jiyu Kenkyu AI
+description: "イベント来場者の自由研究を、AI音声インタビューが聞き取り当日中に根拠付きレポートへ仕上げるシステム。Gemini Live APIの二重ループ（会話ループ＋ディレクターLLM）で子どもの発話を構造化し、音声合成と組み合わせて全経路を無人で動かす。"
+description_en: "A system that turns a visitor's curiosity at an event into a cited research report by the end of the same day. A Gemini Live API dual-loop (conversation loop + director LLM) structures the child's spoken ideas, paired with TTS to run the full pipeline autonomously."
+url: https://github.com/Haruka-Kaya/jiyu-kenkyu-ai
+tags:
+  - TypeScript
+  - Gemini Live API
+  - AI Agents
+featured: true
