@@ -1,0 +1,6 @@
+name: Electronics
+icon: 🔧
+order: 11
+description: "ESP32/M5Stack/Raspberry Piを中心にハードウェアをいじる。Meshtasticで自前LoRAメッシュネットワークを構築したり、DigiKeyから部品を調達してワンオフ回路を作ったりしている。"
+description_en: "Hardware hacking with ESP32, M5Stack Cardputer, and Raspberry Pi as the core platforms. Running a personal Meshtastic LoRa mesh, sourcing parts from DigiKey, and building one-off circuits for specific problems."
+detail: "ZeroTerm（Raspberry Pi Zero 2W をポータブルKali Linuxターミナルにした工作）がきっかけで本格化した。その後M5Stack Cardputerを持ち歩くようになり、Meshtastic（LoRaメッシュ）の自分用ノードを複数設置。ESP32の無線スタックを直接叩くデバッグやFlash書き換えも普段の作業に入っている。DigiKeyでの部品調達〜設計〜実装〜テストを一貫してやることで、ソフトウェアとハードウェアを跨いだ問題解決力がついてきた。"

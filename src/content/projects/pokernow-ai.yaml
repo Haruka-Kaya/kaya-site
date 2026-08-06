@@ -1,0 +1,10 @@
+name: PokerNow AI
+description: "TexasSolverを使ったsolver優先のポーカー支援AI。ブラウザuserscriptがPokerNowのゲーム状態をリアルタイムで読み取り、ローカルFlaskサーバー経由でTexasSolverをコンソール駆動。ヘッズアップではsolver級の精度を実現。"
+description_en: "Solver-first poker AI using TexasSolver. A browser userscript reads PokerNow game state in real time, forwarding it to a local Flask server that console-drives TexasSolver. Achieves solver-grade accuracy for heads-up situations."
+url: ""
+tags:
+  - Python
+  - Flask
+  - JavaScript
+  - TexasSolver
+featured: false

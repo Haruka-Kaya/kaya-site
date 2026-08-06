@@ -1,0 +1,10 @@
+name: Eiken Quiz App
+description: "英検3級・準2級の過去問練習Flutterアプリ。不規則なURLをスクレイピングしてPDFを取得し、pikepdfで空パスワード復号・ルビ除去してコンテンツを抽出。英作文の二次試験ライティングをGeminiが4観点（内容・構成・語彙・文法）でリアルタイム採点。"
+description_en: "Flutter app for EIKEN Grade 3 and Pre-2 exam practice. Scrapes irregularly structured URLs, decrypts blank-password PDFs with pikepdf, strips ruby annotations, then serves the content. Gemini grades second-stage writing responses across four criteria (content, structure, vocabulary, grammar) in real time."
+url: ""
+tags:
+  - Flutter
+  - Dart
+  - Python
+  - Gemini API
+featured: false

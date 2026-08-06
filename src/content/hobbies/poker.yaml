@@ -1,0 +1,6 @@
+name: Poker
+icon: 🃏
+order: 12
+description: "ゲーム理論とGTO戦略を中心に学ぶポーカー。TexasSolverで自分のハンドレンジを検証しながら、ヘッズアップではsolver級の推奨と近い意思決定ができるレベルを目指している。"
+description_en: "Studying poker through game theory and GTO strategy. Using TexasSolver to verify hand ranges and working toward solver-calibrated decision-making in heads-up situations."
+detail: "単なるカードゲームとしてではなく、不完全情報ゲームにおける意思決定の問題として取り組んでいる。TexasSolverをコンソール駆動で呼び出すスクリプトを自作し、特定のボードテクスチャーでのレンジ構成を定期的に検証。PokerNow.clubと連携したAI支援ツール（Flask + ブラウザuserscript）も自作した。マルチウェイは組み合わせ爆発で原理的にsolver解が困難な点も理解したうえで、HU（ヘッズアップ）に絞って精度を上げている。"

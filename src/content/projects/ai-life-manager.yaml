@@ -1,0 +1,11 @@
+name: AI Life Manager
+description: "Discord BotにDMするだけでGeminiエージェントがGoogle/Outlook/Obsidianを横断して自律実行するライフ管理AI。35ツール（Calendar/Tasks/Drive/Gmail/Contacts/Docs/Sheets/Outlook/Obsidian）を function-calling で統合。n8nで受信メール自動仕分けも稼働中。"
+description_en: "A Discord Bot that accepts casual DMs and lets a Gemini agent autonomously manage life tasks across 35 tools — Google Calendar, Tasks, Drive, Gmail, Contacts, Docs, Sheets, Outlook, and Obsidian — via function-calling. n8n handles scheduled inbox sorting. Running on WSL2 + Docker."
+url: ""
+tags:
+  - Node.js
+  - Gemini API
+  - Docker
+  - n8n
+  - Discord
+featured: false

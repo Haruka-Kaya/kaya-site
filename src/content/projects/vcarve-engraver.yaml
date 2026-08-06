@@ -1,0 +1,10 @@
+name: V-carve Engraver
+description: "CNC（GRBL）でV-carve銘板彫刻するGコードを生成するPython GUIツール。DXFから骨格を抽出してmedial_axis＋距離場でビット幅に応じた彫刻深さをリアルタイム算出。3DシミュレーションでGコードと同一の動きを時間再生でき、実機前に完全検証できる。"
+description_en: "Python GUI that generates G-code for V-carve CNC engraving from DXF files. Extracts the skeleton with medial axis + distance field to compute per-point carving depth by bit geometry in real time. A 3D simulation replays the exact G-code motion before any real cutting — full pre-flight on the machine."
+url: ""
+tags:
+  - Python
+  - CNC
+  - GRBL
+  - tkinter
+featured: false

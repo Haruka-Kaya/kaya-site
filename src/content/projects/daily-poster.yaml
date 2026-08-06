@@ -1,0 +1,10 @@
+name: Daily Poster
+description: "音声またはテキストをGeminiで加工して、X（Twitter）・note・Instagramへ一括投稿するSNS自動化ツール。Flask APIとCLIの両モードで動作。Geminiが内容を各SNSの文体に最適化してから投稿するため、ネタ出しだけに集中できる。"
+description_en: "SNS automation tool that takes voice or text input, processes it with Gemini, and publishes simultaneously to X (Twitter), note, and Instagram. Runs as either a Flask API or a CLI. Gemini adapts the content to each platform's tone, so you only need to supply the idea."
+url: ""
+tags:
+  - Python
+  - Flask
+  - Gemini API
+  - SNS
+featured: false
