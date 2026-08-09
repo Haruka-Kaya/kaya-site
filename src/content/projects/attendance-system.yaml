@@ -1,6 +1,6 @@
 name: Attendance System
-description: "部活動向け出欠管理システム。Flask REST API ＋ Flutter Android アプリ構成。JWT認証・OTAアップデート・Discord通知を実装。さくらのレンタルサーバ（FreeBSD / CGI）に GitHub Actions で自動デプロイ。公開中。"
-description_en: "Club activity attendance management system. Flask REST API backend with a Flutter Android app. Features JWT auth, OTA updates, and Discord notifications. Auto-deployed to Sakura shared hosting (FreeBSD / CGI) via GitHub Actions. Live in production."
+description: "部活動の出欠確認を少し楽にしたくて、WebとAndroidで使える管理ツールを作りました。実際に使いながら、必要な機能を少しずつ直しています。"
+description_en: "I built a web and Android tool to make attendance tracking for club activities a little easier. I keep improving it while it is being used."
 url: https://github.com/Haruka-Kaya/attendance-system
 tags:
   - Python

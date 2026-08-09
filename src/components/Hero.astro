@@ -2,48 +2,175 @@
 interface Props {
   name: string;
   tagline: string;
-  github: string;
   avatar: string;
 }
-const { name, tagline, github, avatar } = Astro.props;
-const avatarUrl = avatar || (github ? github.replace('github.com/', 'avatars.githubusercontent.com/').replace(/\/?$/, '') + '?s=200' : '');
+
+const { name, tagline, avatar } = Astro.props;
 ---
 
-<section id="hero" style="min-height:100vh;display:flex;align-items:center;padding-top:60px;">
-  <div class="container fade-in" style="padding-top:3rem;padding-bottom:3rem;">
-    <div style="display:grid;grid-template-columns:1fr auto;gap:3rem;align-items:center;">
-      <div>
-        <p class="section-label" style="margin-bottom:1rem;">Hello, I'm</p>
-        <h1 style="font-size:clamp(2.5rem,6vw,4.5rem);font-weight:800;line-height:1.1;letter-spacing:-0.02em;color:var(--text);margin-bottom:1.25rem;">
-          {name}
-        </h1>
-        <p style="font-size:1.1rem;color:var(--muted);max-width:520px;line-height:1.7;margin-bottom:2.5rem;">
-          {tagline}
-        </p>
-        <div style="display:flex;gap:0.875rem;flex-wrap:wrap;">
-          <a href="#projects" class="btn-primary">View Projects</a>
-          <a href="#hobbies" class="btn-ghost">Explore Hobbies</a>
-        </div>
+<section class="hero" aria-labelledby="hero-title">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow">こんにちは。</p>
+      <h1 id="hero-title">
+        はじめまして、<br />
+        <span>{name}</span>です。
+      </h1>
+      <p class="hero-tagline">{tagline}</p>
+      <p class="hero-note">
+        ドローンを飛ばしたり、Linuxを触ったり、<br class="desktop-break" />
+        思いついたものを作ったりしています。
+      </p>
+      <div class="hero-actions">
+        <a class="button button--primary" href="#likes">好きなことを見る</a>
+        <a class="button button--secondary" href="#projects">作ったものを見る</a>
       </div>
-      {avatarUrl && (
-        <div style="display:none;" class="avatar-wrapper">
-          <img
-            src={avatarUrl}
-            alt={name}
-            width="180"
-            height="180"
-            style="border-radius:50%;border:2px solid var(--border);object-fit:cover;"
-          />
-        </div>
-      )}
+    </div>
+
+    <div class="profile-visual">
+      <div class="profile-backdrop" aria-hidden="true"></div>
+      <div class="profile-frame">
+        {avatar ? (
+          <img src={avatar} alt={`${name}のプロフィール画像`} width="420" height="420" loading="eager" fetchpriority="high" />
+        ) : (
+          <span class="profile-initial" aria-hidden="true">H</span>
+        )}
+      </div>
+      <div class="profile-caption">
+        <span>{name}</span>
+        <span>Japan</span>
+      </div>
     </div>
   </div>
 </section>
 
 <style>
-  @media (min-width: 640px) {
-    .avatar-wrapper {
-      display: block !important;
+  .hero {
+    padding-block: clamp(4.5rem, 10vw, 8rem);
+  }
+
+  .hero-grid {
+    display: grid;
+    align-items: center;
+    gap: 4rem;
+  }
+
+  .hero-copy {
+    min-width: 0;
+  }
+
+  h1 {
+    max-width: 13ch;
+    margin: 0;
+    font-size: clamp(2.5rem, 1.88rem + 2.7vw, 5.2rem);
+    font-weight: 700;
+    line-height: 1.28;
+    letter-spacing: -0.045em;
+  }
+
+  h1 span {
+    position: relative;
+    z-index: 0;
+    white-space: nowrap;
+  }
+
+  h1 span::after {
+    position: absolute;
+    z-index: -1;
+    right: -0.06em;
+    bottom: 0.08em;
+    left: -0.06em;
+    height: 0.28em;
+    border-radius: 999px;
+    background: var(--sun);
+    content: "";
+  }
+
+  .hero-tagline {
+    max-width: 29rem;
+    margin: 1.75rem 0 0;
+    font-size: clamp(1.15rem, 1.05rem + 0.35vw, 1.4rem);
+    font-weight: 700;
+    line-height: 1.65;
+  }
+
+  .hero-note {
+    max-width: 34rem;
+    margin: 0.9rem 0 0;
+    color: var(--muted);
+  }
+
+  .desktop-break {
+    display: none;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
+
+  .profile-visual {
+    position: relative;
+    width: min(100%, 23rem);
+    justify-self: center;
+    padding: 1rem 1rem 0;
+  }
+
+  .profile-backdrop {
+    position: absolute;
+    top: -1rem;
+    right: -0.75rem;
+    width: 52%;
+    height: 48%;
+    border-radius: 50%;
+    background: var(--peach);
+  }
+
+  .profile-frame {
+    position: relative;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border: 1px solid var(--ink);
+    border-radius: var(--radius-2xl);
+    background: var(--paper);
+  }
+
+  .profile-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .profile-initial {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    place-items: center;
+    background: var(--sun);
+    font-size: 7rem;
+    font-weight: 700;
+  }
+
+  .profile-caption {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.85rem 0.25rem 0;
+    color: var(--muted);
+    font-size: 0.875rem;
+  }
+
+  @media (min-width: 46rem) {
+    .hero-grid {
+      grid-template-columns: minmax(0, 1.35fr) minmax(16rem, 0.65fr);
+      gap: clamp(3rem, 7vw, 7rem);
+    }
+
+    .desktop-break {
+      display: block;
     }
   }
 </style>

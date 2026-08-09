@@ -1,6 +1,6 @@
 name: ZeroTerm
-description: "Raspberry Pi Zero 2 Wを完全ヘッドレスのKali Linuxノードにする軽量WebTTYシステム。ディスプレイ・キーボード・デスクトップ環境ゼロで、iPadのSafariからネイティブKali CLIツールとLinuxコマンドへ直接TTYアクセスできる。"
-description_en: "A lightweight WebTTY system that turns a Raspberry Pi Zero 2 W into a fully headless Kali Linux node. No display, keyboard, or desktop environment — provides direct TTY access to native Kali CLI tools and standard Linux commands from an iPad via Safari."
+description: "Raspberry Pi Zero 2 Wを、iPadから操作できる持ち歩き用Linux端末にしました。小さな機械をどう実用的に使うか試したくて作ったものです。"
+description_en: "I turned a Raspberry Pi Zero 2 W into a portable Linux terminal that I can control from an iPad. It started as an experiment in making a tiny computer genuinely useful."
 url: https://github.com/Haruka-Kaya/ZeroTerm
 tags:
   - Python

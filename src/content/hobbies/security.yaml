@@ -1,10 +1,11 @@
-name: Security
-description: "LinuxをいじっているうちにOSINT・脆弱性調査に引き込まれた。Thetis Pro-C FIDO2キーを購入・運用中。決済API（Braintree・Hyperwallet）のサンドボックス調査も実施。HackerOneとTryHackMeで継続学習中。"
-description_en: "Pulled into OSINT and vulnerability research through Linux tinkering. Runs a Thetis Pro-C FIDO2/WebAuthn hardware security key. Has researched payment APIs (Braintree, Hyperwallet) in sandbox. Continuously learning via HackerOne and TryHackMe."
-detail: "OSINTと脆弱性調査に引き込まれたのはLinuxをいじっているうちに「なぜこう動くのか」を追いかけていたことがきっかけだった。
+name: セキュリティとCTF
+description: Linuxの仕組みを追いかけるうちに、セキュリティにも興味が広がりました。HackerOneで報告したり、TryHackMeで問題を解いたりしながら学んでいます。
+description_en: Following questions about Linux led me into security. I learn by reporting findings through HackerOne and working through challenges on TryHackMe.
+detail: |-
+  Linuxを触っていて「なぜこう動くんだろう」と調べ始めたことが、セキュリティに興味を持つきっかけでした。
 
-物理セキュリティにも興味があって、Thetis Pro-C（FIDO2/WebAuthn対応ハードウェアセキュリティキー）を実際に購入して日常運用している。パスワードレス認証の仕組みを体感で理解したかったというのが大きい。
+  いまはHackerOneのルールと対象範囲を確認しながら、実際のサービスで見つけた問題を報告しています。見落とされやすい境界や、仕組み同士のつながりを丁寧に追うのが好きです。
 
-決済系APIの攻撃面も調査していて、BraintreeやHyperwalletのサンドボックス環境でテストを実施した。HackerOneとTryHackMeで継続学習しながら、バグバウンティの実践に繋げている。"
+  TryHackMeやCTFにも取り組んでいます。まだ分からないことは多いですが、Web、リバースエンジニアリング、暗号などを横断しながら、少しずつ基礎を増やしています。
 icon: 🔐
-order: 6
+order: 3

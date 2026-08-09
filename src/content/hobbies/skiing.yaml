@@ -1,6 +1,11 @@
-name: Skiing
+name: スキーとロープ
+description: スキーを長く続けています。最近はロープワークも練習していて、いつかアイスクライミングに挑戦したいです。
+description_en: I have been skiing for years. Lately I have also been practicing rope work, with the hope of trying ice climbing someday.
+detail: |-
+  スキーは12年ほど続けています。最初は家族旅行で滑ることが中心でしたが、いまでは冬に外へ出る楽しみのひとつになりました。
+
+  最近はセミスタティックロープを使った基本的な上り下りや、レスキューを想定したシステムも練習しています。安全を確認しながら、ひとつずつ手順を身につけているところです。
+
+  いつかアイスクライミングにも挑戦してみたいと思っています。スキーからロープへ、興味が少しずつつながっていくのが面白いです。
 icon: ⛷️
-order: 10
-description: "スキー歴12年。ゲレンデでの滑走を起点にロープアクセスやアイスクライミングへとつながるアウトドア活動の軸のひとつ。"
-description_en: "12 years of skiing experience. A gateway into rope access and ice climbing — one of the threads connecting all outdoor disciplines."
-detail: "滑り始めた頃は家族旅行が主だったが、今は冬山の技術全体への入口として位置づけている。ロープアクセスで身につけたセルフレスキューの知識と組み合わせ、アイスクライミングを次の目標に据えている。12年の継続で急斜面の整地・不整地の技術は一定レベルに達しているが、クランポンワーク（アイゼン歩行）はまだ習得中。"
+order: 5

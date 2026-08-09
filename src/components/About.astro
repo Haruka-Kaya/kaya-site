@@ -3,28 +3,75 @@ interface Props {
   bio: string;
   location: string;
 }
+
 const { bio, location } = Astro.props;
 ---
 
-<section id="about">
-  <div class="container">
-    <p class="section-label">About</p>
-    <h2 class="section-heading">Who I am</h2>
-    <div style="display:grid;grid-template-columns:1fr;gap:3rem;max-width:720px;">
-      <div>
-        <p style="color:var(--muted);line-height:1.8;font-size:1rem;white-space:pre-line;">
-          {bio}
+<section id="about" class="about" aria-labelledby="about-title">
+  <div class="container about-grid">
+    <div>
+      <p class="eyebrow">わたしのこと</p>
+      <h2 id="about-title" class="section-heading">まずは、触って確かめたい。</h2>
+    </div>
+
+    <div class="about-copy">
+      <p>{bio}</p>
+      {location && (
+        <p class="location">
+          {location} にいます
         </p>
-        {location && (
-          <div style="margin-top:1.5rem;display:flex;align-items:center;gap:0.5rem;color:var(--muted);font-size:0.875rem;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-              <circle cx="12" cy="10" r="3"></circle>
-            </svg>
-            {location}
-          </div>
-        )}
-      </div>
+      )}
     </div>
   </div>
 </section>
+
+<style>
+  .about {
+    padding-block: clamp(4.5rem, 9vw, 7.5rem);
+    border-block: 1px solid var(--line);
+    background: var(--paper);
+  }
+
+  .about-grid {
+    display: grid;
+    gap: 2.5rem;
+  }
+
+  .about-copy {
+    max-width: 42rem;
+  }
+
+  .about-copy > p:first-child {
+    margin: 0;
+    white-space: pre-line;
+    font-size: clamp(1.05rem, 1rem + 0.25vw, 1.2rem);
+    line-height: 2;
+  }
+
+  .location {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin: 1.75rem 0 0;
+    padding: 0.45rem 0.75rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+
+  .location::before {
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 50%;
+    background: var(--accent);
+    content: "";
+  }
+
+  @media (min-width: 48rem) {
+    .about-grid {
+      grid-template-columns: minmax(14rem, 0.7fr) minmax(0, 1.3fr);
+      gap: clamp(3rem, 8vw, 8rem);
+    }
+  }
+</style>

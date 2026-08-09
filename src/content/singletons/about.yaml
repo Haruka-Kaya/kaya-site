@@ -1,18 +1,16 @@
-tagline: FPVドローン自作 / セキュリティリサーチ / アマチュア無線 / ロープアクセス
-tagline_en: FPV drone builder · security researcher · licensed radio operator · rope access enthusiast
-bio: "コーダーというよりも、ハードウェアとAIツールを理解して使いこなすことが得意なタイプ。
+tagline: つくることと、知らない仕組みをのぞくことが好きです。
+tagline_en: I like making things and looking under the hood to see how they work.
+bio: |-
+  仕組みが気になると、まず自分で触って確かめたくなる性格です。FPVドローンを組むこと、Raspberry PiやESP32で遊ぶこと、セキュリティやAIを試すことが好きです。
 
-DarwinFPV Cementシリーズの自作機や防水FPV機を飛ばしながら、第二級陸上特殊無線技士と第四級アマチュア無線技士の免許を活かしてデジタルVTXを合法運用している。DJI Air 3SはDIPSに登録してドローン保険にも加入済み。旅行先での空撮に使っている。
+  画面の中だけで終わらず、組んだ機体が飛ぶ、無線がつながる、作ったものを誰かが使ってくれる。そんな瞬間を楽しみに、身近な「こうだったらいいな」を少しずつ形にしています。
 
-セキュリティはLinuxをいじるうちに自然と引き込まれた。HackerOneでCritical（CVSS 9.6）を含む複数の深刻な脆弱性を発見・報告済み。AIエージェント（MCP）をバグバウンティと自律コーディングへ応用した基盤も自前で構築している。TryHackMeで継続学習中。
+  外ではスキーや空撮を楽しんでいて、最近はロープワークも練習しています。このサイトには、いま夢中になっていることと、これまでに作ったものを載せています。
+bio_en: |-
+  When something makes me curious, I usually want to take it apart, try it, and understand it for myself. I enjoy building FPV drones, tinkering with Raspberry Pi and ESP32 boards, and experimenting with security and AI.
 
-スキー12年。アイスクライミングを視野に入れながら、セミスタティックロープのレスキュー技術を自主練習している。Meshtastic（LoRaメッシュ）やESP32系のハックにも手を出している。"
-bio_en: "Less of a coder, more of someone who understands and wields hardware and AI tools effectively.
+  I like the moment when something leaves the screen and becomes real: a quad I built takes off, a radio link connects, or a small tool becomes useful to someone. Most of my projects start with a simple thought: “I wish this were a little easier.”
 
-Builds custom FPV quads (DarwinFPV Cement series, including a waterproof build) and holds both a 2nd-class land special radio operator and 4th-class amateur radio license for legal digital VTX operation. Also flies a DJI Air 3S registered with DIPS and insured for liability — mainly for aerial photography during travel.
-
-Got pulled into security while tinkering with Linux. Has found and responsibly disclosed multiple high-severity vulnerabilities through HackerOne, including a Critical-rated finding (CVSS 9.6). Also built an autonomous bug bounty research platform powered by Claude MCP agents. Continuously leveling up on TryHackMe.
-
-12 years of skiing. Training rope access rescue techniques with semi-static systems, with ice climbing as a long-term goal. Also experimenting with Meshtastic LoRa mesh networks and ESP32 hacks."
+  Away from the desk, I enjoy skiing and aerial photography. I have also been learning rope work lately. This site is a small collection of what I am into and what I have made.
 location: Japan
-avatar: ""
+avatar: https://github.com/Haruka-Kaya.png?size=420

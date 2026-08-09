@@ -1,5 +1,6 @@
 ---
 export const prerender = true;
+
 import { createReader } from '@keystatic/core/reader';
 import keystaticConfig from '../../../keystatic.config';
 import Nav from '../../components/Nav.astro';
@@ -19,114 +20,179 @@ const [hobby, settings] = await Promise.all([
   reader.singletons.settings.read(),
 ]);
 
-const siteName = settings?.name ?? 'Haruka Kaya';
-const github = settings?.github ?? 'https://github.com/Haruka-Kaya';
-
 if (!hobby) return Astro.redirect('/');
 
-const displayName = typeof hobby.name === 'string' ? hobby.name : (hobby.name as any)?.name ?? slug;
+const name = settings?.name ?? '賀屋 悠';
+const github = settings?.github ?? 'https://github.com/Haruka-Kaya';
+const avatar = 'https://github.com/Haruka-Kaya.png?size=420';
+const displayName = typeof hobby.name === 'string' ? hobby.name : (hobby.name as { name?: string })?.name ?? slug;
+const description = hobby.description ?? `${name}が好きなこと`;
+const pageTitle = `${displayName} | ${name}`;
+const canonical = new URL(`/hobbies/${slug}`, Astro.site ?? Astro.url.origin);
 ---
 
-<!DOCTYPE html>
-<html lang="ja" data-lang="ja">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content={hobby.description ?? displayName} />
-  <title>{displayName} — {settings?.site_title ?? siteName}</title>
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
-  <script is:inline>
-    (function () {
-      var lang = localStorage.getItem('site-lang') || 'ja';
-      document.documentElement.setAttribute('data-lang', lang);
-    })();
-  </script>
-</head>
-<body>
-  <Nav name={siteName} github={github} />
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#f3efe5" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <meta property="og:type" content="article" />
+    <meta property="og:locale" content="ja_JP" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={avatar} />
+    <meta property="og:image:alt" content={`${name}のプロフィール画像`} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:image" content={avatar} />
+    <title>{pageTitle}</title>
+  </head>
+  <body id="top">
+    <a class="skip-link" href="#main-content">本文へ移動</a>
+    <Nav name={name} github={github} />
 
-  <main>
-    <section style="min-height:calc(100vh - 120px);padding-top:80px;">
-      <div class="container">
-
-        <a href="/#hobbies" class="back-link">
-          ←&nbsp;<span class="lang-ja">趣味一覧に戻る</span><span class="lang-en">Back to hobbies</span>
+    <main id="main-content" class="hobby-page">
+      <article class="container hobby-article">
+        <a href="/#likes" class="back-link">
+          好きなこと一覧へ
         </a>
 
-        <div class="hobby-header">
-          <span class="hobby-icon-xl">{hobby.icon}</span>
+        <header class="hobby-header">
+          <span class="hobby-icon" aria-hidden="true">{hobby.icon}</span>
           <div>
-            <p class="section-label">{slug}</p>
-            <h1 class="hobby-title">{displayName}</h1>
+            <p class="eyebrow">好きなこと</p>
+            <h1>{displayName}</h1>
           </div>
-        </div>
+        </header>
 
-        <p class="hobby-tagline lang-ja">{hobby.description ?? ''}</p>
-        <p class="hobby-tagline lang-en">{hobby.description_en || hobby.description || ''}</p>
+        <p class="hobby-lead">{description}</p>
 
         {hobby.detail && (
           <div class="hobby-detail">
-            <p class="lang-ja" style="white-space:pre-line;color:var(--muted);line-height:1.9;font-size:1rem;">{hobby.detail}</p>
+            <p>{hobby.detail}</p>
           </div>
         )}
 
-      </div>
-    </section>
-  </main>
+        <aside class="hobby-aside">
+          <p>ほかの好きなことも、トップページにまとめています。</p>
+          <a class="button button--secondary" href="/#likes">一覧を見る</a>
+        </aside>
+      </article>
+    </main>
 
-  <Footer
-    name={siteName}
-    github={github}
-    email={settings?.email ?? ''}
-    twitter={settings?.twitter ?? ''}
-  />
-</body>
+    <Footer
+      name={name}
+      github={github}
+      email={settings?.email ?? ''}
+      twitter={settings?.twitter ?? ''}
+    />
+  </body>
 </html>
 
 <style>
+  .hobby-page {
+    padding-block: clamp(3.5rem, 8vw, 6.5rem);
+  }
+
+  .hobby-article {
+    max-width: 52rem;
+  }
+
   .back-link {
     display: inline-flex;
+    min-height: 2.75rem;
     align-items: center;
-    gap: 0.375rem;
-    font-size: 0.875rem;
-    color: var(--muted);
-    font-family: 'JetBrains Mono', monospace;
-    margin-bottom: 3rem;
-    transition: color 0.15s;
-    text-decoration: none;
+    gap: 0.5rem;
+    color: var(--accent-strong);
+    font-weight: 700;
   }
-  .back-link:hover { color: var(--accent); }
+
+  .back-link::before {
+    content: "←";
+  }
+
   .hobby-header {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
-    margin-bottom: 1.5rem;
+    gap: 1.25rem;
+    margin-top: 2.75rem;
   }
-  .hobby-icon-xl {
-    font-size: 3.5rem;
-    line-height: 1;
+
+  .hobby-icon {
+    display: grid;
+    width: 4.5rem;
+    height: 4.5rem;
+    flex: 0 0 auto;
+    place-items: center;
+    border-radius: var(--radius-xl);
+    background: var(--accent-soft);
+    font-size: 2rem;
   }
-  .hobby-title {
-    font-size: clamp(1.75rem, 4vw, 2.5rem);
-    font-weight: 800;
-    color: var(--text);
-    letter-spacing: -0.02em;
-    margin: 0.25rem 0 0 0;
+
+  .hobby-header .eyebrow {
+    margin-bottom: 0.25rem;
   }
-  .hobby-tagline {
-    font-size: 1rem;
-    color: var(--text);
-    line-height: 1.7;
-    margin-bottom: 2rem;
-    max-width: 660px;
-    font-weight: 500;
+
+  h1 {
+    margin: 0;
+    font-size: clamp(2rem, 1.65rem + 1.5vw, 3.4rem);
+    line-height: 1.35;
+    letter-spacing: -0.035em;
+    overflow-wrap: anywhere;
   }
+
+  .hobby-lead {
+    margin: 2rem 0 0;
+    font-size: clamp(1.05rem, 1rem + 0.25vw, 1.2rem);
+    font-weight: 600;
+    line-height: 1.9;
+  }
+
   .hobby-detail {
-    max-width: 660px;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--border);
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .hobby-detail p {
+    margin: 0;
+    white-space: pre-line;
+    line-height: 2;
+  }
+
+  .hobby-aside {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 3rem;
+    padding: 1.25rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xl);
+    background: var(--paper);
+  }
+
+  .hobby-aside p {
+    margin: 0;
+    color: var(--muted);
+  }
+
+  @media (max-width: 30rem) {
+    .hobby-header {
+      align-items: flex-start;
+    }
+
+    .hobby-icon {
+      width: 3.75rem;
+      height: 3.75rem;
+    }
   }
 </style>

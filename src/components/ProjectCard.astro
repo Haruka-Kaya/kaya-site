@@ -2,69 +2,104 @@
 interface Props {
   name: string;
   description: string;
-  description_en: string;
   url: string;
   tags: string[];
-  featured: boolean;
+  number: number;
 }
-const { name, description, description_en, url, tags, featured } = Astro.props;
+
+const { name, description, url, tags, number } = Astro.props;
 ---
 
-<div class="project-card" class:list={[{ featured }]}>
-  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:0.75rem;">
-    <h3 class="project-name">{name}</h3>
-    {url && (
-      <a href={url} target="_blank" rel="noopener" class="project-link" aria-label={`Open ${name}`}>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-          <polyline points="15 3 21 3 21 9"></polyline>
-          <line x1="10" y1="14" x2="21" y2="3"></line>
-        </svg>
-      </a>
+<article class="project-card">
+  <div class="project-number" aria-hidden="true">{String(number).padStart(2, '0')}</div>
+  <div class="project-body">
+    <h3>{name}</h3>
+    <p>{description}</p>
+    {tags.length > 0 && (
+      <ul class="project-tags" aria-label="使っている技術">
+        {tags.slice(0, 3).map((tag) => <li class="pill">{tag}</li>)}
+      </ul>
     )}
   </div>
-  <p class="project-desc lang-ja">{description}</p>
-  <p class="project-desc lang-en">{description_en || description}</p>
-  {tags.length > 0 && (
-    <div style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:1rem;">
-      {tags.map(tag => <span class="tag">{tag}</span>)}
-    </div>
-  )}
-</div>
+  <div class="project-action">
+    {url ? (
+      <a href={url} target="_blank" rel="noopener noreferrer" class="text-link">
+        GitHubで見る
+        <span class="sr-only">（新しいタブで開きます）</span>
+        <span aria-hidden="true">↗</span>
+      </a>
+    ) : (
+      <span>個人で使っています</span>
+    )}
+  </div>
+</article>
 
 <style>
   .project-card {
-    background-color: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 0.75rem;
-    padding: 1.5rem;
-    transition: border-color 0.2s, transform 0.2s;
+    display: grid;
+    min-width: 0;
+    gap: 1.25rem;
+    padding-block: 1.75rem;
+    border-top: 1px solid var(--line);
   }
-  .project-card:hover {
-    border-color: #3f3f46;
-    transform: translateY(-2px);
+
+  .project-number {
+    color: var(--accent-strong);
+    font-size: 0.9rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
   }
-  .project-card.featured {
-    border-color: rgba(99, 102, 241, 0.3);
+
+  .project-body {
+    min-width: 0;
   }
-  .project-name {
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--text);
-  }
-  .project-desc {
-    font-size: 0.875rem;
-    color: var(--muted);
-    line-height: 1.6;
+
+  h3 {
     margin: 0;
+    font-size: clamp(1.2rem, 1.1rem + 0.35vw, 1.5rem);
+    line-height: 1.45;
+    overflow-wrap: anywhere;
   }
-  .project-link {
-    flex-shrink: 0;
+
+  p {
+    max-width: 38rem;
+    margin: 0.7rem 0 0;
     color: var(--muted);
-    transition: color 0.15s;
-    margin-top: 0.125rem;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
   }
-  .project-link:hover {
-    color: var(--accent);
+
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin: 1rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .project-action {
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+
+  .project-action a {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  @media (min-width: 48rem) {
+    .project-card {
+      grid-template-columns: 2.5rem minmax(0, 1fr) 8.5rem;
+      align-items: start;
+      gap: 1.5rem;
+    }
+
+    .project-action {
+      justify-self: end;
+      text-align: right;
+    }
   }
 </style>

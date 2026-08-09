@@ -2,71 +2,89 @@
 interface Props {
   name: string;
   description: string;
-  description_en: string;
   icon: string;
   slug: string;
+  index: number;
 }
-const { name, description, description_en, icon, slug } = Astro.props;
+
+const { name, description, icon, slug, index } = Astro.props;
 ---
 
-<a href={'/hobbies/' + slug} class="hobby-card-link">
-  <div class="hobby-card">
-    <div class="hobby-icon">{icon}</div>
-    <h3 class="hobby-name">{name}</h3>
-    <p class="hobby-desc lang-ja">{description}</p>
-    <p class="hobby-desc lang-en">{description_en || description}</p>
-    <span class="hobby-more">
-      <span class="lang-ja">詳しく見る →</span>
-      <span class="lang-en">Learn more →</span>
-    </span>
+<article class="like-card">
+  <div class="like-card-top">
+    <span class="like-icon" aria-hidden="true">{icon}</span>
+    <span class="like-number" aria-hidden="true">{String(index).padStart(2, '0')}</span>
   </div>
-</a>
+  <h3>{name}</h3>
+  <p>{description}</p>
+  <a href={`/hobbies/${slug}`} class="text-link">
+    もう少し詳しく
+  </a>
+</article>
 
 <style>
-  .hobby-card-link {
-    text-decoration: none;
-    display: block;
-    height: 100%;
-  }
-  .hobby-card {
-    background-color: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 0.75rem;
-    padding: 1.5rem;
-    transition: border-color 0.2s, background-color 0.2s, transform 0.2s;
-    height: 100%;
+  .like-card {
     display: flex;
+    min-width: 0;
+    height: 100%;
     flex-direction: column;
-    cursor: pointer;
+    padding: clamp(1.35rem, 3vw, 1.8rem);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xl);
+    background: var(--paper);
   }
-  .hobby-card:hover {
-    border-color: var(--accent);
-    background-color: var(--surface-hover);
-    transform: translateY(-2px);
+
+  .like-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.35rem;
   }
-  .hobby-icon {
-    font-size: 2rem;
-    margin-bottom: 0.875rem;
-    line-height: 1;
+
+  .like-icon {
+    display: grid;
+    width: 3.25rem;
+    height: 3.25rem;
+    place-items: center;
+    border-radius: var(--radius-lg);
+    background: var(--accent-soft);
+    font-size: 1.45rem;
   }
-  .hobby-name {
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--text);
-    margin-bottom: 0.5rem;
-  }
-  .hobby-desc {
-    font-size: 0.875rem;
+
+  .like-number {
     color: var(--muted);
-    line-height: 1.6;
-    margin: 0 0 auto 0;
-    flex: 1;
+    font-size: 0.875rem;
+    font-variant-numeric: tabular-nums;
   }
-  .hobby-more {
-    display: inline-block;
-    margin-top: 1rem;
-    font-size: 0.8rem;
-    color: var(--accent);
-    font-family: 'JetBrains Mono', monospace;
+
+  h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    line-height: 1.5;
+  }
+
+  p {
+    flex: 1;
+    margin: 0.8rem 0 1.25rem;
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+  }
+
+  a {
+    align-self: flex-start;
+    min-height: 2.75rem;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .text-link {
+    display: inline-flex;
+  }
+
+  .text-link::after {
+    content: "→";
   }
 </style>
