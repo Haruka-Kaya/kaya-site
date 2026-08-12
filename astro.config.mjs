@@ -5,7 +5,7 @@ import react from '@astrojs/react';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
-  site: 'https://kaya-site-zeta.vercel.app',
+  site: 'https://harukakaya.dev',
   output: 'server',
   adapter: vercel(),
   integrations: [react(), keystatic()],
