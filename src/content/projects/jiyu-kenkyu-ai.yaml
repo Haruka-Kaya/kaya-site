@@ -1,7 +1,7 @@
 name: Jiyu Kenkyu AI
 description: "子どもの「気になる」を会話で引き出して、自由研究のたたき台へまとめる仕組みを作りました。自分の言葉を残したまま整理できることを大切にしています。"
 description_en: "I built a system that draws out a child's curiosity through conversation and turns it into a starting point for a research project, while keeping their own words at the center."
-url: https://github.com/Haruka-Kaya/jiyu-kenkyu-ai
+url: ""
 tags:
   - TypeScript
   - Gemini Live API

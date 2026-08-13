@@ -58,9 +58,9 @@ const researchSteps = [
       )}
     </div>
 
-    <div class="research-board" aria-label="現在調べている領域">
+    <section class="research-board" aria-labelledby="focus-title">
       <div class="board-header">
-        <span>Current focus</span>
+        <h3 id="focus-title">Current focus</h3>
         <span>03 areas</span>
       </div>
       <ul class="focus-list">
@@ -78,7 +78,7 @@ const researchSteps = [
         <span aria-hidden="true"></span>
         Responsible disclosure
       </p>
-    </div>
+    </section>
   </div>
 </section>
 
@@ -204,6 +204,11 @@ const researchSteps = [
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     font-size: 0.875rem;
     text-transform: uppercase;
+  }
+
+  .board-header h3 {
+    margin: 0;
+    font: inherit;
   }
 
   .focus-list {
