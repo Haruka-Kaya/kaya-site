@@ -4,9 +4,10 @@ interface Props {
   github: string;
   email: string;
   twitter?: string;
+  hackerone?: string;
 }
 
-const { name, github, email, twitter } = Astro.props;
+const { name, github, email, twitter, hackerone } = Astro.props;
 ---
 
 <footer id="contact" class="footer" aria-labelledby="contact-title">
@@ -15,9 +16,15 @@ const { name, github, email, twitter } = Astro.props;
       <div>
         <p class="contact-eyebrow">連絡先</p>
         <h2 id="contact-title">気軽に声をかけてください。</h2>
-        <p>作っているものや、好きなことの話ができたらうれしいです。</p>
+        <p>セキュリティの調査、作っているもの、好きなことの話ができたらうれしいです。</p>
       </div>
       <div class="contact-actions">
+        {hackerone && (
+          <a class="button contact-button" href={hackerone} target="_blank" rel="noopener noreferrer">
+            HackerOneを見る
+            <span class="sr-only">（新しいタブで開きます）</span>
+          </a>
+        )}
         {email && <a class="button contact-button" href={`mailto:${email}`}>メールを送る</a>}
         {github && (
           <a class="button contact-button contact-button--quiet" href={github} target="_blank" rel="noopener noreferrer">

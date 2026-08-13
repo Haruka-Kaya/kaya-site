@@ -3,26 +3,34 @@ interface Props {
   name: string;
   tagline: string;
   avatar: string;
+  hackerone?: string;
 }
 
-const { name, tagline, avatar } = Astro.props;
+const { name, tagline, avatar, hackerone } = Astro.props;
 ---
 
 <section class="hero" aria-labelledby="hero-title">
   <div class="container hero-grid">
     <div class="hero-copy">
-      <p class="eyebrow">こんにちは。</p>
+      <p class="eyebrow hero-eyebrow"><span aria-hidden="true"></span> Security researcher & maker</p>
       <h1 id="hero-title">
-        はじめまして、<br />
-        <span>{name}</span>です。
+        仕組みの<span class="highlight">境界</span>を、<br />
+        つくって<br class="mobile-break" />確かめる。
       </h1>
-      <p class="hero-tagline">{tagline}</p>
+      <p class="hero-tagline"><strong>{name}。</strong>{tagline}</p>
       <p class="hero-note">
-        ドローンを飛ばしたり、Linuxを触ったり、<br class="desktop-break" />
-        思いついたものを作ったりしています。
+        HackerOneで脆弱性を調べながら、Linuxや電子工作、<br class="desktop-break" />
+        AIを使ったものづくりを楽しんでいます。
       </p>
       <div class="hero-actions">
-        <a class="button button--primary" href="#likes">好きなことを見る</a>
+        <a class="button button--primary" href="#security">調査について</a>
+        {hackerone && (
+          <a class="button button--secondary" href={hackerone} target="_blank" rel="noopener noreferrer">
+            HackerOne
+            <span aria-hidden="true">↗</span>
+            <span class="sr-only">（新しいタブで開きます）</span>
+          </a>
+        )}
         <a class="button button--secondary" href="#projects">作ったものを見る</a>
       </div>
     </div>
@@ -38,7 +46,7 @@ const { name, tagline, avatar } = Astro.props;
       </div>
       <div class="profile-caption">
         <span>{name}</span>
-        <span>Japan</span>
+        <span class="profile-role"><i aria-hidden="true"></i> Responsible disclosure</span>
       </div>
     </div>
   </div>
@@ -46,7 +54,21 @@ const { name, tagline, avatar } = Astro.props;
 
 <style>
   .hero {
+    position: relative;
     padding-block: clamp(4.5rem, 10vw, 8rem);
+  }
+
+  .hero::before {
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    background-image: linear-gradient(color-mix(in srgb, var(--accent) 7%, transparent) 1px, transparent 1px),
+      linear-gradient(90deg, color-mix(in srgb, var(--accent) 7%, transparent) 1px, transparent 1px);
+    background-size: 3rem 3rem;
+    -webkit-mask-image: linear-gradient(to bottom, #000, transparent 82%);
+    mask-image: linear-gradient(to bottom, #000, transparent 82%);
+    content: "";
+    pointer-events: none;
   }
 
   .hero-grid {
@@ -59,22 +81,37 @@ const { name, tagline, avatar } = Astro.props;
     min-width: 0;
   }
 
+  .hero-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    text-transform: uppercase;
+  }
+
+  .hero-eyebrow span {
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
   h1 {
     max-width: 13ch;
     margin: 0;
-    font-size: clamp(2.5rem, 1.88rem + 2.7vw, 5.2rem);
+    font-size: clamp(2.2rem, 1.82rem + 1.8vw, 4.4rem);
     font-weight: 700;
     line-height: 1.28;
     letter-spacing: -0.045em;
   }
 
-  h1 span {
+  h1 .highlight {
     position: relative;
     z-index: 0;
     white-space: nowrap;
   }
 
-  h1 span::after {
+  h1 .highlight::after {
     position: absolute;
     z-index: -1;
     right: -0.06em;
@@ -94,6 +131,10 @@ const { name, tagline, avatar } = Astro.props;
     line-height: 1.65;
   }
 
+  .hero-tagline strong {
+    color: var(--accent-strong);
+  }
+
   .hero-note {
     max-width: 34rem;
     margin: 0.9rem 0 0;
@@ -102,6 +143,12 @@ const { name, tagline, avatar } = Astro.props;
 
   .desktop-break {
     display: none;
+  }
+
+  @media (min-width: 30rem) {
+    .mobile-break {
+      display: none;
+    }
   }
 
   .hero-actions {
@@ -161,6 +208,19 @@ const { name, tagline, avatar } = Astro.props;
     padding: 0.85rem 0.25rem 0;
     color: var(--muted);
     font-size: 0.875rem;
+  }
+
+  .profile-role {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+  }
+
+  .profile-role i {
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 50%;
+    background: var(--accent);
   }
 
   @media (min-width: 46rem) {

@@ -24,11 +24,11 @@ if (!hobby) return Astro.redirect('/');
 
 const name = settings?.name ?? '賀屋 悠';
 const github = settings?.github ?? 'https://github.com/Haruka-Kaya';
-const avatar = 'https://github.com/Haruka-Kaya.png?size=420';
 const displayName = typeof hobby.name === 'string' ? hobby.name : (hobby.name as { name?: string })?.name ?? slug;
 const description = hobby.description ?? `${name}が好きなこと`;
 const pageTitle = `${displayName} | ${name}`;
 const canonical = new URL(`/hobbies/${slug}`, Astro.site ?? Astro.url.origin);
+const socialImage = new URL('/og.png', Astro.site ?? Astro.url.origin);
 ---
 
 <!doctype html>
@@ -48,10 +48,12 @@ const canonical = new URL(`/hobbies/${slug}`, Astro.site ?? Astro.url.origin);
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:image" content={avatar} />
-    <meta property="og:image:alt" content={`${name}のプロフィール画像`} />
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:image" content={avatar} />
+    <meta property="og:image" content={socialImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${name} — Security Research & Systems Building`} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={socialImage} />
     <title>{pageTitle}</title>
   </head>
   <body id="top">
@@ -92,6 +94,7 @@ const canonical = new URL(`/hobbies/${slug}`, Astro.site ?? Astro.url.origin);
       github={github}
       email={settings?.email ?? ''}
       twitter={settings?.twitter ?? ''}
+      hackerone={settings?.hackerone ?? 'https://hackerone.com/haruka-kaya'}
     />
   </body>
 </html>

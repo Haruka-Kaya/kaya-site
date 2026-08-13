@@ -13,6 +13,12 @@
   --sun: #d9df78;
   --peach: #e6b899;
   --ring: #1f613b;
+  --security: #16231f;
+  --security-panel: #1d2d28;
+  --security-ink: #f8f5e9;
+  --security-muted: #c2cdc5;
+  --security-line: #465a51;
+  --signal: #d5e786;
   --radius: 1rem;
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);

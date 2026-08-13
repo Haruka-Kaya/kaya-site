@@ -1,16 +1,16 @@
-tagline: つくることと、知らない仕組みをのぞくことが好きです。
-tagline_en: I like making things and looking under the hood to see how they work.
+tagline: ものを作りながら、仕組みの境界を調べています。
+tagline_en: I build things and study where systems meet their boundaries.
 bio: |-
-  仕組みが気になると、まず自分で触って確かめたくなる性格です。FPVドローンを組むこと、Raspberry PiやESP32で遊ぶこと、セキュリティやAIを試すことが好きです。
+  仕組みが気になると、まず自分で触って確かめたくなる性格です。HackerOneでセキュリティを調べたり、FPVドローンを組んだり、Raspberry PiやESP32で遊んだりしています。
 
-  画面の中だけで終わらず、組んだ機体が飛ぶ、無線がつながる、作ったものを誰かが使ってくれる。そんな瞬間を楽しみに、身近な「こうだったらいいな」を少しずつ形にしています。
+  セキュリティではAndroid、Web/API、AIエージェントを中心に、権限や入力の境界を追っています。許可された範囲で実際に動かし、どの条件で何が起きるのかを確かめる過程が好きです。
 
-  外ではスキーや空撮を楽しんでいて、最近はロープワークも練習しています。このサイトには、いま夢中になっていることと、これまでに作ったものを載せています。
+  画面の外では、組んだ機体が飛ぶこと、無線がつながること、作ったものを誰かが使ってくれることを楽しんでいます。スキーや空撮、最近始めたロープワークも好きです。
 bio_en: |-
-  When something makes me curious, I usually want to take it apart, try it, and understand it for myself. I enjoy building FPV drones, tinkering with Raspberry Pi and ESP32 boards, and experimenting with security and AI.
+  When something makes me curious, I want to try it and understand it for myself. I research security through HackerOne, build FPV drones, and experiment with Raspberry Pi and ESP32 boards.
 
-  I like the moment when something leaves the screen and becomes real: a quad I built takes off, a radio link connects, or a small tool becomes useful to someone. Most of my projects start with a simple thought: “I wish this were a little easier.”
+  My current security interests include Android, web APIs, and AI agents. I like tracing where permissions, inputs, and assumptions meet, then testing what actually happens within an authorized scope.
 
-  Away from the desk, I enjoy skiing and aerial photography. I have also been learning rope work lately. This site is a small collection of what I am into and what I have made.
+  Away from the screen, I enjoy the moment when a quad I built takes off, a radio link connects, or a small tool becomes useful to someone. I also enjoy skiing, aerial photography, and learning rope work.
 location: Japan
 avatar: https://github.com/Haruka-Kaya.png?size=420

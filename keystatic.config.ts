@@ -55,6 +55,7 @@ export default config({
         github: fields.text({ label: 'GitHub URL' }),
         email: fields.text({ label: 'Email' }),
         twitter: fields.text({ label: 'Twitter/X URL' }),
+        hackerone: fields.text({ label: 'HackerOne URL' }),
       },
     }),
   },

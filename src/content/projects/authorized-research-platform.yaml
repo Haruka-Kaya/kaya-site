@@ -1,7 +1,7 @@
 name: Authorized Research Platform
-description: "AIエージェントをフルスタックで活用した自律バグバウンティ調査基盤。Claude MCPエージェントが偵察・列挙・証拠保全を自律実行し、PEP（実行前ポリシー評価）で越権を防ぐゼロトラスト設計。OWASP Agentic Top 10に対応した監査ログ付き。"
-description_en: "Autonomous bug bounty research platform built on AI agents end-to-end. Claude MCP agents handle recon, enumeration, and evidence preservation autonomously, with a zero-trust PEP (Pre-Execution Policy) layer preventing scope violations. Covers the full OWASP Agentic Top 10 with immutable audit logs."
-url: https://github.com/Haruka-Kaya/authorized-research-platform
+description: "許可された範囲でセキュリティ調査を進めるための内部基盤です。実行前のポリシー評価でスコープ外の操作を止め、調査の判断と証拠を監査ログに残せるようにしています。"
+description_en: "An internal platform for security research within authorized scope. A pre-execution policy check blocks out-of-scope actions, while audit logs preserve decisions and evidence."
+url: ""
 tags:
   - TypeScript
   - Claude MCP

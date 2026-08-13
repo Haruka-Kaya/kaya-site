@@ -10,14 +10,15 @@ const { name } = Astro.props;
 <header class="site-header">
   <nav class="container site-nav" aria-label="メインナビゲーション">
     <a class="site-name" href="/" aria-label={`${name}のトップページ`}>
-      <span class="site-name-mark" aria-hidden="true">H</span>
+      <span class="site-name-mark" aria-hidden="true">HK</span>
       <span>{name}</span>
     </a>
 
     <div class="nav-links">
+      <a href="/#security">セキュリティ</a>
+      <a href="/#projects">作ったもの</a>
       <a href="/#about">自己紹介</a>
       <a href="/#likes">好きなこと</a>
-      <a href="/#projects">作ったもの</a>
     </div>
 
     <a class="contact-link" href="/#contact">連絡先</a>
@@ -53,14 +54,15 @@ const { name } = Astro.props;
 
   .site-name-mark {
     display: grid;
-    width: 2rem;
+    width: 2.25rem;
     height: 2rem;
     flex: 0 0 auto;
     place-items: center;
-    border-radius: 50%;
-    background: var(--sun);
-    color: var(--ink);
-    font-size: 0.9rem;
+    border-radius: var(--radius-sm);
+    background: var(--security);
+    color: var(--signal);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.8rem;
   }
 
   .nav-links {

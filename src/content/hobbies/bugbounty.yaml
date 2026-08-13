@@ -1,10 +1,10 @@
 name: Bug Bounty
-description: "HackerOneをメインプラットフォームとして活動中。GitLabでCritical（CVSS 9.6、CWE-522）を含む複数の深刻な脆弱性を本番サービスで発見・開示済み。AIエージェント（MCP）をバグバウンティワークフローに組み込んだ自律調査基盤も構築。"
-description_en: "Active on HackerOne. Has found and responsibly disclosed multiple high-severity vulnerabilities in production services, including a Critical (CVSS 9.6, CWE-522) in GitLab. Also built an autonomous research platform that plugs Claude MCP agents into the recon and enumeration workflow."
-detail: "HackerOneをメインプラットフォームとして活動している。GitLabのDependency ProxyでJWTに生のPersonal Access Tokenが埋め込まれる問題（CWE-522、CVSS 9.6 Critical）を発見・報告した経験がある。
+description: "HackerOneのプログラムで、スコープとルールを確認しながらセキュリティ上の問題を調べ、報告しています。再現条件と証拠を残すことを大切にしています。"
+description_en: "I research and report security issues through HackerOne programs, working within each program's scope and rules. I focus on preserving reproducible steps and evidence."
+detail: "HackerOneをメインプラットフォームとして、許可された範囲でセキュリティ上の問題を調べ、報告しています。
 
-バグバウンティはリアルな環境での実践なので、CTFとはまったく異なる緊張感がある。攻撃対象のスコープを読み込んで、見落とされがちな境界を探すのが自分のアプローチ。
+まずプログラムのポリシーと対象範囲を読み、挙動を小さく切り分けます。報告では、確認できた事実、再現に必要な条件、まだ分からないことを分けて伝えるようにしています。
 
-AIエージェント（MCP）をバグバウンティのワークフローに組み込んで、偵察と列挙を自動化する自律調査基盤（Authorized Research Platform）を自前で構築した。PEP（実行前ポリシー評価）でスコープ外の操作を防ぐゼロトラスト設計になっている。"
+調査を安全に進めるため、実行前にスコープを評価し、判断と証拠を監査ログへ残す内部ツールも作っています。"
 icon: 🐛
 order: 7

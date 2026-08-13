@@ -6,6 +6,7 @@ import keystaticConfig from '../../keystatic.config';
 import Nav from '../components/Nav.astro';
 import Hero from '../components/Hero.astro';
 import About from '../components/About.astro';
+import SecurityResearch from '../components/SecurityResearch.astro';
 import HobbyCard from '../components/HobbyCard.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import Footer from '../components/Footer.astro';
@@ -21,7 +22,7 @@ const [about, settings, allHobbies, allProjects] = await Promise.all([
 ]);
 
 const likeSlugs = ['fpvdrone', 'electronics', 'security', 'aiagents', 'skiing'];
-const projectSlugs = ['attendance-system', 'jiyu-kenkyu-ai', 'zeroterm'];
+const projectSlugs = ['authorized-research-platform', 'attendance-system', 'jiyu-kenkyu-ai', 'zeroterm'];
 
 const likes = allHobbies
   .filter((item) => likeSlugs.includes(item.slug))
@@ -34,9 +35,11 @@ const projects = allProjects
 const name = settings?.name ?? '賀屋 悠';
 const siteTitle = settings?.site_title ?? `${name} | 自己紹介`;
 const github = settings?.github ?? 'https://github.com/Haruka-Kaya';
+const hackerone = settings?.hackerone ?? 'https://hackerone.com/haruka-kaya';
 const description = about?.tagline ?? 'ドローンを飛ばしたり、Linuxを触ったり、思いついたものを作ったりしています。';
 const avatar = about?.avatar || 'https://github.com/Haruka-Kaya.png?size=420';
 const canonical = new URL('/', Astro.site ?? Astro.url.origin);
+const socialImage = new URL('/og.png', Astro.site ?? Astro.url.origin);
 
 const personSchema = {
   '@context': 'https://schema.org',
@@ -44,7 +47,7 @@ const personSchema = {
   name,
   url: canonical.toString(),
   image: avatar,
-  sameAs: [github, settings?.twitter].filter(Boolean),
+  sameAs: [github, settings?.twitter, hackerone].filter(Boolean),
 };
 ---
 
@@ -66,14 +69,16 @@ const personSchema = {
     <meta property="og:title" content={siteTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:image" content={avatar} />
-    <meta property="og:image:alt" content={`${name}のプロフィール画像`} />
+    <meta property="og:image" content={socialImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${name} — Security Research & Systems Building`} />
     <meta property="profile:first_name" content="悠" />
     <meta property="profile:last_name" content="賀屋" />
-    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={siteTitle} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={avatar} />
+    <meta name="twitter:image" content={socialImage} />
 
     <title>{siteTitle}</title>
     <script type="application/ld+json" set:html={JSON.stringify(personSchema)}></script>
@@ -83,48 +88,18 @@ const personSchema = {
     <Nav name={name} github={github} />
 
     <main id="main-content">
-      <Hero name={name} tagline={description} avatar={avatar} />
-      <About bio={about?.bio ?? ''} location={about?.location ?? ''} />
-
-      <section id="likes" class="likes" aria-labelledby="likes-title">
-        <div class="container">
-          <div class="section-header">
-            <div>
-              <p class="eyebrow">好きなこと</p>
-              <h2 id="likes-title" class="section-heading">気になることを、少しずつ深く。</h2>
-            </div>
-            <p class="section-intro">
-              ひとつの趣味から次の興味へ、寄り道しながら広がってきました。
-              うまくいかない時間も含めて楽しんでいます。
-            </p>
-          </div>
-
-          <div class="likes-grid">
-            {likes.map((item, index) => (
-              <div class="like-item">
-                <HobbyCard
-                  name={item.entry.name}
-                  description={item.entry.description ?? ''}
-                  icon={item.entry.icon ?? ''}
-                  slug={item.slug}
-                  index={index + 1}
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
+      <Hero name={name} tagline={description} avatar={avatar} hackerone={hackerone} />
+      <SecurityResearch hackerone={hackerone} />
       <section id="projects" class="projects" aria-labelledby="projects-title">
         <div class="container">
           <div class="section-header section-header--projects">
             <div>
-              <p class="eyebrow">最近つくったもの</p>
-              <h2 id="projects-title" class="section-heading">身近な「ほしい」から作っています。</h2>
+              <p class="eyebrow">研究とものづくり</p>
+              <h2 id="projects-title" class="section-heading">調べるための道具も、自分で作る。</h2>
             </div>
             <p class="section-intro">
-              大きな製品というより、自分や身近な人が使える小さな道具です。
-              使いながら直して、少しずつ育てています。
+              セキュリティ調査のための仕組みから、身近な人が使う小さな道具まで。
+              実際に動かしながら、少しずつ育てています。
             </p>
           </div>
 
@@ -149,6 +124,37 @@ const personSchema = {
           </p>
         </div>
       </section>
+
+      <About bio={about?.bio ?? ''} location={about?.location ?? ''} />
+
+      <section id="likes" class="likes" aria-labelledby="likes-title">
+        <div class="container">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">好きなこと</p>
+              <h2 id="likes-title" class="section-heading">画面の外でも、仕組みを触る。</h2>
+            </div>
+            <p class="section-intro">
+              ドローン、Linux、電子工作、AI、スキー。
+              ひとつの興味から次へ、手を動かしながら広がってきました。
+            </p>
+          </div>
+
+          <div class="likes-grid">
+            {likes.map((item, index) => (
+              <div class="like-item">
+                <HobbyCard
+                  name={item.entry.name}
+                  description={item.entry.description ?? ''}
+                  icon={item.entry.icon ?? ''}
+                  slug={item.slug}
+                  index={index + 1}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
     </main>
 
     <Footer
@@ -156,6 +162,7 @@ const personSchema = {
       github={github}
       email={settings?.email ?? ''}
       twitter={settings?.twitter ?? ''}
+      hackerone={hackerone}
     />
   </body>
 </html>
