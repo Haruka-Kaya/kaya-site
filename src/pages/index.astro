@@ -50,7 +50,7 @@ const personSchema = {
   <Fragment slot="head">
     <meta property="profile:first_name" content="悠" />
     <meta property="profile:last_name" content="賀屋" />
-    <script type="application/ld+json" set:html={JSON.stringify(personSchema)}></script>
+    <script type="application/ld+json" set:html={JSON.stringify(personSchema).replace(/</g, '\\u003c')}></script>
   </Fragment>
 
   <main id="main-content">
