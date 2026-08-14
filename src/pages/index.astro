@@ -82,7 +82,7 @@ const personSchema = {
     <meta name="twitter:image:alt" content={`${name} — Security Research & Systems Building`} />
 
     <title>{siteTitle}</title>
-    <script type="application/ld+json" set:html={JSON.stringify(personSchema)}></script>
+    <script type="application/ld+json" set:html={JSON.stringify(personSchema).replace(/</g, '\\u003c')}></script>
   </head>
   <body id="top">
     <a class="skip-link" href="#main-content">本文へ移動</a>
