@@ -11,7 +11,7 @@ export function resolveSettings(settings: Settings) {
     name,
     siteTitle: settings?.site_title ?? `${name} | 自己紹介`,
     github: settings?.github ?? 'https://github.com/Haruka-Kaya',
-    hackerone: settings?.hackerone ?? 'https://hackerone.com/haruka-kaya',
+    hackerone: settings?.hackerone ?? '',
     email: settings?.email ?? '',
     twitter: settings?.twitter ?? '',
   };
