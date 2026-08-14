@@ -1,4 +1,6 @@
 ---
+import { formatIndex } from '../lib/site';
+
 interface Props {
   name: string;
   description: string;
@@ -13,7 +15,7 @@ const { name, description, icon, slug, index } = Astro.props;
 <article class="like-card">
   <div class="like-card-top">
     <span class="like-icon" aria-hidden="true">{icon}</span>
-    <span class="like-number" aria-hidden="true">{String(index).padStart(2, '0')}</span>
+    <span class="like-number" aria-hidden="true">{formatIndex(index)}</span>
   </div>
   <h3>{name}</h3>
   <p>{description}</p>

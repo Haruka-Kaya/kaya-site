@@ -1,20 +1,15 @@
 ---
 export const prerender = true;
 
-import { createReader } from '@keystatic/core/reader';
-import keystaticConfig from '../../../keystatic.config';
-import Nav from '../../components/Nav.astro';
-import Footer from '../../components/Footer.astro';
-import '../../styles/global.css';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { reader, resolveSettings } from '../../lib/site';
 
 export async function getStaticPaths() {
-  const reader = createReader(process.cwd(), keystaticConfig);
   const slugs = await reader.collections.hobbies.list();
   return slugs.map((slug) => ({ params: { slug } }));
 }
 
 const { slug } = Astro.params;
-const reader = createReader(process.cwd(), keystaticConfig);
 const [hobby, settings] = await Promise.all([
   reader.collections.hobbies.read(slug!),
   reader.singletons.settings.read(),
@@ -24,83 +19,52 @@ if (!hobby) {
   throw new Error(`Failed to read hobby entry "${slug}" (src/content/hobbies/${slug}.yaml).`);
 }
 
-const name = settings?.name ?? '賀屋 悠';
-const github = settings?.github ?? 'https://github.com/Haruka-Kaya';
+const { name, github, hackerone, email, twitter } = resolveSettings(settings);
 const displayName = typeof hobby.name === 'string' ? hobby.name : (hobby.name as { name?: string })?.name ?? slug;
 const description = hobby.description ?? `${name}が好きなこと`;
 const pageTitle = `${displayName} | ${name}`;
-const canonical = new URL(`/hobbies/${slug}`, Astro.site ?? Astro.url.origin);
-const socialImage = new URL('/og.png', Astro.site ?? Astro.url.origin);
 ---
 
-<!doctype html>
-<html lang="ja">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content={description} />
-    <meta name="theme-color" content="#f3efe5" />
-    <link rel="canonical" href={canonical} />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <meta property="og:type" content="article" />
-    <meta property="og:locale" content="ja_JP" />
-    <meta property="og:title" content={pageTitle} />
-    <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonical} />
-    <meta property="og:image" content={socialImage} />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content={`${name} — Security Research & Systems Building`} />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:image" content={socialImage} />
-    <meta name="twitter:image:alt" content={`${name} — Security Research & Systems Building`} />
-    <title>{pageTitle}</title>
-  </head>
-  <body id="top">
-    <a class="skip-link" href="#main-content">本文へ移動</a>
-    <Nav name={name} github={github} />
+<BaseLayout
+  title={pageTitle}
+  description={description}
+  path={`/hobbies/${slug}`}
+  ogType="article"
+  name={name}
+  github={github}
+  hackerone={hackerone}
+  email={email}
+  twitter={twitter}
+>
+  <main id="main-content" class="hobby-page">
+    <article class="container hobby-article">
+      <a href="/#likes" class="back-link">
+        好きなこと一覧へ
+      </a>
 
-    <main id="main-content" class="hobby-page">
-      <article class="container hobby-article">
-        <a href="/#likes" class="back-link">
-          好きなこと一覧へ
-        </a>
+      <header class="hobby-header">
+        <span class="hobby-icon" aria-hidden="true">{hobby.icon}</span>
+        <div>
+          <p class="eyebrow">好きなこと</p>
+          <h1>{displayName}</h1>
+        </div>
+      </header>
 
-        <header class="hobby-header">
-          <span class="hobby-icon" aria-hidden="true">{hobby.icon}</span>
-          <div>
-            <p class="eyebrow">好きなこと</p>
-            <h1>{displayName}</h1>
-          </div>
-        </header>
+      <p class="hobby-lead">{description}</p>
 
-        <p class="hobby-lead">{description}</p>
+      {hobby.detail && (
+        <div class="hobby-detail">
+          <p>{hobby.detail}</p>
+        </div>
+      )}
 
-        {hobby.detail && (
-          <div class="hobby-detail">
-            <p>{hobby.detail}</p>
-          </div>
-        )}
-
-        <aside class="hobby-aside">
-          <p>ほかの好きなことも、トップページにまとめています。</p>
-          <a class="button button--secondary" href="/#likes">一覧を見る</a>
-        </aside>
-      </article>
-    </main>
-
-    <Footer
-      name={name}
-      github={github}
-      email={settings?.email ?? ''}
-      twitter={settings?.twitter ?? ''}
-      hackerone={settings?.hackerone ?? 'https://hackerone.com/haruka-kaya'}
-    />
-  </body>
-</html>
+      <aside class="hobby-aside">
+        <p>ほかの好きなことも、トップページにまとめています。</p>
+        <a class="button button--secondary" href="/#likes">一覧を見る</a>
+      </aside>
+    </article>
+  </main>
+</BaseLayout>
 
 <style>
   .hobby-page {

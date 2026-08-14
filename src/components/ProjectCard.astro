@@ -1,4 +1,6 @@
 ---
+import { formatIndex } from '../lib/site';
+
 interface Props {
   name: string;
   description: string;
@@ -11,7 +13,7 @@ const { name, description, url, tags, number } = Astro.props;
 ---
 
 <article class="project-card">
-  <div class="project-number" aria-hidden="true">{String(number).padStart(2, '0')}</div>
+  <div class="project-number" aria-hidden="true">{formatIndex(number)}</div>
   <div class="project-body">
     <h3>{name}</h3>
     <p>{description}</p>
