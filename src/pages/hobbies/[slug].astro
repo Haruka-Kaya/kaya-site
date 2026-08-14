@@ -20,7 +20,9 @@ const [hobby, settings] = await Promise.all([
   reader.singletons.settings.read(),
 ]);
 
-if (!hobby) return Astro.redirect('/');
+if (!hobby) {
+  throw new Error(`Failed to read hobby entry "${slug}" (src/content/hobbies/${slug}.yaml).`);
+}
 
 const name = settings?.name ?? '賀屋 悠';
 const github = settings?.github ?? 'https://github.com/Haruka-Kaya';

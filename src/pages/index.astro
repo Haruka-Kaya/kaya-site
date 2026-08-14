@@ -21,8 +21,25 @@ const [about, settings, allHobbies, allProjects] = await Promise.all([
   reader.collections.projects.all(),
 ]);
 
+if (!about) {
+  throw new Error('Failed to read singleton "about" (src/content/singletons/about.yaml).');
+}
+if (!settings) {
+  throw new Error('Failed to read singleton "settings" (src/content/singletons/settings.yaml).');
+}
+
 const likeSlugs = ['fpvdrone', 'electronics', 'security', 'aiagents', 'skiing'];
 const projectSlugs = ['authorized-research-platform', 'attendance-system', 'jiyu-kenkyu-ai', 'zeroterm'];
+
+const missingLikes = likeSlugs.filter((slug) => !allHobbies.some((item) => item.slug === slug));
+const missingProjects = projectSlugs.filter((slug) => !allProjects.some((item) => item.slug === slug));
+if (missingLikes.length > 0 || missingProjects.length > 0) {
+  const missing = [
+    ...missingLikes.map((slug) => 'hobbies/' + slug),
+    ...missingProjects.map((slug) => 'projects/' + slug),
+  ];
+  throw new Error('Curated slugs not found in content: ' + missing.join(', '));
+}
 
 const likes = allHobbies
   .filter((item) => likeSlugs.includes(item.slug))
