@@ -1,4 +1,6 @@
 ---
+import { formatIndex } from '../lib/site';
+
 interface Props {
   hackerone: string;
 }
@@ -43,7 +45,7 @@ const researchSteps = [
       <ol class="research-steps" aria-label="調査で大切にしていること">
         {researchSteps.map((step, index) => (
           <li>
-            <span class="step-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+            <span class="step-number" aria-hidden="true">{formatIndex(index + 1)}</span>
             <span><strong>{step.label}</strong>{step.text}</span>
           </li>
         ))}
