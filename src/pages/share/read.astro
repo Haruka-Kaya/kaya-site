@@ -7,7 +7,7 @@ Astro.response.headers.set('Referrer-Policy', 'no-referrer');
 let file, text = '', error = '';
 const endpoint = new URL('/api/share/file', Astro.url.origin);
 endpoint.searchParams.set('key', Astro.url.searchParams.get('key') || '');
-const context = (url: URL) => ({ ...Astro, url, request: new Request(url) });
+const context = (url: URL) => ({ cookies: { get: () => undefined }, url, request: new Request(url) });
 const response = await GET(context(endpoint) as any);
 const data = await response.json();
 if (!response.ok) { error = 'リンクが無効か、期限が切れています。共有相手に新しいリンクを依頼してください。'; Astro.response.status = response.status; }
