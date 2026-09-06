@@ -1,8 +1,8 @@
 import type { APIRoute } from 'astro';
 import { del, get, head } from '@vercel/blob';
-import { COOKIE, SLOT, TTL, json, privateHeaders, readEnvelope, sameOrigin, sessionOK, secret } from '../../../lib/share';
-export const GET: APIRoute = async ({ cookies, url }) => {
-  if (!sessionOK(cookies.get(COOKIE)?.value)) return json({ error: 'パスワードを入力してください' }, 401);
+import { COOKIE, SLOT, TTL, json, privateHeaders, readEnvelope, sameOrigin, sessionOK, secret, authorized, mutationAllowed } from '../../../lib/share';
+export const GET: APIRoute = async ({ request, cookies, url }) => {
+  if (!authorized(request, cookies.get(COOKIE)?.value)) return json({ error: 'パスワードを入力してください' }, 401);
   try {
     const result = await get(SLOT, { access: 'private', useCache: false, token: secret('BLOB_READ_WRITE_TOKEN') });
     if (!result || result.statusCode !== 200) return json({ file: null });
@@ -16,7 +16,7 @@ export const GET: APIRoute = async ({ cookies, url }) => {
   } catch (error) { console.error('share read failed', error instanceof Error ? error.name + ': ' + error.message : 'unknown'); return json({ error: 'ファイルを読み込めませんでした。再読み込みするか、削除してアップロードし直してください' }, 502); }
 };
 export const DELETE: APIRoute = async ({ request, cookies }) => {
-  if (!sessionOK(cookies.get(COOKIE)?.value)) return json({ error: 'パスワードを入力してください' }, 401);
-  if (!sameOrigin(request)) return json({ error: 'このページから操作してください' }, 403);
+  if (!authorized(request, cookies.get(COOKIE)?.value)) return json({ error: 'パスワードを入力してください' }, 401);
+  if (!mutationAllowed(request)) return json({ error: 'このページから操作してください' }, 403);
   try { await del(SLOT, { token: secret('BLOB_READ_WRITE_TOKEN') }); return json({ file: null }); } catch { return json({ error: '削除できませんでした。もう一度試してください' }, 502); }
 };

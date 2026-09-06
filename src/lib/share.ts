@@ -49,3 +49,13 @@ export async function readEnvelope(stream: ReadableStream<Uint8Array>, totalSize
   } catch (error) { await reader.cancel().catch(() => {}); throw error; }
 }
 export function json(data: unknown, status = 200) { return new Response(JSON.stringify(data), { status, headers: { ...privateHeaders, 'Content-Type': 'application/json' } }); }
+
+// Explicit bearer credentials are never sent automatically by browsers. Cookie mutations still require Origin.
+export function bearerOK(request: Request) {
+  const header = request.headers.get('authorization');
+  return !!header?.startsWith('Bearer ') && passwordOK(header.slice(7));
+}
+export function authorized(request: Request, cookie?: string) {
+  return request.headers.has('authorization') ? bearerOK(request) : sessionOK(cookie);
+}
+export function mutationAllowed(request: Request) { return bearerOK(request) || sameOrigin(request); }

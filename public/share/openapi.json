@@ -1,0 +1,124 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Temporary single-file share",
+    "version": "1.1.0",
+    "description": "One private file, up to 100 MiB; downloads expire after 24 hours. Read /share/ai.md for upload framing."
+  },
+  "servers": [
+    {
+      "url": "https://harukakaya.dev"
+    }
+  ],
+  "security": [
+    {
+      "sharedPassword": []
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "sharedPassword": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "The shared password, supplied by the user"
+      }
+    }
+  },
+  "paths": {
+    "/api/share/file": {
+      "get": {
+        "operationId": "getSharedFile",
+        "summary": "Get metadata, or download when download=1",
+        "parameters": [
+          {
+            "name": "download",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "1"
+              ]
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Missing or invalid bearer password"
+          },
+          "502": {
+            "description": "Storage unavailable"
+          },
+          "410": {
+            "description": "Download expired"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteSharedFile",
+        "summary": "Permanently delete the shared file; only with user authorization",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Missing or invalid bearer password"
+          },
+          "502": {
+            "description": "Storage unavailable"
+          }
+        }
+      }
+    },
+    "/api/share/prepare": {
+      "post": {
+        "operationId": "prepareUpload",
+        "summary": "Issue a 5-minute upload URL for the empty slot",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "name",
+                  "size"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "size": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 104857600
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Missing or invalid bearer password"
+          },
+          "502": {
+            "description": "Storage unavailable"
+          },
+          "400": {
+            "description": "Invalid file metadata"
+          },
+          "409": {
+            "description": "Slot occupied; do not automatically delete it"
+          }
+        }
+      }
+    }
+  }
+}

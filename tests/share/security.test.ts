@@ -18,3 +18,13 @@ describe('temporary sharing security', () => {
     await expect(readEnvelope(new Blob(['short']).stream(),5)).rejects.toThrow();
   });
 });
+
+import { authorized, bearerOK, mutationAllowed } from '../../src/lib/share';
+it('allows explicit bearer requests without relaxing cookie CSRF', () => {
+  const req = new Request('https://harukakaya.dev/api/share/file', { headers: {authorization:'Bearer unit-test-password'} });
+  expect(bearerOK(req)).toBe(true); expect(authorized(req)).toBe(true); expect(mutationAllowed(req)).toBe(true);
+  const cookieOnly = new Request('https://harukakaya.dev/api/share/file');
+  expect(authorized(cookieOnly,newSession())).toBe(true); expect(mutationAllowed(cookieOnly)).toBe(false);
+  const wrong = new Request('https://harukakaya.dev/api/share/file',{headers:{authorization:'Bearer wrong'}});
+  expect(authorized(wrong,newSession())).toBe(false); expect(mutationAllowed(wrong)).toBe(false);
+});
