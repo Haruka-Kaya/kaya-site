@@ -4,3 +4,8 @@ Disallow: /keystatic/
 Sitemap: https://harukakaya.dev/sitemap-index.xml
 Disallow: /share
 Disallow: /api/share/
+
+# Permit link readers; pages send noindex and file endpoints require authorization.
+Allow: /share/ai
+Allow: /share/read
+Allow: /api/share/file
