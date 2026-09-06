@@ -1,4 +1,4 @@
-# harukakaya.dev — 一時ファイル共有API
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><meta name="robots" content="noindex,nofollow"><title>AIでファイル共有を使う</title><style>body{font-family:system-ui,sans-serif;line-height:1.8;color:#182230;max-width:760px;margin:40px auto;padding:24px}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f5f6f8;padding:20px}a{color:#244a7a}</style></head><body><h1>AIでファイル共有を使う</h1><h2>チャットAIにファイルを読んでもらう</h2><ol><li><a href="/share">共有ページ</a>でログインし、ファイルをアップロードします。</li><li>「AI用リンクをコピー」を押します。</li><li>AIのチャットにリンクと「このファイルを読んで、○○して」を貼ります。</li></ol><p>リンクはログイン不要の普通のHTMLページです。テキストは本文も表示します。リンクを知っている人は期限まで閲覧できます。</p><p>Web閲覧だけのAIはアップロードや削除ができません。3MFやZIPの解析にはダウンロード・解析機能が必要です。AIごとに対応形式は異なります。</p><h2>ファイルを送る・削除するAI</h2><p>ブラウザ操作できるAIは<a href="/share">共有ページ</a>を使います。コード実行できるAIは下のAPIか<a href="/share/client.py">Pythonクライアント</a>を使えます。パスワードは利用者から受け取ってください。</p><h2>APIの詳細</h2><pre># harukakaya.dev — 一時ファイル共有API
 
 Base URL: https://harukakaya.dev
 OpenAPI: https://harukakaya.dev/share/openapi.json
@@ -9,7 +9,7 @@ Python client: https://harukakaya.dev/share/client.py
 
 ## 認証
 
-`Authorization: Bearer <共有パスワード>` をAPIリクエストに付けます。
+`Authorization: Bearer &lt;共有パスワード&gt;` をAPIリクエストに付けます。
 ブラウザログインやCookie、Originヘッダーは不要です。
 パスワードは利用者から受け取り、環境変数 `SHARE_PASSWORD` に渡してください。
 パスワードやアップロード用URLをログ・ソースコード・共有文書に残さないでください。
@@ -35,24 +35,24 @@ python3 client.py delete --yes
 
 ### 保存状態 / GET /api/share/file
 
-認証必須。空なら `{"file":null}`。
-保存中なら `{"file":{"name":"example.3mf","size":12345,"expiresAt":1788790000000,"expired":false}}`。
+認証必須。空なら `{&quot;file&quot;:null}`。
+保存中なら `{&quot;file&quot;:{&quot;name&quot;:&quot;example.3mf&quot;,&quot;size&quot;:12345,&quot;expiresAt&quot;:1788790000000,&quot;expired&quot;:false}}`。
 `expiresAt` はUnix時刻のミリ秒です。
 
 ### ダウンロード / GET /api/share/file?download=1
 
 認証必須。成功は添付ファイルのバイナリ、期限切れは410。
-空の状態では `{"file":null}` なので、先に保存状態を確認してください。
+空の状態では `{&quot;file&quot;:null}` なので、先に保存状態を確認してください。
 返されたファイル名をローカルの保存パスとして無条件に使わないでください。
 
 ### 削除 / DELETE /api/share/file
 
-認証必須。成功は `{"file":null}`。元に戻せません。
+認証必須。成功は `{&quot;file&quot;:null}`。元に戻せません。
 
 ### アップロード準備 / POST /api/share/prepare
 
 認証必須、Content-Type: application/json。
-Body: `{"name":"example.3mf","size":12345}`。
+Body: `{&quot;name&quot;:&quot;example.3mf&quot;,&quot;size&quot;:12345}`。
 保存枠が使用中なら409、ファイル名やサイズが不正なら400、認証失敗は401。
 
 成功レスポンス:
@@ -69,3 +69,4 @@ Body: `{"name":"example.3mf","size":12345}`。
 APIサーバーを経由しないため、100 MiBまで送れます。
 成功後に GET /api/share/file でファイル名・サイズを確認してください。
 送信結果が不明な場合は、再送や削除より先に保存状態を確認してください。
+</pre></body></html>

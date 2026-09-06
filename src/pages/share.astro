@@ -23,13 +23,15 @@ Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
       <div id="saved" hidden>
         <p class="eyebrow">共有中のファイル</p><h2 id="filename"></h2><p id="file-info"></p><p id="expiry"></p>
         <a id="download" class="button" href="/api/share/file?download=1">ダウンロード</a>
+        <button id="ai-link" class="secondary" type="button">AI用リンクをコピー</button>
+        <p id="ai-link-result" hidden></p>
         <button id="delete" class="secondary" type="button">削除して空にする</button>
         <p class="hint">ファイルは1件だけ保存できます。入れ替える場合は先に削除してください。期限切れ後も、削除するまでは保存されます。</p>
       </div>
       <div class="tools"><button id="refresh" class="text-button" type="button">再読み込み</button><button id="logout" class="text-button" type="button">ログアウト</button></div>
     </section>
     <p id="status" role="status" aria-live="polite"></p>
-    <p><a href="/share/ai.md">AI・APIから操作する</a></p>
+    <p><a href="/share/ai">AI・APIから操作する</a></p>
     <p class="footer">このページのURLとパスワードを、共有相手に伝えてください。</p>
   </main>
   <script>
@@ -47,6 +49,7 @@ Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
     }
     async function refresh() {
       const { file } = await api('file');
+      el('ai-link-result').hidden = true;
       el('login-panel').hidden = true; el('share-panel').hidden = false; el('empty').hidden = !!file; el('saved').hidden = !file;
       if (file) {
         el('filename').textContent = file.name;
@@ -72,6 +75,16 @@ Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
         await refresh(); el<HTMLFormElement>('upload-form').reset(); message('アップロードしました。このページからダウンロードできます。');
       } catch { message('アップロードできませんでした。ファイルは選択したままです。再読み込みして共有中のファイルを確認し、もう一度試してください。', true); }
       finally { lock(false); progress.hidden = true; }
+    });
+    el('ai-link').addEventListener('click', async () => {
+      lock(true);
+      try {
+        const data = await api('link', { method: 'POST' });
+        const result = el('ai-link-result'); result.hidden = false; result.replaceChildren();
+        const link = document.createElement('a'); link.href = data.url; link.textContent = data.url; link.style.overflowWrap = 'anywhere'; result.append(link);
+        try { await navigator.clipboard.writeText(data.url); message('コピーしました。AIのチャットに貼ってください。リンクを知っている人は期限まで閲覧できます。'); }
+        catch { message('表示されたリンクをコピーしてAIに渡してください。'); }
+      } catch (error) { message((error as Error).message, true); } finally { lock(false); }
     });
     el('delete').addEventListener('click', async () => {
       if (busy || !confirm('共有中のファイルを削除します。元に戻せません。削除しますか？')) return;

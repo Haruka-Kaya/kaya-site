@@ -59,3 +59,18 @@ export function authorized(request: Request, cookie?: string) {
   return request.headers.has('authorization') ? bearerOK(request) : sessionOK(cookie);
 }
 export function mutationAllowed(request: Request) { return bearerOK(request) || sameOrigin(request); }
+
+// Read-only capabilities are bound to one object version and never authorize mutations.
+export function newReadToken(etag: string, expiresAt: number) {
+  const version = createHash('sha256').update(etag.replace(/^W\//, '')).digest('hex');
+  const body = `read.${expiresAt}.${version}`;
+  if (!secret('SHARE_SESSION_SECRET')) throw new Error('共有設定がありません');
+  return `${body}.${signature(body)}`;
+}
+export function readTokenOK(token: string, etag?: string, now = Date.now()) {
+  if (!secret('SHARE_SESSION_SECRET') || token.length > 200) return false;
+  const [scope, expiry, version, mac, extra] = token.split('.');
+  if (extra || scope !== 'read' || !/^\d+$/.test(expiry || '') || !/^[a-f0-9]{64}$/.test(version || '') || Number(expiry) <= now || Number(expiry) > now + TTL) return false;
+  if (!equal(signature(`read.${expiry}.${version}`), mac || '')) return false;
+  return etag === undefined || equal(createHash('sha256').update(etag.replace(/^W\//, '')).digest('hex'), version);
+}

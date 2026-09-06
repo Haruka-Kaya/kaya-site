@@ -1,11 +1,14 @@
 import type { APIRoute } from 'astro';
 import { del, get, head } from '@vercel/blob';
-import { COOKIE, SLOT, TTL, json, privateHeaders, readEnvelope, sameOrigin, sessionOK, secret, authorized, mutationAllowed } from '../../../lib/share';
+import { COOKIE, SLOT, TTL, json, privateHeaders, readEnvelope, sameOrigin, sessionOK, secret, authorized, mutationAllowed, readTokenOK } from '../../../lib/share';
 export const GET: APIRoute = async ({ request, cookies, url }) => {
-  if (!authorized(request, cookies.get(COOKIE)?.value)) return json({ error: 'パスワードを入力してください' }, 401);
+  const readToken = url.searchParams.get('key') || '';
+  const normalAuth = authorized(request, cookies.get(COOKIE)?.value);
+  if (!normalAuth && !readTokenOK(readToken)) return json({ error: 'パスワードを入力してください' }, 401);
   try {
     const result = await get(SLOT, { access: 'private', useCache: false, token: secret('BLOB_READ_WRITE_TOKEN') });
     if (!result || result.statusCode !== 200) return json({ file: null });
+    if (!normalAuth && !readTokenOK(readToken, result.blob.etag)) { await result.stream.cancel(); return json({ error: 'このリンクは無効です' }, 401); }
     const expiresAt = result.blob.uploadedAt.getTime() + TTL; const expired = expiresAt <= Date.now();
     const metadata = await head(SLOT, { token: secret('BLOB_READ_WRITE_TOKEN') });
     if (metadata.etag.replace(/^W\//, '') !== result.blob.etag.replace(/^W\//, '')) { await result.stream.cancel(); return json({ error: 'ファイルが更新されました。再読み込みしてください' }, 409); }

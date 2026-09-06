@@ -28,3 +28,15 @@ it('allows explicit bearer requests without relaxing cookie CSRF', () => {
   const wrong = new Request('https://harukakaya.dev/api/share/file',{headers:{authorization:'Bearer wrong'}});
   expect(authorized(wrong,newSession())).toBe(false); expect(mutationAllowed(wrong)).toBe(false);
 });
+
+import { newReadToken, readTokenOK, TTL } from '../../src/lib/share';
+it('limits read links to one version, expiry and read scope', () => {
+  const now = Date.now(); const token = newReadToken('"version-a"', now + TTL);
+  expect(readTokenOK(token, 'W/"version-a"', now)).toBe(true);
+  expect(readTokenOK(token, '"version-b"', now)).toBe(false);
+  expect(readTokenOK(token, undefined, now + TTL)).toBe(false);
+  expect(readTokenOK(token + 'x', undefined, now)).toBe(false);
+  expect(sessionOK(token, now)).toBe(false);
+  expect(authorized(new Request('https://harukakaya.dev/api/share/file?key=' + token))).toBe(false);
+  process.env.SHARE_SESSION_SECRET = 'rotated'; expect(readTokenOK(token, undefined, now)).toBe(false);
+});
