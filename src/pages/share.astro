@@ -1,0 +1,94 @@
+---
+export const prerender = false;
+Astro.response.headers.set('Cache-Control', 'private, no-store');
+Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
+---
+<!doctype html>
+<html lang="ja">
+<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><meta name="robots" content="noindex,nofollow"/><title>一時ファイル共有 | harukakaya.dev</title></head>
+<body>
+  <main>
+    <a class="home" href="/">harukakaya.dev</a>
+    <h1>一時ファイル共有</h1>
+    <p class="intro">1ファイル・100 MBまで。ダウンロード期限は24時間です。</p>
+    <section id="login-panel">
+      <form id="login-form"><label for="password">共有パスワード</label><input id="password" name="password" type="password" autocomplete="current-password" required maxlength="256"/><button type="submit">開く</button></form>
+    </section>
+    <section id="share-panel" hidden>
+      <div id="empty" hidden>
+        <h2>共有するファイルを選ぶ</h2>
+        <form id="upload-form"><label class="drop" for="file"><span>ファイルを選択</span><input id="file" type="file" required/><small>3MF・画像・動画・ZIPなど、種類は問いません。</small></label><button type="submit">アップロード</button></form>
+        <progress id="progress" max="100" value="0" hidden aria-label="アップロードの進み具合"></progress>
+      </div>
+      <div id="saved" hidden>
+        <p class="eyebrow">共有中のファイル</p><h2 id="filename"></h2><p id="file-info"></p><p id="expiry"></p>
+        <a id="download" class="button" href="/api/share/file?download=1">ダウンロード</a>
+        <button id="delete" class="secondary" type="button">削除して空にする</button>
+        <p class="hint">ファイルは1件だけ保存できます。入れ替える場合は先に削除してください。期限切れ後も、削除するまでは保存されます。</p>
+      </div>
+      <div class="tools"><button id="refresh" class="text-button" type="button">再読み込み</button><button id="logout" class="text-button" type="button">ログアウト</button></div>
+    </section>
+    <p id="status" role="status" aria-live="polite"></p>
+    <p class="footer">このページのURLとパスワードを、共有相手に伝えてください。</p>
+  </main>
+  <script>
+    import { upload } from '@vercel/blob/client';
+    const el = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
+    const status = el('status');
+    let busy = false;
+    function message(text: string, error = false) { status.textContent = text; status.classList.toggle('error', error); }
+    function lock(value: boolean) { busy = value; document.querySelectorAll<HTMLButtonElement>('button').forEach(b => b.disabled = value); el<HTMLInputElement>('file').disabled = value; }
+    async function api(path: string, options?: RequestInit) {
+      const response = await fetch('/api/share/' + path, { ...options, cache: 'no-store' });
+      const data = await response.json();
+      if (!response.ok) { if (response.status === 401) { el('login-panel').hidden = false; el('share-panel').hidden = true; } throw new Error(data.error || '操作に失敗しました'); }
+      return data;
+    }
+    async function refresh() {
+      const { file } = await api('file');
+      el('login-panel').hidden = true; el('share-panel').hidden = false; el('empty').hidden = !!file; el('saved').hidden = !file;
+      if (file) {
+        el('filename').textContent = file.name;
+        el('file-info').textContent = `${(file.size / 1024 / 1024).toFixed(2)} MB`;
+        el('expiry').textContent = file.expired ? 'ダウンロード期限が切れています。削除して入れ替えられます。' : `期限：${new Date(file.expiresAt).toLocaleString('ja-JP')}`;
+        el('download').hidden = file.expired;
+      }
+    }
+    el('login-form').addEventListener('submit', async event => {
+      event.preventDefault(); if (busy) return; lock(true); message('確認しています…');
+      try { await api('session', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ password: el<HTMLInputElement>('password').value }) }); el<HTMLInputElement>('password').value = ''; await refresh(); message(''); } catch (error) { message((error as Error).message, true); } finally { lock(false); }
+    });
+    el('upload-form').addEventListener('submit', async event => {
+      event.preventDefault(); if (busy) return;
+      const file = el<HTMLInputElement>('file').files?.[0]; if (!file) return;
+      if (!file.size || file.size > 100 * 1024 * 1024) { message('1バイト〜100 MBのファイルを選んでください', true); return; }
+      const name = file.name.replace(/[\x00-\x1f\x7f/\\]/g, '_').trim();
+      if (!name || new TextEncoder().encode(name).length > 768) { message('ファイル名を短くしてください', true); return; }
+      const header = new Uint8Array(4096).fill(32); header.set(new TextEncoder().encode(JSON.stringify({ version: 1, name, size: file.size })));
+      lock(true); const progress = el<HTMLProgressElement>('progress'); progress.hidden = false; progress.value = 0; message('アップロードしています…');
+      try {
+        await upload('temporary-share/current', new Blob([header, file], { type: 'application/octet-stream' }), { access: 'private', handleUploadUrl: '/api/share/upload', contentType: 'application/octet-stream', multipart: true, onUploadProgress: ({ percentage }) => { progress.value = percentage; message(`アップロード中 ${Math.round(percentage)}%`); } });
+        await refresh(); el<HTMLFormElement>('upload-form').reset(); message('アップロードしました。このページからダウンロードできます。');
+      } catch { message('アップロードできませんでした。ファイルは選択したままです。再読み込みして共有中のファイルを確認し、もう一度試してください。', true); }
+      finally { lock(false); progress.hidden = true; }
+    });
+    el('delete').addEventListener('click', async () => {
+      if (busy || !confirm('共有中のファイルを削除します。元に戻せません。削除しますか？')) return;
+      lock(true); try { await api('file', { method: 'DELETE' }); await refresh(); message('削除しました。新しいファイルを選べます。'); } catch (error) { message((error as Error).message, true); } finally { lock(false); }
+    });
+    el('refresh').addEventListener('click', async () => { lock(true); try { await refresh(); message(''); } catch (error) { message((error as Error).message, true); } finally { lock(false); } });
+    el('logout').addEventListener('click', async () => { lock(true); try { await api('session', { method: 'DELETE' }); el('login-panel').hidden = false; el('share-panel').hidden = true; message('ログアウトしました'); } catch (error) { message((error as Error).message, true); } finally { lock(false); } });
+    api('session').then(async data => { if (data.authenticated) await refresh(); }).catch(error => message(error.message, true));
+  </script>
+</body>
+</html>
+<style>
+  :global(*){box-sizing:border-box} :global([hidden]){display:none!important}
+  :global(body){margin:0;background:#f5f6f8;color:#182230;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif;line-height:1.7}
+  main{width:min(100% - 32px,560px);margin:64px auto;padding:32px;background:#fff;border:1px solid #d9dfe7;border-radius:16px}
+  .home{font-size:14px;color:#44546b;text-decoration:none}h1{font-size:26px;line-height:1.4;margin:24px 0 10px}h2{font-size:19px;overflow-wrap:anywhere}.intro,.hint,.footer{color:#536174;font-size:14px}.intro{margin-bottom:28px}
+  label{display:block;font-weight:600;margin-bottom:8px}input[type=password]{width:100%;padding:12px;border:1px solid #8795a6;border-radius:8px;font-size:16px;margin-bottom:16px}
+  button,.button{display:inline-flex;justify-content:center;align-items:center;min-height:46px;padding:10px 20px;border:1px solid #244a7a;border-radius:8px;background:#244a7a;color:white;font:inherit;font-weight:600;text-decoration:none;cursor:pointer}button:disabled{opacity:.55;cursor:wait}
+  .secondary{background:#fff;color:#802d32;border-color:#cfb2b5;margin:12px 0}.drop{display:grid;gap:12px;padding:24px 16px;background:#f5f7fa;border:1px dashed #8795a6;border-radius:10px;margin-bottom:16px}.drop small{font-weight:400;color:#536174}input[type=file]{width:100%;font:inherit;font-size:14px}.eyebrow{font-size:13px;color:#536174}
+  .tools{display:flex;gap:20px;border-top:1px solid #e1e5ec;margin-top:24px;padding-top:12px}.text-button{background:none;border:0;color:#244a7a;padding:8px 0;font-size:14px}#status{overflow-wrap:anywhere}#status.error{color:#9a252b}.footer{border-top:1px solid #e1e5ec;padding-top:18px;margin-top:24px}progress{width:100%;margin-top:16px}:focus-visible{outline:3px solid #5d85bd;outline-offset:3px}@media(max-width:500px){main{margin:24px auto;padding:24px}h1{font-size:24px}}
+</style>
