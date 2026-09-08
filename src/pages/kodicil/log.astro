@@ -10,8 +10,8 @@ const authenticated = privateGate(Astro.cookies, Astro.response.headers);
 const settings = await reader.singletons.settings.read();
 const { name, github, hackerone, email, twitter } = resolveSettings(settings);
 
-const pageTitle = `Kelmo 開発記録 | ${name}`;
-const description = 'Kelmo Recorder の開発記録。開発中の非公開ページ。';
+const pageTitle = `Kodicil 開発記録 | ${name}`;
+const description = 'Kodicil Recorder の開発記録。開発中の非公開ページ。';
 
 const rounds = [
   { round: 'R1', fatal: 3, major: 13, note: '最初の製品レビュー' },
@@ -76,7 +76,7 @@ const tools = [
   <BaseLayout
     title={pageTitle}
     description={description}
-    path="/kelmo/log"
+    path="/kodicil/log"
     ogType="article"
     name={name}
     github={github}
@@ -92,7 +92,7 @@ const tools = [
     <main id="main-content" class="log">
       <header class="hero">
         <div class="container hero-inner">
-          <a class="back-link" href="/kelmo">Kelmo Recorder へ戻る</a>
+          <a class="back-link" href="/kodicil">Kodicil Recorder へ戻る</a>
           <p class="eyebrow">開発記録・非公開</p>
           <h1>14巡のレビューで何が出たか</h1>
           <p class="hero-lead">
@@ -226,7 +226,7 @@ const tools = [
   <BaseLayout
     title="非公開のページ"
     description="このページは公開していません。"
-    path="/kelmo/log"
+    path="/kodicil/log"
     ogType="website"
     name={name}
     github={github}
@@ -238,7 +238,7 @@ const tools = [
       <meta name="robots" content="noindex,nofollow" />
       <meta name="referrer" content="no-referrer" />
     </Fragment>
-    <PrivateGate label="Kelmo 開発記録" />
+    <PrivateGate label="Kodicil 開発記録" />
   </BaseLayout>
 )}
 
