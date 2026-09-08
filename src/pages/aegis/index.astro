@@ -1,0 +1,489 @@
+---
+export const prerender = false;
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PrivateGate from '../../components/PrivateGate.astro';
+import { reader, resolveSettings } from '../../lib/site';
+import { privateGate } from '../../lib/private';
+
+const authenticated = privateGate(Astro.cookies, Astro.response.headers);
+const settings = await reader.singletons.settings.read();
+const { name, github, hackerone, email, twitter } = resolveSettings(settings);
+
+const pageTitle = `Aegis Recorder | ${name}`;
+const description = '身につける8chの暗号化録音機。開発中の非公開ページ。';
+
+const pillars = [
+  {
+    title: '端末の中で暗号化してから残す',
+    body:
+      '5秒ごとのレコードをAES-256-GCMで閉じ、その鍵をHPKE (X25519) で自分のスマホの公開鍵に封じます。本体に平文の鍵は残しません。拾われても、過去の録音は開けません。',
+  },
+  {
+    title: 'マイクは電源ごと切れる',
+    body:
+      'タッチを1秒長押しすると、74HC74と負荷スイッチがマイクの電源を落とします。ファームウェアからは戻せない配線なので、切ったかどうかをソフトの善意に頼りません。',
+  },
+  {
+    title: '後から本物だと確かめられる',
+    body:
+      '各レコードは前の要約を含む鎖でつながり、8本ごとの目録をATECC608Cが署名します。抜き取りや差し替えは、スマホ側の検証で分かります。',
+  },
+];
+
+const flow = [
+  { step: 'マイク8本', detail: 'Infineon IM72D128 (PDM)。6本はMDF、2本はSAIで取り込む' },
+  { step: '圧縮', detail: '可逆。会話で約0.46、無音で約0.30まで縮む' },
+  { step: '暗号化', detail: 'レコードごとに使い捨ての鍵でAES-256-GCM' },
+  { step: 'eMMCへ保存', detail: '128GB。ファイルシステムは持たず、生ブロックに追記する' },
+  { step: '署名', detail: '8本ごとの目録をATECC608Cで署名し、単調カウンタを添える' },
+  { step: 'スマホへ', detail: 'BLEで操作、Wi-Fiで本体を転送。復号と検証はAndroid側' },
+];
+
+const parts = [
+  ['MCU', 'STM32U585VIT6 — Cortex-M33 160MHz、ハードAES/HASH/TRNG'],
+  ['マイク', 'Infineon IM72D128V01 ×8 — PDM 3.072MHz、IP57'],
+  ['保存', 'Foresee FEMDNN128G eMMC 128GB'],
+  ['無線', 'ESP32-C6-MINI-1 — BLE制御、Wi-Fi転送'],
+  ['認証IC', 'ATECC608C — 目録の署名と単調カウンタ'],
+  ['電源', 'BQ25628E (充電)、MAX17262 (残量計)、TPS62840 ×2'],
+  ['センサー', 'LIS2DW12 — 衣ずれの検出'],
+  ['表示', 'Sharp LS013B7DH05 メモリ液晶 144×168'],
+  ['電池', 'LiPol LP284065 1000mAh (型番は選定中)'],
+];
+---
+
+{authenticated ? (
+  <BaseLayout
+    title={pageTitle}
+    description={description}
+    path="/aegis"
+    ogType="article"
+    name={name}
+    github={github}
+    hackerone={hackerone}
+    email={email}
+    twitter={twitter}
+  >
+    <Fragment slot="head">
+      <meta name="robots" content="noindex,nofollow" />
+      <meta name="referrer" content="no-referrer" />
+    </Fragment>
+
+    <main id="main-content" class="aegis">
+      <header class="hero">
+        <div class="container hero-inner">
+          <p class="eyebrow">開発中・非公開</p>
+          <h1>Aegis Recorder</h1>
+          <p class="hero-lead">
+            身につける8チャンネルの録音機です。録った音は端末の中で暗号化してから保存し、
+            鍵は自分のスマホの公開鍵に封じます。本体だけでは、過去の録音を開けません。
+          </p>
+          <dl class="hero-facts">
+            <div><dt>基板</dt><dd>v21 4層 68×50mm</dd></div>
+            <div><dt>厚さ</dt><dd>6.75mm (基本部)</dd></div>
+            <div><dt>録音</dt><dd>8ch / 48kHz / 16bit</dd></div>
+            <div><dt>状態</dt><dd>試作の発注待ち</dd></div>
+          </dl>
+        </div>
+      </header>
+
+      <section class="pillars" aria-labelledby="pillars-title">
+        <div class="container">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">考えかた</p>
+              <h2 id="pillars-title" class="section-heading">録音機を、持ち主だけのものにする。</h2>
+            </div>
+            <p class="section-intro">
+              録音は本人のものです。落としても、預けても、中身が他人に読まれない。
+              その前提を、ソフトの約束ではなく回路と暗号で作りました。
+            </p>
+          </div>
+
+          <div class="pillar-grid">
+            {pillars.map((item, index) => (
+              <article class="pillar">
+                <p class="pillar-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</p>
+                <h3>{item.title}</h3>
+                <p>{item.body}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section class="flow" aria-labelledby="flow-title">
+        <div class="container">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">音が通る道</p>
+              <h2 id="flow-title" class="section-heading">マイクからスマホまで。</h2>
+            </div>
+            <p class="section-intro">
+              端末がやるのは、取り込んで、縮めて、封じて、残すところまで。
+              開くのはスマホだけです。
+            </p>
+          </div>
+
+          <ol class="flow-list">
+            {flow.map((item) => (
+              <li class="flow-item">
+                <p class="flow-step">{item.step}</p>
+                <p class="flow-detail">{item.detail}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <section class="build" aria-labelledby="build-title">
+        <div class="container">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">つくり</p>
+              <h2 id="build-title" class="section-heading">基板、ケース、ファームウェア。</h2>
+            </div>
+            <p class="section-intro">
+              盤面もケースもスクリプトから起こしています。寸法を変えたら、生成し直せば全部ついてきます。
+            </p>
+          </div>
+
+          <div class="build-grid">
+            <article class="build-card">
+              <h3>基板</h3>
+              <p>
+                68×50mm の4層、厚さ1.2mm。ENIG、黒レジスト。
+                eMMCがBGA153の0.5mmピッチなので、ビアは穴0.2 / 径0.35に絞っています。
+                タッチ電極の直下はGND面を抜き、ビアも置いていません。
+              </p>
+              <p class="build-note">未結線 0 / 回路図とのパリティ 0 / 既知のDRC 17件 (すべて説明済み)</p>
+            </article>
+
+            <article class="build-card">
+              <h3>ケース</h3>
+              <p>
+                CadQueryで生成しています。前蓋は透明PC 1.55mm、トレイは電池違いで2種類。
+                外周はFIPG (打ってすぐ組む液状ガスケット)、マイクの音孔8か所は独立気泡のEPDMリングで塞ぎます。
+              </p>
+              <p class="build-note">基本部 6.75mm / 突起込み 7.05mm、IPX7 が目標</p>
+            </article>
+
+            <article class="build-card">
+              <h3>ファームウェア</h3>
+              <p>
+                STM32側は単一イメージ。取り込み、圧縮、暗号化、保存、署名、省電力、画面までを1つのループで回します。
+                ESP32-C6はBLEの制御面とWi-Fiの転送だけを持ちます。
+              </p>
+              <p class="build-note">ホスト単体試験19件、Renodeで起動から録音までの煙試験</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="parts" aria-labelledby="parts-title">
+        <div class="container">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">主要部品</p>
+              <h2 id="parts-title" class="section-heading">何で組んでいるか。</h2>
+            </div>
+          </div>
+
+          <div class="table-scroll">
+            <table>
+              <caption class="sr-only">Aegis Recorder の主要部品</caption>
+              <tbody>
+                {parts.map(([role, part]) => (
+                  <tr>
+                    <th scope="row">{role}</th>
+                    <td>{part}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="status" aria-labelledby="status-title">
+        <div class="container">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">いまの状態</p>
+              <h2 id="status-title" class="section-heading">試作を出す直前です。</h2>
+            </div>
+          </div>
+
+          <div class="status-body">
+            <p>
+              基板はJLCPCBのカートに入れてあり、eMMCの入荷を待って発注します。
+              ケースは浸水試験用のモックを先に刷って、外周とマイクの止水を別々に確かめる予定です。
+            </p>
+            <p>
+              ファームウェアはCodex (gpt-6-astra) の製品レビューを14巡かけて通し、
+              14巡目で致命0・要修正0になりました。
+              ただしこれは<strong>ソースを読んだ静的な評価</strong>です。
+              防水等級、実機での録音品質、電池の持ちは、まだ実物で確かめていません。
+            </p>
+            <p class="status-cta">
+              <a class="button button--primary" href="/aegis/log">開発記録を見る</a>
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </BaseLayout>
+) : (
+  <BaseLayout
+    title="非公開のページ"
+    description="このページは公開していません。"
+    path="/aegis"
+    ogType="website"
+    name={name}
+    github={github}
+    hackerone={hackerone}
+    email={email}
+    twitter={twitter}
+  >
+    <Fragment slot="head">
+      <meta name="robots" content="noindex,nofollow" />
+      <meta name="referrer" content="no-referrer" />
+    </Fragment>
+    <PrivateGate label="Aegis Recorder" />
+  </BaseLayout>
+)}
+
+<style>
+  .hero {
+    padding-block: clamp(3.5rem, 8vw, 6rem) clamp(2.5rem, 6vw, 4rem);
+  }
+
+  .hero-inner {
+    /* .container の左端に揃える。行長は .hero-lead 側で抑える */
+    max-width: none;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: clamp(2.25rem, 1.8rem + 2vw, 4rem);
+    line-height: 1.25;
+    letter-spacing: -0.04em;
+    text-wrap: balance;
+  }
+
+  .hero-lead {
+    margin: 1.5rem 0 0;
+    max-width: 44rem;
+    font-size: clamp(1.05rem, 1rem + 0.3vw, 1.25rem);
+    line-height: 1.95;
+  }
+
+  .hero-facts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    margin: 2.5rem 0 0;
+    padding: 1.25rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xl);
+    background: var(--paper);
+  }
+
+  .hero-facts div {
+    min-width: 0;
+  }
+
+  .hero-facts dt {
+    color: var(--muted);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+
+  .hero-facts dd {
+    margin: 0.35rem 0 0;
+    font-size: 1.05rem;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+  }
+
+  section {
+    padding-block: clamp(3.5rem, 7vw, 5.5rem);
+  }
+
+  .pillars,
+  .parts {
+    border-block-start: 1px solid var(--line);
+    background: var(--paper);
+  }
+
+  .section-header {
+    display: grid;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .pillar-grid,
+  .build-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+  }
+
+  .pillar,
+  .build-card {
+    min-width: 0;
+    padding: 1.5rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xl);
+    background: var(--canvas);
+  }
+
+  .build-card {
+    background: var(--paper);
+  }
+
+  .pillar-number {
+    margin: 0 0 0.75rem;
+    color: var(--accent-strong);
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+
+  .pillar h3,
+  .build-card h3 {
+    margin: 0 0 0.75rem;
+    font-size: 1.15rem;
+    line-height: 1.6;
+  }
+
+  .pillar p:last-child,
+  .build-card p:last-child {
+    margin: 0;
+  }
+
+  .build-note {
+    margin: 1rem 0 0;
+    padding-top: 1rem;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+
+  .flow-list {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    border-block-start: 1px solid var(--line);
+    list-style: none;
+    counter-reset: flow;
+  }
+
+  .flow-item {
+    display: grid;
+    gap: 0.35rem;
+    padding-block: 1.15rem;
+    border-block-end: 1px solid var(--line);
+    counter-increment: flow;
+  }
+
+  .flow-step {
+    margin: 0;
+    font-weight: 700;
+  }
+
+  .flow-step::before {
+    content: counter(flow, decimal-leading-zero) " ";
+    color: var(--accent-strong);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .flow-detail {
+    margin: 0;
+    color: var(--muted);
+  }
+
+  .table-scroll {
+    overflow-x: auto;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xl);
+    background: var(--canvas);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th,
+  td {
+    padding: 0.9rem 1.1rem;
+    border-block-end: 1px solid var(--line);
+    text-align: start;
+    vertical-align: top;
+  }
+
+  tr:last-child th,
+  tr:last-child td {
+    border-block-end: 0;
+  }
+
+  th {
+    width: 8rem;
+    white-space: nowrap;
+    font-weight: 700;
+  }
+
+  td {
+    color: var(--muted);
+  }
+
+  .status-body {
+    max-width: 46rem;
+  }
+
+  .status-body p {
+    margin: 0 0 1.25rem;
+    line-height: 2;
+  }
+
+  .status-cta {
+    margin: 2rem 0 0;
+  }
+
+  @media (min-width: 40rem) {
+    .hero-facts {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .flow-item {
+      grid-template-columns: 14rem minmax(0, 1fr);
+      gap: 1.5rem;
+      align-items: baseline;
+    }
+  }
+
+  @media (min-width: 48rem) {
+    .section-header {
+      grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.85fr);
+      align-items: end;
+      gap: 4rem;
+    }
+
+    .section-intro {
+      margin: 0;
+    }
+
+    .pillar-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .build-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+</style>

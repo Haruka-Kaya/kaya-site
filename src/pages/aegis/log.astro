@@ -1,0 +1,421 @@
+---
+export const prerender = false;
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PrivateGate from '../../components/PrivateGate.astro';
+import { reader, resolveSettings } from '../../lib/site';
+import { privateGate } from '../../lib/private';
+
+const authenticated = privateGate(Astro.cookies, Astro.response.headers);
+const settings = await reader.singletons.settings.read();
+const { name, github, hackerone, email, twitter } = resolveSettings(settings);
+
+const pageTitle = `Aegis 開発記録 | ${name}`;
+const description = 'Aegis Recorder の開発記録。開発中の非公開ページ。';
+
+const rounds = [
+  { round: 'R1', fatal: 3, major: 13, note: '最初の製品レビュー' },
+  { round: 'R2', fatal: 3, major: 9, note: '' },
+  { round: 'R3', fatal: 1, major: 6, note: '' },
+  { round: 'R4', fatal: 1, major: 4, note: '' },
+  { round: 'R5', fatal: 1, major: 5, note: '' },
+  { round: 'R6', fatal: 0, major: 2, note: '致命が0になった' },
+  { round: 'R7', fatal: 1, major: 1, note: '復旧の読出し失敗で新しい致命' },
+  { round: 'R8', fatal: 0, major: 2, note: '' },
+  { round: 'R9', fatal: 0, major: 3, note: '' },
+  { round: 'R10', fatal: 0, major: 4, note: '' },
+  { round: 'R11', fatal: 0, major: 2, note: '' },
+  { round: 'R12', fatal: 1, major: 1, note: '署名を失う経路で新しい致命' },
+  { round: 'R13', fatal: 0, major: 1, note: '新規の指摘が0件になった' },
+  { round: 'R14', fatal: 0, major: 0, note: 'プロダクトとしてOK' },
+];
+
+const findings = [
+  {
+    title: '「読めなかった」を「無い」と解釈していた',
+    body:
+      '電源断からの復旧で、eMMCの読出しが失敗したときに「録音の終わり」と判断していました。次の録音が既存の録音を上書きします。使用済みの媒体かどうかの判定にも同じ間違いがあり、こちらは自動初期化で署名を失う経路でした。読めないことと、読めて中身が無いことは、必ず分けます。',
+  },
+  {
+    title: '失敗を握りつぶして成功を返していた',
+    body:
+      '暗号化の失敗を返さずに保存へ進むと、開けない録音を残したうえで唯一の鍵を消してしまいます。設定の保存でも、書き込みに失敗したのにスマホへ成功を返していました。',
+  },
+  {
+    title: '「やったつもり」と「実際にやれた」の混同',
+    body:
+      '液晶の極性を、転送を始める前に進めていました。開始に失敗すると次の枠が同じ値になり、反転が1回抜けます。画素も、送る前に「送った」印を付けていたので、失敗した帯が二度と描き直されませんでした。',
+  },
+  {
+    title: '部分的に始めたものを巻き戻していなかった',
+    body:
+      'マイク入力の6チャンネルを順に起動する途中で失敗したとき、始めた分を止めていませんでした。ハードウェアが次の起動を拒むので、10秒ごとの自動再試行が必ず失敗し、再起動するまで録音が戻りません。',
+  },
+  {
+    title: '32ビットのあふれ',
+    body:
+      '音量の計算で二乗和が32ビットを超え、大きな音が0に折り返っていました。音声検出はそれを無音として扱います。声で区間を選ぶ設定を入れていると、保存する音まで変わります。',
+  },
+  {
+    title: 'ホストのテストに入らないコードは検査されない',
+    body:
+      '上の2件はどちらも「テストは全部OK」の裏で壊れていました。録音側のソースがホストのビルド対象外だったためです。純粋な計算は別ファイルに切り出して、テストから直接呼ぶようにしました。',
+  },
+];
+
+const tools = [
+  ['Codex (gpt-6-astra)', '基板14巡、製品レビュー14巡。判定は致命 / 要修正 / 要確認'],
+  ['Renode', 'STM32を丸ごとエミュレート。起動から録音、ミュート、復帰までの煙試験'],
+  ['ngspice', 'マイク経路、ミュート時の逆給電、IRドロップ、熱ビア'],
+  ['openEMS', 'USB差動対の3D電磁界 (Dockerで無料)'],
+  ['ホスト単体試験', '19件。圧縮、保存と電源断、FIR、設定、リンク、LED、描画、音量、残り時間'],
+];
+---
+
+{authenticated ? (
+  <BaseLayout
+    title={pageTitle}
+    description={description}
+    path="/aegis/log"
+    ogType="article"
+    name={name}
+    github={github}
+    hackerone={hackerone}
+    email={email}
+    twitter={twitter}
+  >
+    <Fragment slot="head">
+      <meta name="robots" content="noindex,nofollow" />
+      <meta name="referrer" content="no-referrer" />
+    </Fragment>
+
+    <main id="main-content" class="log">
+      <header class="hero">
+        <div class="container hero-inner">
+          <a class="back-link" href="/aegis">Aegis Recorder へ戻る</a>
+          <p class="eyebrow">開発記録・非公開</p>
+          <h1>14巡のレビューで何が出たか</h1>
+          <p class="hero-lead">
+            ファームウェアを書き終えてから、AIのレビューと修正を14回くり返しました。
+            出てきたのは細かい書き間違いではなく、録音そのものを失う筋でした。
+          </p>
+        </div>
+      </header>
+
+      <section class="rounds" aria-labelledby="rounds-title">
+        <div class="container">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">経過</p>
+              <h2 id="rounds-title" class="section-heading">致命3・要修正13から、0・0まで。</h2>
+            </div>
+            <p class="section-intro">
+              一度0になってからも、2回それまで見えていなかった致命が出ました。
+              指摘が0件になったのは13巡目です。
+            </p>
+          </div>
+
+          <div class="table-scroll">
+            <table>
+              <caption class="sr-only">製品レビュー14巡の判定</caption>
+              <thead>
+                <tr>
+                  <th scope="col">巡</th>
+                  <th scope="col" class="num">致命</th>
+                  <th scope="col" class="num">要修正</th>
+                  <th scope="col">備考</th>
+                </tr>
+              </thead>
+              <tbody>
+                {rounds.map((item) => (
+                  <tr data-clean={item.fatal === 0 && item.major === 0 ? 'true' : 'false'}>
+                    <th scope="row">{item.round}</th>
+                    <td class="num">{item.fatal}</td>
+                    <td class="num">{item.major}</td>
+                    <td>{item.note}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="findings" aria-labelledby="findings-title">
+        <div class="container">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">くり返し出た型</p>
+              <h2 id="findings-title" class="section-heading">同じ形の間違いが、別の場所で何度も出た。</h2>
+            </div>
+            <p class="section-intro">
+              指摘の番号は違っても、原因の形は数種類に収まりました。
+              次に似たものを作るときは、先にここを潰します。
+            </p>
+          </div>
+
+          <div class="finding-list">
+            {findings.map((item, index) => (
+              <article class="finding">
+                <p class="finding-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</p>
+                <div>
+                  <h3>{item.title}</h3>
+                  <p>{item.body}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section class="tools" aria-labelledby="tools-title">
+        <div class="container">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">確かめかた</p>
+              <h2 id="tools-title" class="section-heading">実機がなくても、通せるところまでは通す。</h2>
+            </div>
+          </div>
+
+          <div class="table-scroll">
+            <table>
+              <caption class="sr-only">検証に使っているもの</caption>
+              <tbody>
+                {tools.map(([tool, detail]) => (
+                  <tr>
+                    <th scope="row">{tool}</th>
+                    <td>{detail}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <p class="tools-note">
+            Renodeには無いものもあります。クロック、eMMCの周辺、マイクの取り込み、ハードウェア暗号、タンパー検出。
+            ここは実機でしか確かめられません。
+          </p>
+        </div>
+      </section>
+
+      <section class="next" aria-labelledby="next-title">
+        <div class="container">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">残り</p>
+              <h2 id="next-title" class="section-heading">実物でしか閉じないもの。</h2>
+            </div>
+          </div>
+
+          <ul class="next-list">
+            <li>8本のマイクを個別に鳴らして、スマホでの復号再生まで通す</li>
+            <li>録音、無音、待機、充電を別々に測って、電池の持ちを出す</li>
+            <li>モックを刷って、外周とマイクの止水を分けて浸水試験</li>
+            <li>組立の順序を実寸で通す。液晶のFPC、USB、ねじの締め代</li>
+            <li>初回登録から1年後の保守まで、スマホと合わせて操作を通す</li>
+          </ul>
+
+          <p class="next-note">
+            レビューが通ったのはソースの話です。ここが終わるまで、製品としての完成ではありません。
+          </p>
+        </div>
+      </section>
+    </main>
+  </BaseLayout>
+) : (
+  <BaseLayout
+    title="非公開のページ"
+    description="このページは公開していません。"
+    path="/aegis/log"
+    ogType="website"
+    name={name}
+    github={github}
+    hackerone={hackerone}
+    email={email}
+    twitter={twitter}
+  >
+    <Fragment slot="head">
+      <meta name="robots" content="noindex,nofollow" />
+      <meta name="referrer" content="no-referrer" />
+    </Fragment>
+    <PrivateGate label="Aegis 開発記録" />
+  </BaseLayout>
+)}
+
+<style>
+  .hero {
+    padding-block: clamp(3rem, 7vw, 5rem) clamp(2rem, 5vw, 3.5rem);
+  }
+
+  .hero-inner {
+    max-width: none;
+  }
+
+  .back-link {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--accent-strong);
+    font-weight: 700;
+  }
+
+  .back-link::before {
+    content: "←";
+  }
+
+  h1 {
+    margin: 0;
+    font-size: clamp(2rem, 1.7rem + 1.6vw, 3.25rem);
+    line-height: 1.3;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+  }
+
+  .hero-lead {
+    margin: 1.5rem 0 0;
+    max-width: 44rem;
+    font-size: clamp(1.05rem, 1rem + 0.25vw, 1.2rem);
+    line-height: 1.95;
+  }
+
+  section {
+    padding-block: clamp(3rem, 6vw, 5rem);
+  }
+
+  .rounds,
+  .tools {
+    border-block-start: 1px solid var(--line);
+    background: var(--paper);
+  }
+
+  .section-header {
+    display: grid;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .table-scroll {
+    overflow-x: auto;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xl);
+    background: var(--canvas);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th,
+  td {
+    padding: 0.85rem 1.1rem;
+    border-block-end: 1px solid var(--line);
+    text-align: start;
+    vertical-align: top;
+  }
+
+  thead th {
+    color: var(--muted);
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+  }
+
+  tbody tr:last-child th,
+  tbody tr:last-child td {
+    border-block-end: 0;
+  }
+
+  .num {
+    width: 5rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  tbody th {
+    width: 5rem;
+    white-space: nowrap;
+    font-weight: 700;
+  }
+
+  td {
+    color: var(--muted);
+  }
+
+  tr[data-clean="true"] th,
+  tr[data-clean="true"] td {
+    background: var(--accent-soft);
+    color: var(--ink);
+    font-weight: 700;
+  }
+
+  .finding-list {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .finding {
+    display: grid;
+    gap: 0.75rem;
+    min-width: 0;
+    padding: 1.5rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xl);
+    background: var(--paper);
+  }
+
+  .finding-number {
+    margin: 0;
+    color: var(--accent-strong);
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+
+  .finding h3 {
+    margin: 0 0 0.6rem;
+    font-size: 1.1rem;
+    line-height: 1.6;
+  }
+
+  .finding p {
+    margin: 0;
+    line-height: 1.95;
+  }
+
+  .tools-note,
+  .next-note {
+    margin: 1.5rem 0 0;
+    max-width: 46rem;
+    color: var(--muted);
+  }
+
+  .next-list {
+    margin: 0;
+    padding-left: 1.25rem;
+    max-width: 46rem;
+  }
+
+  .next-list li {
+    margin-bottom: 0.6rem;
+    line-height: 1.9;
+  }
+
+  @media (min-width: 48rem) {
+    .section-header {
+      grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.85fr);
+      align-items: end;
+      gap: 4rem;
+    }
+
+    .section-intro {
+      margin: 0;
+    }
+
+    .finding {
+      grid-template-columns: 3.5rem minmax(0, 1fr);
+      gap: 1.5rem;
+      align-items: start;
+    }
+  }
+</style>

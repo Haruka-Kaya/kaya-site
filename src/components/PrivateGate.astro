@@ -1,0 +1,145 @@
+---
+interface Props {
+  /** 何のページかだけ伝える。中身は一切出さない */
+  label: string;
+}
+
+const { label } = Astro.props;
+---
+
+<main id="main-content" class="gate">
+  <div class="container gate-inner">
+    <p class="eyebrow">非公開</p>
+    <h1>{label}</h1>
+    <p class="gate-lead">
+      このページはまだ公開していません。共有パスワードを入れると開きます。
+    </p>
+
+    <form id="gate-form" class="gate-form" novalidate>
+      <label for="gate-password">共有パスワード</label>
+      <input
+        id="gate-password"
+        name="password"
+        type="password"
+        autocomplete="current-password"
+        maxlength="256"
+        required
+        aria-describedby="gate-message"
+      />
+      <button id="gate-submit" class="button button--primary" type="submit">開く</button>
+    </form>
+
+    <p id="gate-message" class="gate-message" role="status" aria-live="polite"></p>
+
+    <p class="gate-back"><a class="text-link" href="/">トップページへ戻る</a></p>
+  </div>
+</main>
+
+<script>
+  const form = document.getElementById('gate-form') as HTMLFormElement | null;
+  const field = document.getElementById('gate-password') as HTMLInputElement | null;
+  const submit = document.getElementById('gate-submit') as HTMLButtonElement | null;
+  const message = document.getElementById('gate-message');
+
+  function say(text: string, isError = false) {
+    if (!message) return;
+    message.textContent = text;
+    message.dataset.tone = isError ? 'error' : 'info';
+  }
+
+  form?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (!field || !submit) return;
+    if (!field.value) {
+      say('パスワードを入れてください。', true);
+      field.focus();
+      return;
+    }
+    submit.disabled = true;
+    field.disabled = true;
+    say('確認しています…');
+    try {
+      const response = await fetch('/api/share/session', {
+        method: 'POST',
+        cache: 'no-store',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: field.value }),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.error || '確認できませんでした。');
+      field.value = '';
+      location.reload();
+    } catch (error) {
+      say((error as Error).message, true);
+      submit.disabled = false;
+      field.disabled = false;
+      field.focus();
+    }
+  });
+</script>
+
+<style>
+  .gate {
+    display: grid;
+    place-items: center;
+    min-height: 70vh;
+    padding-block: clamp(3rem, 8vw, 6rem);
+  }
+
+  .gate-inner {
+    max-width: 32rem;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: clamp(1.75rem, 1.5rem + 1vw, 2.5rem);
+    line-height: 1.35;
+    letter-spacing: -0.03em;
+  }
+
+  .gate-lead {
+    margin: 1rem 0 2rem;
+    color: var(--muted);
+  }
+
+  .gate-form {
+    display: grid;
+    gap: 0.75rem;
+    padding: 1.5rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xl);
+    background: var(--paper);
+  }
+
+  label {
+    font-weight: 700;
+  }
+
+  input {
+    min-height: 3rem;
+    padding: 0.7rem 0.9rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--canvas);
+    color: var(--ink);
+  }
+
+  input:disabled {
+    opacity: 0.6;
+  }
+
+  .gate-message {
+    min-height: 1.75rem;
+    margin: 0.75rem 0 0;
+    color: var(--muted);
+  }
+
+  .gate-message[data-tone="error"] {
+    color: var(--accent-strong);
+    font-weight: 700;
+  }
+
+  .gate-back {
+    margin-top: 2rem;
+  }
+</style>
