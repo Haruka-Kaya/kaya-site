@@ -10,7 +10,7 @@ const authenticated = privateGate(Astro.cookies, Astro.response.headers);
 const settings = await reader.singletons.settings.read();
 const { name, github, hackerone, email, twitter } = resolveSettings(settings);
 
-const pageTitle = `Aegis Recorder | ${name}`;
+const pageTitle = `Belsa Recorder | ${name}`;
 const description = '身につける8chの暗号化録音機。開発中の非公開ページ。';
 
 const pillars = [
@@ -57,7 +57,7 @@ const parts = [
   <BaseLayout
     title={pageTitle}
     description={description}
-    path="/aegis"
+    path="/belsa"
     ogType="article"
     name={name}
     github={github}
@@ -70,11 +70,11 @@ const parts = [
       <meta name="referrer" content="no-referrer" />
     </Fragment>
 
-    <main id="main-content" class="aegis">
+    <main id="main-content" class="belsa">
       <header class="hero">
         <div class="container hero-inner">
           <p class="eyebrow">開発中・非公開</p>
-          <h1>Aegis Recorder</h1>
+          <h1>Belsa Recorder</h1>
           <p class="hero-lead">
             身につける8チャンネルの録音機です。録った音は端末の中で暗号化してから保存し、
             鍵は自分のスマホの公開鍵に封じます。本体だけでは、過去の録音を開けません。
@@ -192,7 +192,7 @@ const parts = [
 
           <div class="table-scroll">
             <table>
-              <caption class="sr-only">Aegis Recorder の主要部品</caption>
+              <caption class="sr-only">Belsa Recorder の主要部品</caption>
               <tbody>
                 {parts.map(([role, part]) => (
                   <tr>
@@ -227,7 +227,7 @@ const parts = [
               防水等級、実機での録音品質、電池の持ちは、まだ実物で確かめていません。
             </p>
             <p class="status-cta">
-              <a class="button button--primary" href="/aegis/log">開発記録を見る</a>
+              <a class="button button--primary" href="/belsa/log">開発記録を見る</a>
             </p>
           </div>
         </div>
@@ -238,7 +238,7 @@ const parts = [
   <BaseLayout
     title="非公開のページ"
     description="このページは公開していません。"
-    path="/aegis"
+    path="/belsa"
     ogType="website"
     name={name}
     github={github}
@@ -250,7 +250,7 @@ const parts = [
       <meta name="robots" content="noindex,nofollow" />
       <meta name="referrer" content="no-referrer" />
     </Fragment>
-    <PrivateGate label="Aegis Recorder" />
+    <PrivateGate label="Belsa Recorder" />
   </BaseLayout>
 )}
 
