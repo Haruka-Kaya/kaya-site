@@ -296,8 +296,24 @@ function init() {
   initConstellation();
 }
 
+function restoreTheme() {
+  let theme: string | null = null;
+  try {
+    theme = localStorage.getItem('theme');
+  } catch {
+    /* storage unavailable */
+  }
+  if (theme !== 'light' && theme !== 'dark') {
+    theme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  }
+  document.documentElement.dataset.theme = theme;
+  document.documentElement.classList.remove('no-js');
+}
+
 document.addEventListener('astro:page-load', init);
 document.addEventListener('astro:before-swap', () => {
   cleanups.forEach((fn) => fn());
   cleanups = [];
 });
+// ClientRouter replaces <html> attributes on navigation, which drops data-theme.
+document.addEventListener('astro:after-swap', restoreTheme);
