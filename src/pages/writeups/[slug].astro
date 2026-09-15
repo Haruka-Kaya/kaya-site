@@ -1,0 +1,15 @@
+---
+export const prerender = true;
+
+import { getCollection } from 'astro:content';
+import WriteupView from '../../views/WriteupView.astro';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('writeups', (entry) => entry.id.startsWith('ja/') && !entry.data.draft);
+  return entries.map((entry) => ({ params: { slug: entry.id.slice(3) }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+---
+
+<WriteupView lang="ja" slug={Astro.params.slug!} entry={entry} />

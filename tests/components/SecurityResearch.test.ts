@@ -2,42 +2,41 @@ import { experimental_AstroContainer as AstroContainer } from 'astro/container';
 import { describe, expect, it } from 'vitest';
 import SecurityResearch from '../../src/components/SecurityResearch.astro';
 
+const baseProps = {
+  lang: 'ja' as const,
+  lead: 'リード文',
+  focus: [
+    { name: 'Android', detail: 'IPC' },
+    { name: 'Web & API', detail: 'auth' },
+    { name: 'AI Agents', detail: 'prompt injection' },
+  ],
+  steps: [
+    { label: 'Scope', text: '読む' },
+    { label: 'Reproduce', text: '再現する' },
+    { label: 'Report', text: '伝える' },
+  ],
+  hackerone: 'https://hackerone.com/haruka-kaya',
+};
+
 describe('SecurityResearch', () => {
-  it('renders the three focus areas', async () => {
+  it('renders focus areas, numbered steps, and the HackerOne link', async () => {
     const container = await AstroContainer.create();
-    const html = await container.renderToString(SecurityResearch, {
-      props: { hackerone: 'https://hackerone.com/haruka-kaya' },
-    });
+    const html = await container.renderToString(SecurityResearch, { props: baseProps });
 
+    expect(html).toContain('id="security"');
     expect(html).toContain('Android');
-    expect(html).toContain('Web &amp; API');
-    expect(html).toContain('AI Agents');
+    expect(html).toContain('prompt injection');
+    expect(html).toContain('03 areas');
+    expect(html).toContain('Reproduce');
+    expect(html).toContain(`href="${baseProps.hackerone}"`);
+    expect(html).toContain('Responsible disclosure');
   });
 
-  it('renders the research steps in order', async () => {
+  it('hides the HackerOne link when the URL is empty', async () => {
     const container = await AstroContainer.create();
-    const html = await container.renderToString(SecurityResearch, {
-      props: { hackerone: 'https://hackerone.com/haruka-kaya' },
-    });
+    const html = await container.renderToString(SecurityResearch, { props: { ...baseProps, lang: 'en', hackerone: '' } });
 
-    const scopeIndex = html.indexOf('Scope');
-    const reproduceIndex = html.indexOf('Reproduce');
-    const reportIndex = html.indexOf('Report');
-    expect(scopeIndex).toBeGreaterThan(-1);
-    expect(reproduceIndex).toBeGreaterThan(scopeIndex);
-    expect(reportIndex).toBeGreaterThan(reproduceIndex);
-  });
-
-  it('renders the HackerOne profile link only when provided', async () => {
-    const container = await AstroContainer.create();
-    const withLink = await container.renderToString(SecurityResearch, {
-      props: { hackerone: 'https://hackerone.com/haruka-kaya' },
-    });
-    const withoutLink = await container.renderToString(SecurityResearch, {
-      props: { hackerone: '' },
-    });
-
-    expect(withLink).toContain('href="https://hackerone.com/haruka-kaya"');
-    expect(withoutLink).not.toContain('hackerone.com');
+    expect(html).not.toContain('hackerone.com');
+    expect(html).toContain('Find the boundary');
   });
 });

@@ -1,0 +1,113 @@
+---
+import { formatDate, localizePath, useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  slug: string;
+  title: string;
+  summary: string;
+  date: Date;
+  category: string;
+  tags: string[];
+  readingMinutes: number;
+  featured?: boolean;
+}
+
+const { lang, slug, title, summary, date, category, tags, readingMinutes, featured = false } = Astro.props;
+const t = useTranslations(lang);
+const href = localizePath(`/writeups/${slug}`, lang);
+---
+
+<article class:list={['writeup-card', 'card', 'spot', { 'writeup-card--featured': featured }]}>
+  <a class="writeup-link" href={href} aria-label={title}></a>
+  <div class="writeup-meta mono">
+    <span class="writeup-category">{category}</span>
+    <time datetime={date.toISOString().slice(0, 10)}>{formatDate(date, lang)}</time>
+    <span>{t('writeups.readingTime', { n: readingMinutes })}</span>
+  </div>
+  <h3>{title}</h3>
+  <p>{summary}</p>
+  <div class="writeup-foot">
+    {tags.length > 0 && (
+      <ul class="writeup-tags" aria-label="Tags">
+        {tags.slice(0, 3).map((tag) => (
+          <li class="pill">{tag}</li>
+        ))}
+      </ul>
+    )}
+    <span class="text-link" aria-hidden="true">
+      {t('writeups.read')}
+      <span class="arrow">→</span>
+    </span>
+  </div>
+</article>
+
+<style>
+  .writeup-card {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    padding: clamp(1.4rem, 3vw, 2rem);
+  }
+
+  .writeup-card--featured {
+    border-color: color-mix(in srgb, var(--signal) 35%, var(--line));
+    background: linear-gradient(160deg, var(--signal-soft), transparent 55%), var(--surface);
+  }
+
+  .writeup-link {
+    position: absolute;
+    z-index: 2;
+    inset: 0;
+    border-radius: inherit;
+  }
+
+  .writeup-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+    margin-bottom: 1rem;
+    color: var(--muted);
+  }
+
+  .writeup-category {
+    color: var(--signal);
+  }
+
+  h3 {
+    font-size: clamp(1.2rem, 1.1rem + 0.5vw, 1.55rem);
+    line-height: 1.4;
+  }
+
+  .writeup-card--featured h3 {
+    font-size: clamp(1.4rem, 1.2rem + 1vw, 2.1rem);
+  }
+
+  p {
+    flex: 1;
+    margin: 0.8rem 0 1.4rem;
+    color: var(--muted);
+    line-height: 1.85;
+  }
+
+  .writeup-foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .writeup-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .writeup-card:hover .arrow {
+    transform: translateX(0.25rem);
+  }
+</style>

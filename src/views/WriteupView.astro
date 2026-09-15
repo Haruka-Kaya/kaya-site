@@ -1,0 +1,250 @@
+---
+import { render, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { hasWriteup, loadSiteContext, readingTime, absoluteUrl } from '../lib/site';
+import { alternateLang, formatDate, localizePath, useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  slug: string;
+  entry: CollectionEntry<'writeups'>;
+}
+
+const { lang, slug, entry } = Astro.props;
+const t = useTranslations(lang);
+const [{ settings }, hasAlternate, { Content, headings }] = await Promise.all([
+  loadSiteContext(lang),
+  hasWriteup(slug, alternateLang(lang)),
+  render(entry),
+]);
+
+const minutes = readingTime(entry.body ?? '');
+const pageTitle = `${entry.data.title} | ${settings.name}`;
+const path = `/writeups/${slug}`;
+const toc = headings.filter((heading) => heading.depth === 2);
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: entry.data.title,
+  description: entry.data.summary,
+  datePublished: entry.data.date.toISOString(),
+  inLanguage: lang,
+  author: { '@type': 'Person', name: settings.name, url: absoluteUrl(localizePath('/', lang), Astro.site, Astro.url.origin).toString() },
+  url: absoluteUrl(localizePath(path, lang), Astro.site, Astro.url.origin).toString(),
+  keywords: entry.data.tags.join(', '),
+};
+---
+
+<BaseLayout
+  lang={lang}
+  title={pageTitle}
+  description={entry.data.summary}
+  path={path}
+  alternatePath={hasAlternate ? path : '/writeups'}
+  ogType="article"
+  settings={settings}
+  progress
+>
+  <Fragment slot="head">
+    <meta property="article:published_time" content={entry.data.date.toISOString()} />
+    {entry.data.tags.map((tag) => <meta property="article:tag" content={tag} />)}
+    <script type="application/ld+json" set:html={JSON.stringify(articleSchema).replace(/</g, '\\u003c')} />
+  </Fragment>
+
+  <main id="main-content" class="post-page">
+    <article class="container post">
+      <a href={localizePath('/writeups', lang)} class="text-link back-link">
+        <span class="arrow arrow--back" aria-hidden="true">←</span>
+        {t('writeups.back')}
+      </a>
+
+      <header class="post-header">
+        <p class="post-meta mono">
+          <span class="post-category">{entry.data.category}</span>
+          <time datetime={entry.data.date.toISOString().slice(0, 10)}>{formatDate(entry.data.date, lang)}</time>
+          <span>{t('writeups.readingTime', { n: minutes })}</span>
+        </p>
+        <h1>{entry.data.title}</h1>
+        {entry.data.summary && <p class="post-summary display">{entry.data.summary}</p>}
+        {entry.data.tags.length > 0 && (
+          <ul class="post-tags" aria-label="Tags">
+            {entry.data.tags.map((tag) => (
+              <li class="pill">{tag}</li>
+            ))}
+          </ul>
+        )}
+      </header>
+
+      <div class="post-layout">
+        {toc.length > 1 && (
+          <nav class="toc" aria-label={lang === 'ja' ? '目次' : 'Table of contents'}>
+            <p class="mono toc-title">{lang === 'ja' ? '目次' : 'Contents'}</p>
+            <ul>
+              {toc.map((heading) => (
+                <li>
+                  <a href={`#${heading.slug}`}>{heading.text}</a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        )}
+
+        <div class="prose">
+          <Content />
+        </div>
+      </div>
+
+      <footer class="post-footer card spot" data-reveal>
+        <p>{lang === 'ja' ? 'ほかの記事も読む' : 'Read more writeups'}</p>
+        <a class="button button--secondary" href={localizePath('/writeups', lang)}>{t('writeups.all')}</a>
+      </footer>
+    </article>
+  </main>
+</BaseLayout>
+
+<style>
+  .post-page {
+    padding-block: clamp(2.5rem, 6vw, 5rem) clamp(3rem, 8vw, 6rem);
+  }
+
+  .post {
+    max-width: 64rem;
+  }
+
+  .back-link {
+    min-height: 2.75rem;
+  }
+
+  .arrow--back {
+    transition: transform 250ms var(--ease-out);
+  }
+
+  .back-link:hover .arrow--back {
+    transform: translateX(-0.25rem);
+  }
+
+  .post-header {
+    max-width: 46rem;
+    margin-top: 2rem;
+    animation: rise 700ms var(--ease-out) both;
+  }
+
+  .post-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+    margin-bottom: 1rem;
+    color: var(--muted);
+  }
+
+  .post-category {
+    color: var(--signal);
+  }
+
+  h1 {
+    font-size: clamp(1.9rem, 1.4rem + 2.4vw, 3.4rem);
+    line-height: 1.25;
+    letter-spacing: -0.03em;
+  }
+
+  .post-summary {
+    margin-top: 1.25rem;
+    color: var(--muted);
+    font-size: clamp(1.15rem, 1.05rem + 0.6vw, 1.5rem);
+    line-height: 1.6;
+  }
+
+  .post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 1.5rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .post-layout {
+    display: grid;
+    gap: 2.5rem;
+    margin-top: 3rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .prose {
+    min-width: 0;
+    max-width: 46rem;
+  }
+
+  .toc {
+    padding: 1.25rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    background: color-mix(in srgb, var(--surface) 80%, transparent);
+  }
+
+  .toc-title {
+    margin-bottom: 0.75rem;
+    color: var(--signal);
+  }
+
+  .toc ul {
+    display: grid;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0;
+    font-size: 0.9rem;
+    list-style: none;
+  }
+
+  .toc li {
+    padding-left: 0.85rem;
+    border-left: 2px solid var(--line);
+  }
+
+  .toc li:hover {
+    border-color: var(--signal);
+  }
+
+  .toc a {
+    color: var(--muted);
+    text-decoration: none;
+  }
+
+  .toc a:hover {
+    color: var(--signal);
+  }
+
+  .post-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    max-width: 46rem;
+    margin-top: 3.5rem;
+    padding: 1.5rem;
+  }
+
+  .post-footer p {
+    color: var(--muted);
+  }
+
+  @media (min-width: 60rem) {
+    .post-layout {
+      grid-template-columns: minmax(0, 1fr) 15rem;
+      align-items: start;
+    }
+
+    .toc {
+      position: sticky;
+      top: calc(var(--header-h) + 1.5rem);
+      order: 2;
+    }
+
+    .prose {
+      order: 1;
+    }
+  }
+</style>

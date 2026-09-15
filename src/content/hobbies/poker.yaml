@@ -1,6 +1,19 @@
-name: Poker
+name: ポーカー
+name_en: Poker
+description: ゲーム理論とGTO戦略を中心に学んでいます。TexasSolverで自分のレンジを検証しながら、ヘッズアップではsolverに近い意思決定ができることを目指しています。
+description_en: Studying poker through game theory and GTO strategy. I verify my hand ranges with TexasSolver and work toward solver-calibrated decisions in heads-up situations.
+detail: |-
+  単なるカードゲームとしてではなく、不完全情報ゲームにおける意思決定の問題として取り組んでいます。
+
+  TexasSolverをコンソールから呼び出すスクリプトを自作し、特定のボードでのレンジ構成を定期的に検証しています。PokerNowと連携したAI支援ツール（Flask + ブラウザuserscript）も作りました。
+
+  マルチウェイは組み合わせ爆発で原理的にsolverの解を出しにくいことも理解したうえで、ヘッズアップに絞って精度を上げています。
+detail_en: |-
+  I approach poker less as a card game and more as a decision-making problem under incomplete information.
+
+  I wrote scripts that drive TexasSolver from the console and regularly check my range construction on specific board textures. I also built an AI assistant that hooks into PokerNow (Flask plus a browser userscript).
+
+  Multiway spots are hard to solve in principle because of combinatorial explosion, so I focus on heads-up, where I can push accuracy further.
 icon: 🃏
-order: 12
-description: "ゲーム理論とGTO戦略を中心に学ぶポーカー。TexasSolverで自分のハンドレンジを検証しながら、ヘッズアップではsolver級の推奨と近い意思決定ができるレベルを目指している。"
-description_en: "Studying poker through game theory and GTO strategy. Using TexasSolver to verify hand ranges and working toward solver-calibrated decision-making in heads-up situations."
-detail: "単なるカードゲームとしてではなく、不完全情報ゲームにおける意思決定の問題として取り組んでいる。TexasSolverをコンソール駆動で呼び出すスクリプトを自作し、特定のボードテクスチャーでのレンジ構成を定期的に検証。PokerNow.clubと連携したAI支援ツール（Flask + ブラウザuserscript）も自作した。マルチウェイは組み合わせ爆発で原理的にsolver解が困難な点も理解したうえで、HU（ヘッズアップ）に絞って精度を上げている。"
+order: 7
+featured: false

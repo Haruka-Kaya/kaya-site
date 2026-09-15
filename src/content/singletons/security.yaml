@@ -1,0 +1,24 @@
+lead: |-
+  アプリやAPIを眺めて終わらず、どの権限から、どの入力で、どこまで影響が届くのかを追います。許可された範囲で再現し、確認できた事実と前提を分けて報告することを大切にしています。
+lead_en: |-
+  I do not stop at looking at an app or an API. I trace which permission, which input, and how far the impact reaches. I reproduce within authorized scope and report confirmed facts separately from assumptions.
+focus:
+  - name: Android
+    detail: IPC・exported components・permission boundaries
+    detail_en: IPC, exported components, permission boundaries
+  - name: Web & API
+    detail: authentication・tokens・access control
+    detail_en: Authentication, tokens, access control
+  - name: AI Agents
+    detail: prompt injection・tool authorization
+    detail_en: Prompt injection, tool authorization
+steps:
+  - label: Scope
+    text: ルールと対象範囲を読む
+    text_en: Read the rules and the scope first
+  - label: Reproduce
+    text: 前提を減らして再現する
+    text_en: Reproduce with as few assumptions as possible
+  - label: Report
+    text: 証拠と影響を分けて伝える
+    text_en: Separate evidence from impact in the report

@@ -1,11 +1,19 @@
 name: セキュリティとCTF
-description: Linuxの仕組みを追いかけるうちに、セキュリティにも興味が広がりました。HackerOneで報告したり、TryHackMeで問題を解いたりしながら学んでいます。
-description_en: Following questions about Linux led me into security. I learn by reporting findings through HackerOne and working through challenges on TryHackMe.
+name_en: Security & CTF
+description: Linuxの仕組みを追いかけるうちに、セキュリティにも興味が広がりました。HackerOneでスコープを確認しながら報告したり、TryHackMeで問題を解いたりしながら学んでいます。
+description_en: Following questions about Linux led me into security. I learn by reporting findings through HackerOne within each program's scope and by working through challenges on TryHackMe.
 detail: |-
   Linuxを触っていて「なぜこう動くんだろう」と調べ始めたことが、セキュリティに興味を持つきっかけでした。
 
-  いまはHackerOneのルールと対象範囲を確認しながら、実際のサービスで見つけた問題を報告しています。見落とされやすい境界や、仕組み同士のつながりを丁寧に追うのが好きです。
+  いまはHackerOneをメインプラットフォームに、プログラムのポリシーと対象範囲を読んだうえで、実際のサービスで見つけた問題を報告しています。挙動を小さく切り分け、確認できた事実、再現に必要な条件、まだ分からないことを分けて伝えるようにしています。調査を安全に進めるため、実行前にスコープを評価し、判断と証拠を監査ログに残す内部ツールも作っています。
 
-  TryHackMeやCTFにも取り組んでいます。まだ分からないことは多いですが、Web、リバースエンジニアリング、暗号などを横断しながら、少しずつ基礎を増やしています。
+  TryHackMeやCTFにはソロで取り組んでいます。Web、pwn、リバースエンジニアリング、暗号と、どれかに偏らず幅広く基礎を固めることを意識しています。まだ詰まることも多いですが、解けた瞬間の感覚はほかに代えがたく、実際の環境に出ていくためのトレーニングとして続けています。
+detail_en: |-
+  Security started for me with a simple question while using Linux: why does it behave this way? Looking for the answer pulled me in.
+
+  HackerOne is my main platform now. I read each program's policy and scope first, then report issues I find in real services. I break behavior down into small pieces and separate what I confirmed, what is needed to reproduce it, and what I still do not know. To keep research safe, I also build internal tooling that evaluates scope before execution and keeps decisions and evidence in an audit log.
+
+  I play TryHackMe and CTFs solo. Web, pwn, reverse engineering, crypto: I try to build broad fundamentals rather than lean on one category. I still get stuck often, but nothing quite matches the feeling of a solve, and it is the training ground for working in real environments.
 icon: 🔐
 order: 3
+featured: true

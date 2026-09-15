@@ -1,0 +1,14 @@
+---
+export const prerender = true;
+
+import HobbyView from '../../../views/HobbyView.astro';
+import { reader } from '../../../lib/site';
+import { langFromParam, prefixedLangPaths } from '../../../i18n/ui';
+
+export async function getStaticPaths() {
+  const slugs = await reader.collections.hobbies.list();
+  return prefixedLangPaths().flatMap(({ params }) => slugs.map((slug) => ({ params: { ...params, slug } })));
+}
+---
+
+<HobbyView lang={langFromParam(Astro.params.lang)} slug={Astro.params.slug!} />

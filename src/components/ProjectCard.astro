@@ -1,37 +1,47 @@
 ---
 import { formatIndex } from '../lib/site';
+import { useTranslations, type Lang } from '../i18n/ui';
 
 interface Props {
+  lang: Lang;
   name: string;
   description: string;
   url: string;
   tags: string[];
   number: number;
+  year?: string;
+  compact?: boolean;
 }
 
-const { name, description, url, tags, number } = Astro.props;
+const { lang, name, description, url, tags, number, year = '', compact = false } = Astro.props;
+const t = useTranslations(lang);
 ---
 
-<article class="project-card">
-  <div class="project-number" aria-hidden="true">{formatIndex(number)}</div>
+<article class:list={['project-card', 'card', 'spot', { 'project-card--compact': compact }]}>
+  <div class="project-meta">
+    <span class="project-number mono" aria-hidden="true">{formatIndex(number)}</span>
+    {year && <span class="project-year mono">{year}</span>}
+  </div>
   <div class="project-body">
     <h3>{name}</h3>
     <p>{description}</p>
     {tags.length > 0 && (
-      <ul class="project-tags" aria-label="使っている技術">
-        {tags.slice(0, 3).map((tag) => <li class="pill">{tag}</li>)}
+      <ul class="project-tags" aria-label={t('projects.stack')}>
+        {tags.slice(0, compact ? 3 : 5).map((tag) => (
+          <li class="pill">{tag}</li>
+        ))}
       </ul>
     )}
   </div>
   <div class="project-action">
     {url ? (
       <a href={url} target="_blank" rel="noopener noreferrer" class="text-link">
-        GitHubで見る
-        <span class="sr-only">（新しいタブで開きます）</span>
-        <span aria-hidden="true">↗</span>
+        {t('projects.github')}
+        <span class="arrow" aria-hidden="true">↗</span>
+        <span class="sr-only">{t('newTab')}</span>
       </a>
     ) : (
-      <span>内部プロジェクト</span>
+      <span class="mono">{t('projects.internal')}</span>
     )}
   </div>
 </article>
@@ -39,17 +49,19 @@ const { name, description, url, tags, number } = Astro.props;
 <style>
   .project-card {
     display: grid;
-    min-width: 0;
     gap: 1.25rem;
-    padding-block: 1.75rem;
-    border-top: 1px solid var(--line);
+    padding: clamp(1.4rem, 3vw, 2rem);
+  }
+
+  .project-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    color: var(--muted);
   }
 
   .project-number {
-    color: var(--accent-strong);
-    font-size: 0.9rem;
-    font-weight: 700;
-    font-variant-numeric: tabular-nums;
+    color: var(--signal);
   }
 
   .project-body {
@@ -57,25 +69,31 @@ const { name, description, url, tags, number } = Astro.props;
   }
 
   h3 {
-    margin: 0;
-    font-size: clamp(1.2rem, 1.1rem + 0.35vw, 1.5rem);
-    line-height: 1.45;
+    font-size: clamp(1.2rem, 1.1rem + 0.5vw, 1.6rem);
+    line-height: 1.35;
     overflow-wrap: anywhere;
   }
 
   p {
-    max-width: 38rem;
-    margin: 0.7rem 0 0;
+    max-width: 40rem;
+    margin-top: 0.7rem;
     color: var(--muted);
-    line-height: 1.8;
+    line-height: 1.85;
     overflow-wrap: anywhere;
+  }
+
+  .project-card--compact p {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
   }
 
   .project-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 0.45rem;
-    margin: 1rem 0 0;
+    margin: 1.1rem 0 0;
     padding: 0;
     list-style: none;
   }
@@ -86,20 +104,22 @@ const { name, description, url, tags, number } = Astro.props;
   }
 
   .project-action a {
-    display: inline-flex;
-    min-height: 2.75rem;
-    align-items: center;
-    gap: 0.4rem;
+    min-height: 2.5rem;
   }
 
   @media (min-width: 48rem) {
-    .project-card {
-      grid-template-columns: 2.5rem minmax(0, 1fr) 8.5rem;
+    .project-card:not(.project-card--compact) {
+      grid-template-columns: 5.5rem minmax(0, 1fr) 9rem;
       align-items: start;
       gap: 1.5rem;
     }
 
-    .project-action {
+    .project-card:not(.project-card--compact) .project-meta {
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .project-card:not(.project-card--compact) .project-action {
       justify-self: end;
       text-align: right;
     }

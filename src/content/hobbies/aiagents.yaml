@@ -1,4 +1,5 @@
 name: AIで作る
+name_en: Building with AI
 description: AIを会話相手だけでなく、アイデアを形にする道具として試しています。生活を少し楽にする仕組みを作っています。
 description_en: "I use AI as more than a chat partner: it is a tool for turning ideas into working things, including small systems that make daily life easier."
 detail: |-
@@ -7,5 +8,12 @@ detail: |-
   自由研究の話を聞いてレポートづくりを手伝う仕組み、予定やメールをまとめて扱う個人用ツールなどを作ってきました。
 
   便利さだけでなく、勝手な操作をしないことや、使う人に理由が伝わることも大切にしています。AIに任せる部分と、人が決める部分の境目を考えながら試作しています。
+detail_en: |-
+  I treat AI as a tool for testing my own ideas rather than something that just hands me answers.
+
+  I have built a system that listens to a child talk about their summer research project and helps turn it into a report, and personal tools that handle my calendar and email in one place.
+
+  Beyond convenience, I care that these tools never act on their own and that the person using them can see why something happened. Prototyping means constantly deciding where AI should act and where a human should decide.
 icon: 🤖
 order: 4
+featured: true

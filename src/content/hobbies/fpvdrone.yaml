@@ -1,11 +1,19 @@
 name: ドローン
-description: YouTubeでFPVの映像を見て、自分でも飛ばしたくなったのが始まりです。今は機体を組む時間も、旅先で空撮する時間も楽しんでいます。
-description_en: I got into drones after seeing FPV videos on YouTube. These days I enjoy both building my own quads and taking aerial photos while traveling.
+name_en: Drones
+description: YouTubeでFPVの映像を見て、自分でも飛ばしたくなったのが始まりです。今は機体を組む時間も、旅先でDJI Air 3Sで空撮する時間も楽しんでいます。
+description_en: I got into drones after seeing FPV videos on YouTube. These days I enjoy both building my own quads and shooting aerial photos with a DJI Air 3S while traveling.
 detail: |-
   YouTubeでFPVの映像を見ているうちに、自分でも飛ばしてみたくなりました。完成品を買うだけでは物足りなくて、フレームやモーターを選び、はんだ付けをして、設定まで自分で試したのが最初です。
 
   いまは小さな機体を気軽に飛ばしたり、防水仕様の機体を組んだりしています。思いどおりに飛んだ瞬間はもちろん、原因を探しながら直している時間も好きです。
 
-  旅に出るときはDJI Air 3Sも持っていきます。地上から見ていた景色が、空からだとまったく違って見えるところが面白いです。安全やルールを守って楽しめるよう、必要な登録や無線の資格も整えています。
+  旅に出るときはDJI Air 3Sも持っていきます。DIPSへの機体登録や飛行許可申請は自分で通し、ドローン保険にも加入したうえで飛ばしています。地上から見ていた景色が空からだとまったく違って見えるところ、地上では気づかなかった構造や模様が浮かび上がってくるところが面白いです。
+detail_en: |-
+  Watching FPV footage on YouTube made me want to fly myself. Buying a finished quad felt like missing the point, so I chose the frame and motors, soldered everything, and tuned the settings on my own. That was the start.
+
+  Now I fly small quads casually and build waterproof ones. I love the moment when a build flies exactly as intended, and I also enjoy the time spent tracking down why it does not.
+
+  When I travel I bring a DJI Air 3S. I handled the DIPS aircraft registration and flight permits myself and carry drone insurance. Seeing a familiar landscape from above, with structures and patterns you never notice on the ground, never gets old.
 icon: 🚁
 order: 1
+featured: true

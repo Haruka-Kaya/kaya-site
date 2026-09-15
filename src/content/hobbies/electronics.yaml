@@ -1,11 +1,19 @@
 name: Linux と電子工作
-description: Linuxを触ったり、Raspberry PiやESP32で小さなものを作ったりしています。思ったとおりに動かない時間も含めて好きです。
-description_en: I tinker with Linux and build small things with Raspberry Pi and ESP32 boards. I even enjoy the part where nothing works quite as expected.
+name_en: Linux & Electronics
+description: Debian・Ubuntu・Archを普段使いしながら、Raspberry PiやESP32で小さなものを作っています。思ったとおりに動かない時間も含めて好きです。
+description_en: I use Debian, Ubuntu, and Arch day to day, and build small things with Raspberry Pi and ESP32 boards. I even enjoy the part where nothing works quite as expected.
 detail: |-
-  Linuxを触り始めたことから、サーバーや小さなコンピューターにも興味が広がりました。DebianやUbuntuを普段使いしながら、最近はArch Linuxも少しずつ試しています。
+  Linuxを触り始めたことから、サーバーや小さなコンピューターにも興味が広がりました。DebianやUbuntuを普段使いしながら、最近はArch Linuxも少しずつ試しています。OSの内側への好奇心が出発点で、サーバー運用、ハードウェア制御、セキュリティ調査のすべてにLinuxが土台としてあります。
 
-  Raspberry Pi Zero 2 WをiPadから操作できる持ち歩き用端末にしたり、ESP32やM5Stackで無線を試したりしています。必要な部品を探して、配線して、動かなければまた調べる。その繰り返しが楽しいです。
+  自作のFlaskバックエンドは、さくらのレンタルサーバ（FreeBSD）でCGI方式で運用しています。JWT認証、SQLite、GitHub Actionsによる自動デプロイまで自分で組みました。以前はVPS上のCoolifyで動かしていましたが、コストを見直して移行しました。
 
-  ソフトウェアだけ、ハードウェアだけと分けずに、両方を行き来しながらひとつのものを動かすのが自分に合っています。
+  Raspberry Pi Zero 2 WをiPadから操作できる持ち歩き用端末にしたり、ESP32やM5Stackで無線を試したりもしています。DigiKeyで部品を探して、配線して、動かなければまた調べる。ソフトウェアとハードウェアを行き来しながらひとつのものを動かすのが、自分に合っています。
+detail_en: |-
+  Getting into Linux led me to servers and small computers. I use Debian and Ubuntu daily and have started exploring Arch Linux. Curiosity about how the OS works underneath is the starting point, and Linux is the foundation for everything from server operations to hardware control to security research.
+
+  I self-host a Flask backend on a Sakura shared server (FreeBSD) via CGI, with JWT authentication, SQLite, and automated deploys through GitHub Actions, all built by hand. It used to run on Coolify on a VPS before I moved it to cut costs.
+
+  I also turned a Raspberry Pi Zero 2 W into a portable terminal controlled from an iPad, and experiment with radio on ESP32 and M5Stack boards. Find the parts on DigiKey, wire them up, and go back to reading when it does not work. Moving between software and hardware to make one thing run is where I feel most at home.
 icon: 🔧
 order: 2
+featured: true
