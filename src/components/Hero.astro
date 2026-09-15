@@ -4,20 +4,28 @@ import { localizePath, useTranslations, type Lang } from '../i18n/ui';
 interface Props {
   lang: Lang;
   name: string;
+  altName: string;
   tagline: string;
   roles: string[];
   location: string;
-  avatar: string;
+  focus: string[];
   hackerone: string;
   github: string;
+  twitter: string;
 }
 
-const { lang, name, tagline, roles, location, avatar, hackerone, github } = Astro.props;
+const { lang, name, altName, tagline, roles, location, focus, hackerone, github, twitter } = Astro.props;
 const t = useTranslations(lang);
 const headline =
   lang === 'ja'
     ? ['仕組みの境界を、', 'つくって確かめる。']
     : ['Build the system.', 'Find where it breaks.'];
+
+const links = [
+  { label: 'HackerOne', href: hackerone },
+  { label: 'GitHub', href: github },
+  { label: 'X', href: twitter },
+].filter((link) => link.href);
 ---
 
 <section class="hero" aria-labelledby="hero-title">
@@ -61,20 +69,48 @@ const headline =
         <span class="orbit-ring orbit-ring--2"></span>
         <span class="orbit-dot"></span>
       </div>
-      <div class="portrait">
-        <img src={avatar} alt={lang === 'ja' ? `${name}のプロフィール画像` : `Portrait of ${name}`} width="420" height="420" loading="eager" fetchpriority="high" />
-        <span class="portrait-fallback" aria-hidden="true">HK</span>
+      <div class="id-card spot" aria-label={lang === 'ja' ? 'プロフィールカード' : 'Profile card'}>
+        <div class="id-card-head">
+          <span class="id-status mono">
+            <span class="id-status-dot" aria-hidden="true"></span>
+            {t('security.disclosure')}
+          </span>
+          <span class="id-mark mono" aria-hidden="true">HK</span>
+        </div>
+        <p class="id-name">{name}</p>
+        <p class="id-alt display">{altName}</p>
+        <dl class="id-rows">
+          {location && (
+            <div class="id-row">
+              <dt class="mono">{t('about.location')}</dt>
+              <dd>{location}</dd>
+            </div>
+          )}
+          {focus.length > 0 && (
+            <div class="id-row">
+              <dt class="mono">{t('security.focus')}</dt>
+              <dd>{focus.join(' / ')}</dd>
+            </div>
+          )}
+          {links.length > 0 && (
+            <div class="id-row">
+              <dt class="mono">Links</dt>
+              <dd class="id-links">
+                {links.map((link) => (
+                  <a href={link.href} target="_blank" rel="noopener noreferrer">
+                    {link.label}
+                    <span aria-hidden="true">↗</span>
+                    <span class="sr-only">{t('newTab')}</span>
+                  </a>
+                ))}
+              </dd>
+            </div>
+          )}
+        </dl>
+        <div class="id-strip" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
       </div>
-      <div class="portrait-tag">
-        <span class="portrait-tag-dot" aria-hidden="true"></span>
-        <span class="mono">{t('security.disclosure')}</span>
-      </div>
-      {github && (
-        <a class="portrait-link mono" href={github} target="_blank" rel="noopener noreferrer">
-          github.com/Haruka-Kaya
-          <span class="sr-only">{t('newTab')}</span>
-        </a>
-      )}
     </div>
   </div>
 
@@ -194,13 +230,14 @@ const headline =
 
   .hero-visual {
     position: relative;
-    width: min(100%, 22rem);
+    width: min(100%, 24rem);
     justify-self: center;
+    padding: 1.5rem;
   }
 
   .orbit {
     position: absolute;
-    inset: -12%;
+    inset: -8% -14%;
     pointer-events: none;
   }
 
@@ -209,17 +246,18 @@ const headline =
     inset: 0;
     border: 1px solid color-mix(in srgb, var(--signal) 35%, transparent);
     border-radius: 50%;
+    animation: spin-ring 40s linear infinite;
   }
 
   .orbit-ring--1 {
-    animation: spin 40s linear infinite;
     border-style: dashed;
   }
 
   .orbit-ring--2 {
     inset: 6%;
     border-color: color-mix(in srgb, var(--ink) 15%, transparent);
-    animation: spin 60s linear infinite reverse;
+    animation-duration: 60s;
+    animation-direction: reverse;
   }
 
   .orbit-dot {
@@ -251,73 +289,53 @@ const headline =
     }
   }
 
-  .orbit-ring--1,
-  .orbit-ring--2 {
-    animation-name: spin-ring;
-  }
-
   @keyframes spin-ring {
     to {
       transform: rotate(360deg);
     }
   }
 
-  .portrait {
+  .id-card {
     position: relative;
-    display: grid;
-    aspect-ratio: 1;
     overflow: hidden;
+    padding: 1.5rem;
     border: 1px solid var(--line-strong);
-    border-radius: 50%;
-    background: var(--surface-2);
-    box-shadow: var(--shadow), inset 0 0 0 0.5rem var(--bg);
+    border-radius: var(--radius-xl);
+    background: color-mix(in srgb, var(--surface) 82%, transparent);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    transform: rotate(-1.5deg);
+    transition: transform 600ms var(--ease-out), border-color 300ms var(--ease-out);
   }
 
-  .portrait img,
-  .portrait-fallback {
-    grid-area: 1 / 1;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    filter: saturate(0.9);
-    transition: transform 700ms var(--ease-out), filter 500ms var(--ease-out);
+  .id-card:hover {
+    border-color: color-mix(in srgb, var(--signal) 45%, var(--line-strong));
+    transform: rotate(0deg) translateY(-4px);
   }
 
-  .portrait:hover img {
-    transform: scale(1.04);
-    filter: saturate(1);
-  }
-
-  .portrait-fallback {
-    display: grid;
-    place-items: center;
-    color: var(--signal);
-    font-family: var(--font-mono);
-    font-size: 3rem;
-  }
-
-  .portrait img {
+  .id-card > * {
+    position: relative;
     z-index: 1;
-    background: var(--surface-2);
   }
 
-  .portrait-tag {
-    position: absolute;
-    right: -0.5rem;
-    bottom: 1.5rem;
+  .id-card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .id-status {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.45rem 0.85rem;
-    border: 1px solid var(--line-strong);
-    border-radius: 999px;
-    background: var(--header-bg);
-    color: var(--ink);
-    backdrop-filter: blur(10px);
-    animation: float 6s ease-in-out infinite;
+    color: var(--muted);
   }
 
-  .portrait-tag-dot {
+  .id-status-dot {
     width: 0.5rem;
     height: 0.5rem;
     border-radius: 50%;
@@ -325,17 +343,85 @@ const headline =
     animation: pulse 2.4s ease-out infinite;
   }
 
-  .portrait-link {
-    display: block;
-    margin-top: 1.5rem;
-    color: var(--muted);
-    text-align: center;
-    text-decoration: none;
-    text-transform: none;
+  .id-mark {
+    display: grid;
+    width: 2.25rem;
+    height: 2rem;
+    place-items: center;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-sm);
+    color: var(--signal);
   }
 
-  .portrait-link:hover {
+  .id-name {
+    margin-top: 1.25rem;
+    font-size: clamp(1.8rem, 1.5rem + 1.2vw, 2.4rem);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+  }
+
+  .id-alt {
+    margin-top: 0.15rem;
+    color: var(--muted);
+    font-size: 1.25rem;
+  }
+
+  .id-rows {
+    display: grid;
+    gap: 0.85rem;
+    margin: 1.5rem 0 0;
+  }
+
+  .id-row {
+    display: grid;
+    gap: 0.2rem;
+  }
+
+  .id-row dt {
     color: var(--signal);
+  }
+
+  .id-row dd {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .id-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 1rem;
+  }
+
+  .id-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    color: var(--ink);
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .id-links a:hover {
+    color: var(--signal);
+  }
+
+  .id-strip {
+    display: flex;
+    gap: 0.3rem;
+    margin-top: 1.5rem;
+  }
+
+  .id-strip span {
+    height: 0.35rem;
+    flex: 1;
+    border-radius: 999px;
+    background: var(--line);
+  }
+
+  .id-strip span:nth-child(-n + 2) {
+    background: var(--signal);
   }
 
   .scroll-cue {
@@ -380,12 +466,12 @@ const headline =
 
   @media (min-width: 54rem) {
     .hero-grid {
-      grid-template-columns: minmax(0, 1.4fr) minmax(18rem, 0.7fr);
+      grid-template-columns: minmax(0, 1.4fr) minmax(19rem, 0.7fr);
       gap: clamp(3rem, 7vw, 7rem);
     }
 
     .hero-visual {
-      width: min(100%, 24rem);
+      width: min(100%, 26rem);
       justify-self: end;
     }
 

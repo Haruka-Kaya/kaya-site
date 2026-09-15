@@ -1,7 +1,7 @@
 import { createReader } from '@keystatic/core/reader';
 import { getCollection } from 'astro:content';
 import keystaticConfig from '../../keystatic.config';
-import { pick, pickList, type Lang } from '../i18n/ui';
+import { alternateLang, pick, pickList, type Lang } from '../i18n/ui';
 
 export const reader = createReader(process.cwd(), keystaticConfig);
 
@@ -13,6 +13,7 @@ export function resolveSettings(settings: Settings, lang: Lang) {
   const name = pick(settings, 'name', lang) || settings.name;
   return {
     name,
+    altName: pick(settings, 'name', alternateLang(lang)) || settings.name,
     siteTitle: pick(settings, 'site_title', lang) || settings.site_title,
     github: settings.github ?? '',
     hackerone: settings.hackerone ?? '',
@@ -28,7 +29,6 @@ export function resolveAbout(about: AboutEntry, lang: Lang) {
     bio: pick(about, 'bio', lang),
     now: pick(about, 'now', lang),
     location: pick(about, 'location', lang),
-    avatar: about.avatar || '/avatar.png',
     highlights: about.highlights.map((item) => ({
       label: pick(item, 'label', lang),
       value: pick(item, 'value', lang),
