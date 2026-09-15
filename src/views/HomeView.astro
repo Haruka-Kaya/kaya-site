@@ -29,7 +29,7 @@ const personSchema = {
   '@type': 'Person',
   name: settings.name,
   url: absoluteUrl(localizePath('/', lang), Astro.site, Astro.url.origin).toString(),
-  image: about.avatar,
+  image: absoluteUrl(about.avatar, Astro.site, Astro.url.origin).toString(),
   jobTitle: about.roles[0] ?? 'Security researcher',
   sameAs: [settings.github, settings.twitter, settings.hackerone].filter(Boolean),
 };

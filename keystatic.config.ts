@@ -104,7 +104,7 @@ export default config({
         location_en: fields.text({ label: 'Location (English)' }),
         avatar: fields.text({
           label: 'Avatar URL',
-          description: '空欄でGitHubアバター使用',
+          description: '例: /avatar.png（public/ 内のファイル）または https:// から始まる画像URL。空欄で /avatar.png',
         }),
         highlights: fields.array(
           fields.object({

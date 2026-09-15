@@ -28,7 +28,7 @@ export function resolveAbout(about: AboutEntry, lang: Lang) {
     bio: pick(about, 'bio', lang),
     now: pick(about, 'now', lang),
     location: pick(about, 'location', lang),
-    avatar: about.avatar || 'https://github.com/Haruka-Kaya.png?size=420',
+    avatar: about.avatar || '/avatar.png',
     highlights: about.highlights.map((item) => ({
       label: pick(item, 'label', lang),
       value: pick(item, 'value', lang),
