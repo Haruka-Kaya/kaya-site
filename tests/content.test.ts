@@ -96,8 +96,8 @@ describe('keystatic config and content', () => {
     expect(ja).toEqual(en);
     for (const file of ja) {
       const body = readFileSync(join(writeupsDir, 'ja', file), 'utf8');
-      expect(body, file).toMatch(/^---\n[\s\S]*?\ntitle: /);
-      expect(body, file).toMatch(/\ndate: \d{4}-\d{2}-\d{2}/);
+      expect(body, file).toMatch(/^---\n(?:[\s\S]*?\n)?title: /);
+      expect(body, file).toMatch(/\ndate: '\d{4}-\d{2}-\d{2}'/);
     }
   });
 

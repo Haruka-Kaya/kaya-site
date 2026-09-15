@@ -2,7 +2,7 @@ import { experimental_AstroContainer as AstroContainer } from 'astro/container';
 import { describe, expect, it } from 'vitest';
 import WriteupsPage from '../../src/pages/writeups/index.astro';
 import WriteupPage, { getStaticPaths } from '../../src/pages/writeups/[slug].astro';
-import EnWriteupPage, { getStaticPaths as getEnStaticPaths } from '../../src/pages/[...lang]/writeups/[slug].astro';
+import EnWriteupPage, { getStaticPaths as getEnStaticPaths } from '../../src/pages/[lang]/writeups/[slug].astro';
 
 describe('writeups', () => {
   it('generates one path per published post in each locale', async () => {

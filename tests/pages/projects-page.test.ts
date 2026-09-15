@@ -2,7 +2,7 @@ import { experimental_AstroContainer as AstroContainer } from 'astro/container';
 import { createReader } from '@keystatic/core/reader';
 import { describe, expect, it } from 'vitest';
 import ProjectsPage from '../../src/pages/projects/index.astro';
-import EnProjectsPage from '../../src/pages/[...lang]/projects/index.astro';
+import EnProjectsPage from '../../src/pages/[lang]/projects/index.astro';
 import keystaticConfig from '../../keystatic.config';
 
 describe('projects page', () => {

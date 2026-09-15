@@ -7,7 +7,7 @@ import { langFromParam, prefixedLangPaths } from '../../../i18n/ui';
 
 export async function getStaticPaths() {
   const slugs = await reader.collections.hobbies.list();
-  return prefixedLangPaths.flatMap(({ params }) => slugs.map((slug) => ({ params: { ...params, slug } })));
+  return prefixedLangPaths().flatMap(({ params }) => slugs.map((slug) => ({ params: { ...params, slug } })));
 }
 ---
 

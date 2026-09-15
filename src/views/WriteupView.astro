@@ -80,13 +80,13 @@ const articleSchema = {
         {toc.length > 1 && (
           <nav class="toc" aria-label={lang === 'ja' ? '目次' : 'Table of contents'}>
             <p class="mono toc-title">{lang === 'ja' ? '目次' : 'Contents'}</p>
-            <ol>
+            <ul>
               {toc.map((heading) => (
                 <li>
                   <a href={`#${heading.slug}`}>{heading.text}</a>
                 </li>
               ))}
-            </ol>
+            </ul>
           </nav>
         )}
 
@@ -189,18 +189,22 @@ const articleSchema = {
     color: var(--signal);
   }
 
-  .toc ol {
+  .toc ul {
     display: grid;
-    gap: 0.4rem;
+    gap: 0.5rem;
     margin: 0;
-    padding-left: 1.2rem;
+    padding: 0;
     font-size: 0.9rem;
+    list-style: none;
   }
 
-  .toc li::marker {
-    color: var(--muted);
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
+  .toc li {
+    padding-left: 0.85rem;
+    border-left: 2px solid var(--line);
+  }
+
+  .toc li:hover {
+    border-color: var(--signal);
   }
 
   .toc a {

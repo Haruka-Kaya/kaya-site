@@ -2,7 +2,7 @@ import { experimental_AstroContainer as AstroContainer } from 'astro/container';
 import { createReader } from '@keystatic/core/reader';
 import { describe, expect, it } from 'vitest';
 import HobbyPage, { getStaticPaths } from '../../src/pages/hobbies/[slug].astro';
-import EnHobbyPage, { getStaticPaths as getEnStaticPaths } from '../../src/pages/[...lang]/hobbies/[slug].astro';
+import EnHobbyPage, { getStaticPaths as getEnStaticPaths } from '../../src/pages/[lang]/hobbies/[slug].astro';
 import keystaticConfig from '../../keystatic.config';
 
 describe('hobby page', () => {

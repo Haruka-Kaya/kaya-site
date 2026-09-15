@@ -1,4 +1,4 @@
-name: Agent Governance Toolkit（検証用フォーク）
+name: Agent Governance Toolkit
 description: "Microsoftが公開しているAIエージェント向けガバナンスツールキットを、学習と検証のためにフォークしています。"
 description_en: "A fork of Microsoft's Agent Governance Toolkit used for learning and evaluation."
 url: https://github.com/Haruka-Kaya/agent-governance-toolkit

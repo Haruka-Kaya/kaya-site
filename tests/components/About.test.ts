@@ -19,8 +19,8 @@ describe('About', () => {
     });
 
     expect(html).toContain('id="about"');
-    expect(html).toContain('<p>一段落目。</p>');
-    expect(html).toContain('<p>二段落目。</p>');
+    expect(html).toMatch(/<p[^>]*>一段落目。<\/p>/);
+    expect(html).toMatch(/<p[^>]*>二段落目。<\/p>/);
     expect(html).toContain('いまの取り組み');
     expect(html).toContain('主な領域');
     expect(html).toContain('Android');

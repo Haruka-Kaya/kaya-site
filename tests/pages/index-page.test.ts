@@ -1,7 +1,7 @@
 import { experimental_AstroContainer as AstroContainer } from 'astro/container';
 import { describe, expect, it } from 'vitest';
 import IndexPage from '../../src/pages/index.astro';
-import EnIndexPage, { getStaticPaths } from '../../src/pages/[...lang]/index.astro';
+import EnIndexPage, { getStaticPaths } from '../../src/pages/[lang]/index.astro';
 
 async function renderHome(lang: 'ja' | 'en') {
   const container = await AstroContainer.create();
@@ -40,7 +40,7 @@ describe('home page', () => {
     const html = await renderHome('ja');
 
     expect((html.match(/class="project-card/g) ?? []).length).toBe(4);
-    expect((html.match(/class="like-card/g) ?? []).length).toBe(6);
+    expect((html.match(/class="like-card /g) ?? []).length).toBe(6);
     expect((html.match(/class="writeup-card/g) ?? []).length).toBe(3);
     expect(html).toContain('writeup-card--featured');
   });

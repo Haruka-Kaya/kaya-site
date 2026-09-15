@@ -8,11 +8,8 @@ export default defineConfig({
   site: 'https://harukakaya.dev',
   output: 'server',
   adapter: vercel(),
-  i18n: {
-    defaultLocale: 'ja',
-    locales: ['ja', 'en'],
-    routing: 'manual',
-  },
+  // Keep the content-layer data store where the dev/vitest runtime reads it.
+  cacheDir: './.astro/',
   integrations: [
     react(),
     keystatic(),

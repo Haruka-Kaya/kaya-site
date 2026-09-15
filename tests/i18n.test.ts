@@ -26,7 +26,8 @@ describe('i18n helpers', () => {
     expect(langFromParam('')).toBe('ja');
     expect(langFromParam('en')).toBe('en');
     expect(() => langFromParam('fr')).toThrow();
-    expect(prefixedLangPaths).toEqual([{ params: { lang: 'en' } }]);
+    expect(prefixedLangPaths()).toEqual([{ params: { lang: 'en' } }]);
+    expect(prefixedLangPaths()).not.toBe(prefixedLangPaths());
     expect(alternateLang('ja')).toBe('en');
     expect(alternateLang('en')).toBe('ja');
   });

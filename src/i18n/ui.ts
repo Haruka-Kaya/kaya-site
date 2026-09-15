@@ -188,7 +188,7 @@ export function pickList(entry: Record<string, unknown>, field: string, lang: La
 }
 
 export const prefixedLocales = locales.filter((lang) => lang !== defaultLang);
-export const prefixedLangPaths = prefixedLocales.map((lang) => ({ params: { lang } }));
+export const prefixedLangPaths = () => prefixedLocales.map((lang) => ({ params: { lang } }));
 
 export function langFromParam(param: string | undefined): Lang {
   if (param === undefined || param === '') return defaultLang;
