@@ -102,10 +102,6 @@ export default config({
         now_en: en('いま取り組んでいること', true),
         location: fields.text({ label: 'Location（日本語）' }),
         location_en: fields.text({ label: 'Location (English)' }),
-        avatar: fields.text({
-          label: 'Avatar URL',
-          description: '例: /avatar.png（public/ 内のファイル）または https:// から始まる画像URL。空欄で /avatar.png',
-        }),
         highlights: fields.array(
           fields.object({
             label: fields.text({ label: 'ラベル（日本語）' }),

@@ -26,7 +26,6 @@ now_en: |-
   Researching permission boundaries in AI agents, with a focus on tool authorization and prompt injection. Alongside that, I am growing an internal platform for running research safely within authorized scope.
 location: 日本
 location_en: Japan
-avatar: /avatar.png
 highlights:
   - label: 主な領域
     label_en: Focus
