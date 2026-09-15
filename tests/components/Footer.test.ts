@@ -2,42 +2,37 @@ import { experimental_AstroContainer as AstroContainer } from 'astro/container';
 import { describe, expect, it } from 'vitest';
 import Footer from '../../src/components/Footer.astro';
 
-const baseProps = {
+const settings = {
   name: '賀屋 悠',
   github: 'https://github.com/Haruka-Kaya',
+  hackerone: 'https://hackerone.com/haruka-kaya',
   email: 'me@example.com',
   twitter: 'https://x.com/example',
-  hackerone: 'https://hackerone.com/haruka-kaya',
 };
 
 describe('Footer', () => {
-  it('renders all contact actions when every link is provided', async () => {
+  it('renders every contact action with external links opening in a new tab', async () => {
     const container = await AstroContainer.create();
-    const html = await container.renderToString(Footer, { props: baseProps });
+    const html = await container.renderToString(Footer, { props: { lang: 'ja', settings } });
 
-    expect(html).toContain(`href="${baseProps.hackerone}"`);
+    expect(html).toContain('id="contact"');
     expect(html).toContain('href="mailto:me@example.com"');
-    expect(html).toContain(`href="${baseProps.github}"`);
-    expect(html).toContain(`href="${baseProps.twitter}"`);
+    expect(html).toContain(`href="${settings.hackerone}"`);
+    expect(html).toContain(`href="${settings.github}"`);
+    expect(html).toContain(`href="${settings.twitter}"`);
+    expect((html.match(/rel="noopener noreferrer"/g) ?? []).length).toBe(3);
+    expect(html).toContain(String(new Date().getFullYear()));
   });
 
-  it('omits optional actions when links are missing', async () => {
+  it('omits actions whose settings are empty and translates copy', async () => {
     const container = await AstroContainer.create();
     const html = await container.renderToString(Footer, {
-      props: { name: '賀屋 悠', github: '', email: '', twitter: '', hackerone: '' },
+      props: { lang: 'en', settings: { ...settings, hackerone: '', twitter: '' } },
     });
 
-    expect(html).not.toContain('mailto:');
-    expect(html).not.toContain('HackerOneを見る');
-    expect(html).not.toContain('GitHubを見る');
-    expect(html).not.toContain('Xを見る');
-  });
-
-  it('renders the current year and name in the copyright line', async () => {
-    const container = await AstroContainer.create();
-    const html = await container.renderToString(Footer, { props: baseProps });
-
-    expect(html).toContain(`© ${new Date().getFullYear()}`);
-    expect(html).toContain('賀屋 悠');
+    expect(html).not.toContain('hackerone.com');
+    expect(html).not.toContain('x.com');
+    expect(html).toContain('Say hello.');
+    expect(html).toContain('Back to top');
   });
 });

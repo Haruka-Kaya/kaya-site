@@ -1,0 +1,179 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import About from '../components/About.astro';
+import SecurityResearch from '../components/SecurityResearch.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import Marquee from '../components/Marquee.astro';
+import WriteupCard from '../components/WriteupCard.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import HobbyCard from '../components/HobbyCard.astro';
+import { loadSiteContext, loadHobbies, loadProjects, loadWriteups, absoluteUrl } from '../lib/site';
+import { localizePath, useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const [{ settings, about, security }, hobbies, projects, writeups] = await Promise.all([
+  loadSiteContext(lang),
+  loadHobbies(lang, { featuredOnly: true }),
+  loadProjects(lang, { featuredOnly: true }),
+  loadWriteups(lang, { limit: 3 }),
+]);
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: settings.name,
+  url: absoluteUrl(localizePath('/', lang), Astro.site, Astro.url.origin).toString(),
+  image: about.avatar,
+  jobTitle: about.roles[0] ?? 'Security researcher',
+  sameAs: [settings.github, settings.twitter, settings.hackerone].filter(Boolean),
+};
+---
+
+<BaseLayout lang={lang} title={settings.siteTitle} description={about.tagline} path="/" ogType="profile" settings={settings}>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(personSchema).replace(/</g, '\\u003c')} />
+  </Fragment>
+
+  <main id="main-content">
+    <Hero
+      lang={lang}
+      name={settings.name}
+      tagline={about.tagline}
+      roles={about.roles}
+      location={about.location}
+      avatar={about.avatar}
+      hackerone={settings.hackerone}
+      github={settings.github}
+    />
+
+    {about.skills.length > 0 && <Marquee items={about.skills} label={lang === 'ja' ? 'キーワード' : 'Keywords'} />}
+
+    <About lang={lang} bio={about.bio} now={about.now} location={about.location} highlights={about.highlights} />
+
+    <SecurityResearch lang={lang} lead={security.lead} focus={security.focus} steps={security.steps} hackerone={settings.hackerone} />
+
+    <section id="writeups" class="section section--line" aria-labelledby="writeups-title">
+      <div class="container">
+        <SectionHeader id="writeups-title" eyebrow={t('writeups.eyebrow')} heading={t('writeups.heading')} intro={t('writeups.intro')}>
+          <a class="text-link" href={localizePath('/writeups', lang)}>
+            {t('writeups.all')}
+            <span class="arrow" aria-hidden="true">→</span>
+          </a>
+        </SectionHeader>
+
+        {writeups.length > 0 ? (
+          <div class="writeup-grid">
+            {writeups.map((post, index) => (
+              <div data-reveal style={`--reveal-delay: ${index * 90}ms`}>
+                <WriteupCard
+                  lang={lang}
+                  slug={post.slug}
+                  title={post.data.title}
+                  summary={post.data.summary}
+                  date={post.data.date}
+                  category={post.data.category}
+                  tags={post.data.tags}
+                  readingMinutes={post.readingMinutes}
+                  featured={index === 0}
+                />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p class="section-intro">{t('writeups.empty')}</p>
+        )}
+      </div>
+    </section>
+
+    <section id="projects" class="section section--line" aria-labelledby="projects-title">
+      <div class="container">
+        <SectionHeader id="projects-title" eyebrow={t('projects.eyebrow')} heading={t('projects.heading')} intro={t('projects.intro')}>
+          <a class="text-link" href={localizePath('/projects', lang)}>
+            {t('projects.all')}
+            <span class="arrow" aria-hidden="true">→</span>
+          </a>
+        </SectionHeader>
+
+        <div class="project-list">
+          {projects.map((item, index) => (
+            <div data-reveal style={`--reveal-delay: ${index * 70}ms`}>
+              <ProjectCard
+                lang={lang}
+                name={item.name}
+                description={item.description}
+                url={item.url}
+                tags={item.tags}
+                year={item.year}
+                number={index + 1}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section id="interests" class="section section--line" aria-labelledby="interests-title">
+      <div class="container">
+        <SectionHeader id="interests-title" eyebrow={t('interests.eyebrow')} heading={t('interests.heading')} intro={t('interests.intro')} />
+
+        <div class="likes-grid">
+          {hobbies.map((item, index) => (
+            <div class="like-item" data-reveal style={`--reveal-delay: ${(index % 3) * 90}ms`}>
+              <HobbyCard lang={lang} name={item.name} description={item.description} icon={item.icon} slug={item.slug} index={index + 1} />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .writeup-grid {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .project-list {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .likes-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+  }
+
+  .like-item {
+    min-width: 0;
+  }
+
+  @media (min-width: 40rem) {
+    .likes-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 56rem) {
+    .writeup-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .writeup-grid > :first-child {
+      grid-column: span 3;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .likes-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+</style>

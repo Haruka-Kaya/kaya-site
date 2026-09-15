@@ -1,5 +1,13 @@
 tagline: ものを作りながら、仕組みの境界を調べています。
 tagline_en: I build things and study where systems meet their boundaries.
+roles:
+  - セキュリティリサーチャー
+  - HackerOne
+  - ものづくり
+roles_en:
+  - Security researcher
+  - HackerOne
+  - Maker
 bio: |-
   仕組みが気になると、まず自分で触って確かめたくなる性格です。HackerOneでセキュリティを調べたり、FPVドローンを組んだり、Raspberry PiやESP32で遊んだりしています。
 
@@ -12,5 +20,46 @@ bio_en: |-
   My current security interests include Android, web APIs, and AI agents. I like tracing where permissions, inputs, and assumptions meet, then testing what actually happens within an authorized scope.
 
   Away from the screen, I enjoy the moment when a quad I built takes off, a radio link connects, or a small tool becomes useful to someone. I also enjoy skiing, aerial photography, and learning rope work.
-location: Japan
+now: |-
+  AIエージェントの権限境界（ツール実行の認可やプロンプトインジェクション）を中心に調査しています。あわせて、許可された範囲で安全に調査を進めるための内部基盤を育てています。
+now_en: |-
+  Researching permission boundaries in AI agents, with a focus on tool authorization and prompt injection. Alongside that, I am growing an internal platform for running research safely within authorized scope.
+location: 日本
+location_en: Japan
 avatar: https://github.com/Haruka-Kaya.png?size=420
+highlights:
+  - label: 主な領域
+    label_en: Focus
+    value: Android / Web・API / AIエージェント
+    value_en: Android / Web & API / AI agents
+  - label: プラットフォーム
+    label_en: Platform
+    value: HackerOne（Responsible disclosure）
+    value_en: HackerOne (responsible disclosure)
+  - label: 資格
+    label_en: Licenses
+    value: 第二級陸上特殊無線技士 / 第四級アマチュア無線技士
+    value_en: 2nd-class land special radio operator / 4th-class amateur radio
+  - label: 日常のOS
+    label_en: Daily OS
+    value: Debian / Ubuntu / Arch（入門中）
+    value_en: Debian / Ubuntu / Arch (learning)
+skills:
+  - Android
+  - Web & API
+  - AI Agents
+  - Prompt injection
+  - Tool authorization
+  - HackerOne
+  - TryHackMe
+  - Python
+  - TypeScript
+  - Flask
+  - Astro
+  - Linux
+  - Raspberry Pi
+  - ESP32
+  - Meshtastic
+  - FPV
+  - CNC
+  - Three.js

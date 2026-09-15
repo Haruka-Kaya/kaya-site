@@ -1,10 +1,19 @@
-name: Radio
-description: "第二級陸上特殊無線技士・第四級アマチュア無線技士取得。Meshtastic（LoRaメッシュ）を実験中。M5Stack CardputerなどESP32系のハックにも興味がある。"
-description_en: "Holds 2nd-class land special radio operator and 4th-class amateur radio licenses. Experimenting with Meshtastic (LoRa mesh networking). Interested in ESP32-based hacks with M5Stack Cardputer."
-detail: "第二級陸上特殊無線技士と第四級アマチュア無線技士を取得している。FPVのデジタルVTXを合法運用するために取り組み始めたが、気づいたら電波そのものが面白くなっていた。
+name: 無線
+name_en: Radio
+description: 第二級陸上特殊無線技士と第四級アマチュア無線技士を取得しています。Meshtastic（LoRaメッシュ）を実験中で、ESP32系のハックにも興味があります。
+description_en: I hold 2nd-class land special radio operator and 4th-class amateur radio licenses. Currently experimenting with Meshtastic (LoRa mesh networking) and ESP32-based hacks.
+detail: |-
+  第二級陸上特殊無線技士と第四級アマチュア無線技士を取得しています。FPVのデジタルVTXを合法的に運用するために取り組み始めましたが、気づいたら電波そのものが面白くなっていました。
 
-今探求しているのはMeshtastic──LoRaを使ったメッシュネットワーク。インターネット不要で長距離通信ができる仕組みで、災害時通信やオフグリッド運用の文脈で可能性が広い。
+  いま探求しているのはMeshtasticです。LoRaを使ったメッシュネットワークで、インターネットなしで長距離通信ができる仕組みは、災害時の通信やオフグリッド運用の文脈で可能性が広いと感じています。
 
-M5Stack CardputerというESP32ベースの超小型ハンドヘルドコンピュータにも興味があって、Radio関連のハックを試している。電波の仕組みを理解することで、FPVもドローン運用もより深く楽しめる。"
+  M5Stack CardputerのようなESP32ベースの小さなハンドヘルドでも無線まわりのハックを試しています。電波の仕組みを理解することで、FPVもドローン運用もより深く楽しめるようになりました。
+detail_en: |-
+  I hold a 2nd-class land special radio operator license and a 4th-class amateur radio license. I got them to run FPV digital video transmitters legally, and somewhere along the way radio itself became fascinating.
+
+  What I am exploring now is Meshtastic, a LoRa-based mesh network. Long-range communication with no internet has real potential in disaster response and off-grid use.
+
+  I also try radio-related hacks on small ESP32 handhelds like the M5Stack Cardputer. Understanding how radio works has made both FPV and drone operation far more enjoyable.
 icon: 📻
-order: 3
+order: 5
+featured: true

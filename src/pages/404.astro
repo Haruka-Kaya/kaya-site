@@ -1,0 +1,62 @@
+---
+export const prerender = true;
+
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { loadSiteContext } from '../lib/site';
+import { useTranslations } from '../i18n/ui';
+
+const lang = 'ja';
+const t = useTranslations(lang);
+const { settings } = await loadSiteContext(lang);
+---
+
+<BaseLayout lang={lang} title={`404 | ${settings.name}`} description={t('notFound.text')} path="/404" alternatePath={null} settings={settings}>
+  <main id="main-content" class="not-found">
+    <div class="container not-found-inner">
+      <p class="mono not-found-code">404</p>
+      <h1>{t('notFound.title')} <span class="display">/ {useTranslations('en')('notFound.title')}</span></h1>
+      <p class="section-intro">{t('notFound.text')}</p>
+      <div class="not-found-actions">
+        <a class="button button--primary" href="/">{t('notFound.home')}</a>
+        <a class="button button--secondary" href="/en/">{useTranslations('en')('notFound.home')}</a>
+      </div>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .not-found {
+    display: grid;
+    min-height: calc(100svh - var(--header-h));
+    place-items: center;
+    padding-block: 4rem;
+  }
+
+  .not-found-inner {
+    max-width: 40rem;
+    text-align: center;
+    animation: rise 700ms var(--ease-out) both;
+  }
+
+  .not-found-code {
+    color: var(--signal);
+    font-size: clamp(3rem, 10vw, 6rem);
+    letter-spacing: 0.1em;
+  }
+
+  h1 {
+    font-size: clamp(1.6rem, 1.2rem + 1.5vw, 2.4rem);
+  }
+
+  .section-intro {
+    margin-inline: auto;
+  }
+
+  .not-found-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
+</style>

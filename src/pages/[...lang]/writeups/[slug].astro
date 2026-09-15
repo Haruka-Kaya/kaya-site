@@ -1,0 +1,22 @@
+---
+export const prerender = true;
+
+import { getCollection } from 'astro:content';
+import WriteupView from '../../../views/WriteupView.astro';
+import { langFromParam, prefixedLocales } from '../../../i18n/ui';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('writeups', (entry) => !entry.data.draft);
+  return entries
+    .map((entry) => {
+      const [lang, ...rest] = entry.id.split('/');
+      return { lang, slug: rest.join('/'), entry };
+    })
+    .filter(({ lang }) => (prefixedLocales as readonly string[]).includes(lang))
+    .map(({ lang, slug, entry }) => ({ params: { lang, slug }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+---
+
+<WriteupView lang={langFromParam(Astro.params.lang)} slug={Astro.params.slug!} entry={entry} />

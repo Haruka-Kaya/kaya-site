@@ -3,47 +3,38 @@ import { describe, expect, it } from 'vitest';
 import Hero from '../../src/components/Hero.astro';
 
 const baseProps = {
+  lang: 'ja' as const,
   name: '賀屋 悠',
-  tagline: 'ドローンとLinuxが好き',
-  avatar: 'https://github.com/Haruka-Kaya.png?size=420',
+  tagline: 'ものを作りながら、仕組みの境界を調べています。',
+  roles: ['セキュリティリサーチャー', 'HackerOne'],
+  location: '日本',
+  avatar: 'https://example.com/avatar.png',
   hackerone: 'https://hackerone.com/haruka-kaya',
+  github: 'https://github.com/Haruka-Kaya',
 };
 
 describe('Hero', () => {
-  it('renders the name and tagline', async () => {
+  it('renders the name, tagline, roles, and constellation canvas', async () => {
     const container = await AstroContainer.create();
     const html = await container.renderToString(Hero, { props: baseProps });
 
     expect(html).toContain('賀屋 悠');
-    expect(html).toContain('ドローンとLinuxが好き');
-  });
-
-  it('renders the avatar image with accessible alt text', async () => {
-    const container = await AstroContainer.create();
-    const html = await container.renderToString(Hero, { props: baseProps });
-
+    expect(html).toContain(baseProps.tagline);
+    expect(html).toContain('セキュリティリサーチャー');
+    expect(html).toContain('日本');
+    expect(html).toContain('data-constellation');
     expect(html).toContain(`src="${baseProps.avatar}"`);
-    expect(html).toContain('alt="賀屋 悠のプロフィール画像"');
+    expect(html).toContain('href="/writeups"');
+    expect(html).toContain(`href="${baseProps.hackerone}"`);
   });
 
-  it('falls back to an initial when no avatar is set', async () => {
+  it('renders English copy and localized links', async () => {
     const container = await AstroContainer.create();
-    const html = await container.renderToString(Hero, {
-      props: { ...baseProps, avatar: '' },
-    });
+    const html = await container.renderToString(Hero, { props: { ...baseProps, lang: 'en', hackerone: '' } });
 
-    expect(html).not.toContain('<img');
-    expect(html).toContain('profile-initial');
-  });
-
-  it('renders the HackerOne button only when a link is provided', async () => {
-    const container = await AstroContainer.create();
-    const withLink = await container.renderToString(Hero, { props: baseProps });
-    const withoutLink = await container.renderToString(Hero, {
-      props: { ...baseProps, hackerone: undefined },
-    });
-
-    expect(withLink).toContain(`href="${baseProps.hackerone}"`);
-    expect(withoutLink).not.toContain('hackerone.com');
+    expect(html).toContain('Read writeups');
+    expect(html).toContain('href="/en/writeups"');
+    expect(html).toContain('Find where it breaks.');
+    expect(html).not.toContain('hackerone.com');
   });
 });

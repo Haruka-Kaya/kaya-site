@@ -1,77 +1,161 @@
 ---
+import { useTranslations, type Lang } from '../i18n/ui';
+
 interface Props {
+  lang: Lang;
   bio: string;
+  now: string;
   location: string;
+  highlights: Array<{ label: string; value: string }>;
 }
 
-const { bio, location } = Astro.props;
+const { lang, bio, now, location, highlights } = Astro.props;
+const t = useTranslations(lang);
+const paragraphs = bio.split(/\n\s*\n/).filter(Boolean);
 ---
 
-<section id="about" class="about" aria-labelledby="about-title">
+<section id="about" class="section about" aria-labelledby="about-title">
   <div class="container about-grid">
-    <div>
-      <p class="eyebrow">わたしのこと</p>
-      <h2 id="about-title" class="section-heading">作る目と、壊れ方を見る目。</h2>
+    <div class="about-head" data-reveal>
+      <p class="eyebrow">{t('about.eyebrow')}</p>
+      <h2 id="about-title" class="section-heading">{t('about.heading')}</h2>
+      {location && (
+        <p class="about-location">
+          <span class="mono">{t('about.location')}</span>
+          <span>{location}</span>
+        </p>
+      )}
     </div>
 
-    <div class="about-copy">
-      <p>{bio}</p>
-      {location && (
-        <p class="location">
-          {location} にいます
-        </p>
+    <div class="about-body">
+      <div class="about-bio" data-reveal style="--reveal-delay: 80ms">
+        {paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+      </div>
+
+      <dl class="about-facts">
+        {highlights.map((item, index) => (
+          <div class="fact card spot" data-reveal style={`--reveal-delay: ${120 + index * 70}ms`}>
+            <dt class="mono">{item.label}</dt>
+            <dd>{item.value}</dd>
+          </div>
+        ))}
+      </dl>
+
+      {now && (
+        <aside class="about-now card spot" data-reveal style="--reveal-delay: 160ms" aria-labelledby="now-title">
+          <p class="now-label" id="now-title">
+            <span class="now-dot" aria-hidden="true"></span>
+            <span class="mono">{t('about.now')}</span>
+          </p>
+          <p class="now-text">{now}</p>
+        </aside>
       )}
     </div>
   </div>
 </section>
 
 <style>
-  .about {
-    padding-block: clamp(4.5rem, 9vw, 7.5rem);
-    border-block: 1px solid var(--line);
-    background: var(--paper);
-  }
-
   .about-grid {
     display: grid;
-    gap: 2.5rem;
+    gap: 3rem;
   }
 
-  .about-copy {
-    max-width: 42rem;
-  }
-
-  .about-copy > p:first-child {
-    margin: 0;
-    white-space: pre-line;
-    font-size: clamp(1.05rem, 1rem + 0.25vw, 1.2rem);
-    line-height: 2;
-  }
-
-  .location {
+  .about-location {
     display: inline-flex;
     align-items: center;
-    gap: 0.55rem;
-    margin: 1.75rem 0 0;
-    padding: 0.45rem 0.75rem;
-    border: 1px solid var(--line);
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    padding: 0.5rem 0.9rem;
+    border: 1px solid var(--line-strong);
     border-radius: 999px;
     color: var(--muted);
     font-size: 0.9rem;
   }
 
-  .location::before {
-    width: 0.45rem;
-    height: 0.45rem;
-    border-radius: 50%;
-    background: var(--accent);
-    content: "";
+  .about-location .mono {
+    color: var(--signal);
   }
 
-  @media (min-width: 48rem) {
+  .about-body {
+    display: grid;
+    gap: 2.5rem;
+  }
+
+  .about-bio {
+    display: grid;
+    gap: 1.25rem;
+    max-width: 44rem;
+    font-size: clamp(1.05rem, 1rem + 0.3vw, 1.2rem);
+    line-height: 2;
+  }
+
+  .about-bio p:first-child::first-letter {
+    color: var(--signal);
+  }
+
+  .about-facts {
+    display: grid;
+    gap: 0.75rem;
+    margin: 0;
+  }
+
+  .fact {
+    padding: 1.1rem 1.25rem;
+  }
+
+  .fact dt {
+    margin-bottom: 0.35rem;
+    color: var(--signal);
+  }
+
+  .fact dd {
+    margin: 0;
+    font-weight: 500;
+    line-height: 1.6;
+  }
+
+  .about-now {
+    padding: 1.5rem;
+    border-color: color-mix(in srgb, var(--signal) 35%, var(--line));
+    background: linear-gradient(135deg, var(--signal-soft), transparent 60%), var(--surface);
+  }
+
+  .now-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.75rem;
+    color: var(--signal);
+  }
+
+  .now-dot {
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+    background: var(--signal);
+    animation: pulse 2.4s ease-out infinite;
+  }
+
+  .now-text {
+    line-height: 1.9;
+  }
+
+  @media (min-width: 40rem) {
+    .about-facts {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 60rem) {
     .about-grid {
-      grid-template-columns: minmax(14rem, 0.7fr) minmax(0, 1.3fr);
+      grid-template-columns: minmax(16rem, 0.75fr) minmax(0, 1.25fr);
       gap: clamp(3rem, 8vw, 8rem);
+    }
+
+    .about-head {
+      position: sticky;
+      top: calc(var(--header-h) + 2rem);
+      align-self: start;
     }
   }
 </style>

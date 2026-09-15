@@ -3,36 +3,33 @@ import { describe, expect, it } from 'vitest';
 import HobbyCard from '../../src/components/HobbyCard.astro';
 
 const baseProps = {
-  name: 'FPVドローン',
-  description: '空を飛ばして遊ぶ',
+  lang: 'ja' as const,
+  name: 'ドローン',
+  description: '説明文',
   icon: '🚁',
   slug: 'fpvdrone',
-  index: 1,
+  index: 2,
 };
 
 describe('HobbyCard', () => {
-  it('renders name, description, and icon', async () => {
+  it('renders the icon, name, description, and zero-padded index', async () => {
     const container = await AstroContainer.create();
     const html = await container.renderToString(HobbyCard, { props: baseProps });
 
-    expect(html).toContain('FPVドローン');
-    expect(html).toContain('空を飛ばして遊ぶ');
     expect(html).toContain('🚁');
+    expect(html).toContain('ドローン');
+    expect(html).toContain('説明文');
+    expect(html).toContain('02');
+    expect(html).toContain('もう少し詳しく');
   });
 
-  it('links to the hobby detail page by slug', async () => {
+  it('links to the localized hobby page', async () => {
     const container = await AstroContainer.create();
-    const html = await container.renderToString(HobbyCard, { props: baseProps });
+    const ja = await container.renderToString(HobbyCard, { props: baseProps });
+    const en = await container.renderToString(HobbyCard, { props: { ...baseProps, lang: 'en', name: 'Drones' } });
 
-    expect(html).toContain('href="/hobbies/fpvdrone"');
-  });
-
-  it('zero-pads the index number', async () => {
-    const container = await AstroContainer.create();
-    const html = await container.renderToString(HobbyCard, {
-      props: { ...baseProps, index: 7 },
-    });
-
-    expect(html).toContain('07');
+    expect(ja).toContain('href="/hobbies/fpvdrone"');
+    expect(en).toContain('href="/en/hobbies/fpvdrone"');
+    expect(en).toContain('Read more');
   });
 });

@@ -1,7 +1,9 @@
 ---
 import { formatIndex } from '../lib/site';
+import { localizePath, useTranslations, type Lang } from '../i18n/ui';
 
 interface Props {
+  lang: Lang;
   name: string;
   description: string;
   icon: string;
@@ -9,19 +11,23 @@ interface Props {
   index: number;
 }
 
-const { name, description, icon, slug, index } = Astro.props;
+const { lang, name, description, icon, slug, index } = Astro.props;
+const t = useTranslations(lang);
+const href = localizePath(`/hobbies/${slug}`, lang);
 ---
 
-<article class="like-card">
+<article class="like-card card spot">
+  <a class="like-card-link" href={href} aria-label={name}></a>
   <div class="like-card-top">
     <span class="like-icon" aria-hidden="true">{icon}</span>
-    <span class="like-number" aria-hidden="true">{formatIndex(index)}</span>
+    <span class="like-number mono" aria-hidden="true">{formatIndex(index)}</span>
   </div>
   <h3>{name}</h3>
   <p>{description}</p>
-  <a href={`/hobbies/${slug}`} class="text-link">
-    もう少し詳しく
-  </a>
+  <span class="text-link" aria-hidden="true">
+    {t('interests.more')}
+    <span class="arrow">→</span>
+  </span>
 </article>
 
 <style>
@@ -31,9 +37,13 @@ const { name, description, icon, slug, index } = Astro.props;
     height: 100%;
     flex-direction: column;
     padding: clamp(1.35rem, 3vw, 1.8rem);
-    border: 1px solid var(--line);
-    border-radius: var(--radius-xl);
-    background: var(--paper);
+  }
+
+  .like-card-link {
+    position: absolute;
+    z-index: 2;
+    inset: 0;
+    border-radius: inherit;
   }
 
   .like-card-top {
@@ -49,44 +59,37 @@ const { name, description, icon, slug, index } = Astro.props;
     width: 3.25rem;
     height: 3.25rem;
     place-items: center;
+    border: 1px solid var(--line-strong);
     border-radius: var(--radius-lg);
-    background: var(--accent-soft);
-    font-size: 1.45rem;
+    background: var(--surface-2);
+    font-size: 1.5rem;
+    transition: transform 400ms var(--ease-out), border-color 300ms var(--ease-out);
+  }
+
+  .like-card:hover .like-icon {
+    border-color: var(--signal);
+    transform: rotate(-8deg) scale(1.08);
   }
 
   .like-number {
     color: var(--muted);
-    font-size: 0.875rem;
-    font-variant-numeric: tabular-nums;
   }
 
   h3 {
-    margin: 0;
     font-size: 1.2rem;
     line-height: 1.5;
   }
 
   p {
     flex: 1;
-    margin: 0.8rem 0 1.25rem;
+    margin: 0.75rem 0 1.25rem;
     color: var(--muted);
     font-size: 0.95rem;
     line-height: 1.8;
     overflow-wrap: anywhere;
   }
 
-  a {
-    align-self: flex-start;
-    min-height: 2.75rem;
-    align-items: center;
-    gap: 0.4rem;
-  }
-
-  .text-link {
-    display: inline-flex;
-  }
-
-  .text-link::after {
-    content: "→";
+  .like-card:hover .arrow {
+    transform: translateX(0.25rem);
   }
 </style>

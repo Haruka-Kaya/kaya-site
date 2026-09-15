@@ -1,11 +1,19 @@
 name: スキーとロープ
-description: スキーを長く続けています。最近はロープワークも練習していて、いつかアイスクライミングに挑戦したいです。
-description_en: I have been skiing for years. Lately I have also been practicing rope work, with the hope of trying ice climbing someday.
+name_en: Skiing & Rope Work
+description: スキーは12年ほど続けています。最近はセミスタティックロープの基本システムも練習していて、いつかアイスクライミングに挑戦したいです。
+description_en: I have been skiing for about twelve years. Lately I have also been practicing semi-static rope systems, with the hope of trying ice climbing someday.
 detail: |-
   スキーは12年ほど続けています。最初は家族旅行で滑ることが中心でしたが、いまでは冬に外へ出る楽しみのひとつになりました。
 
-  最近はセミスタティックロープを使った基本的な上り下りや、レスキューを想定したシステムも練習しています。安全を確認しながら、ひとつずつ手順を身につけているところです。
+  最近は資格取得前の学習として、セミスタティックロープを使った基本的な上り下りや、レスキューを想定したシステムを練習しています。荷重、下降、引き上げの仕組みを、安全を確認しながらひとつずつ身につけているところです。
 
-  いつかアイスクライミングにも挑戦してみたいと思っています。スキーからロープへ、興味が少しずつつながっていくのが面白いです。
+  いつかアイスクライミングにも挑戦してみたいと思っています。スキーからロープへ、山と垂直方向の空間への興味が少しずつつながっていくのが面白いです。
+detail_en: |-
+  I have been skiing for around twelve years. It started as something we did on family trips, and it has become one of the things I look forward to every winter.
+
+  Recently, as preparation for formal qualifications, I have been practicing basic ascent and descent on semi-static rope and rescue-oriented systems. Loading, descending, hauling: I am learning each piece step by step while checking safety as I go.
+
+  Someday I want to try ice climbing. From skiing to rope, it is fun to watch an interest in mountains and vertical space keep connecting to the next thing.
 icon: ⛷️
-order: 5
+order: 6
+featured: true

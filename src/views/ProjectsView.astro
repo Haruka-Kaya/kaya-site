@@ -1,0 +1,92 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { loadProjects, loadSiteContext } from '../lib/site';
+import { localizePath, useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const [{ settings }, projects] = await Promise.all([loadSiteContext(lang), loadProjects(lang)]);
+const pageTitle = `${t('projects.eyebrow')} | ${settings.name}`;
+---
+
+<BaseLayout lang={lang} title={pageTitle} description={t('projects.intro')} path="/projects" settings={settings}>
+  <main id="main-content" class="list-page">
+    <div class="container">
+      <a href={localizePath('/', lang)} class="text-link back-link">
+        <span class="arrow arrow--back" aria-hidden="true">←</span>
+        {t('projects.back')}
+      </a>
+      <header class="page-header">
+        <p class="eyebrow">{t('projects.eyebrow')}</p>
+        <h1 class="section-heading">{t('projects.heading')}</h1>
+        <p class="section-intro">{t('projects.intro')}</p>
+        <p class="count mono">{projects.length} projects</p>
+      </header>
+
+      <div class="project-grid">
+        {projects.map((item, index) => (
+          <div data-reveal style={`--reveal-delay: ${(index % 2) * 90}ms`}>
+            <ProjectCard
+              lang={lang}
+              name={item.name}
+              description={item.description}
+              url={item.url}
+              tags={item.tags}
+              year={item.year}
+              number={index + 1}
+              compact
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .list-page {
+    padding-block: clamp(2.5rem, 6vw, 5rem) clamp(3rem, 8vw, 6rem);
+  }
+
+  .back-link {
+    min-height: 2.75rem;
+  }
+
+  .arrow--back {
+    transition: transform 250ms var(--ease-out);
+  }
+
+  .back-link:hover .arrow--back {
+    transform: translateX(-0.25rem);
+  }
+
+  .page-header {
+    margin: 2rem 0 3rem;
+    animation: rise 700ms var(--ease-out) both;
+  }
+
+  .count {
+    margin-top: 1.25rem;
+    color: var(--signal);
+  }
+
+  .project-grid {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .project-grid > * {
+    min-width: 0;
+  }
+
+  @media (min-width: 48rem) {
+    .project-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>

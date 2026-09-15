@@ -7,4 +7,6 @@ tags:
   - Raspberry Pi
   - Kali Linux
   - Security
-featured: false
+featured: true
+order: 4
+year: '2024'

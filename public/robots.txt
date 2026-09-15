@@ -1,4 +1,5 @@
 User-agent: *
 Disallow: /keystatic/
+Disallow: /api/keystatic/
 
 Sitemap: https://harukakaya.dev/sitemap-index.xml

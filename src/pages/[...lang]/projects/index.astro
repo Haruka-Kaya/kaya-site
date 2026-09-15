@@ -1,0 +1,12 @@
+---
+export const prerender = true;
+
+import ProjectsView from '../../../views/ProjectsView.astro';
+import { langFromParam, prefixedLangPaths } from '../../../i18n/ui';
+
+export function getStaticPaths() {
+  return prefixedLangPaths;
+}
+---
+
+<ProjectsView lang={langFromParam(Astro.params.lang)} />

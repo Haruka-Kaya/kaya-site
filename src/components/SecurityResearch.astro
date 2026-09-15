@@ -1,95 +1,87 @@
 ---
 import { formatIndex } from '../lib/site';
+import { useTranslations, type Lang } from '../i18n/ui';
 
 interface Props {
-  hackerone?: string;
+  lang: Lang;
+  lead: string;
+  focus: Array<{ name: string; detail: string }>;
+  steps: Array<{ label: string; text: string }>;
+  hackerone: string;
 }
 
-const { hackerone } = Astro.props;
-
-const focusAreas = [
-  {
-    number: '01',
-    name: 'Android',
-    detail: 'IPC・exported components・permission boundaries',
-  },
-  {
-    number: '02',
-    name: 'Web & API',
-    detail: 'authentication・tokens・access control',
-  },
-  {
-    number: '03',
-    name: 'AI Agents',
-    detail: 'prompt injection・tool authorization',
-  },
-];
-
-const researchSteps = [
-  { label: 'Scope', text: 'ルールと対象範囲を読む' },
-  { label: 'Reproduce', text: '前提を減らして再現する' },
-  { label: 'Report', text: '証拠と影響を分けて伝える' },
-];
+const { lang, lead, focus, steps, hackerone } = Astro.props;
+const t = useTranslations(lang);
 ---
 
-<section id="security" class="security" aria-labelledby="security-title">
+<section id="security" class="section security" aria-labelledby="security-title">
+  <div class="security-bg" aria-hidden="true"></div>
   <div class="container security-grid">
     <div class="security-copy">
-      <p class="security-eyebrow"><span aria-hidden="true"></span> Security research</p>
-      <h2 id="security-title">境界を見つけ、<br />再現して確かめる。</h2>
-      <p class="security-lead">
-        アプリやAPIを眺めて終わらず、どの権限から、どの入力で、どこまで影響が届くのかを追います。
-        許可された範囲で再現し、確認できた事実と前提を分けて報告することを大切にしています。
-      </p>
+      <div data-reveal>
+        <p class="eyebrow">{t('security.eyebrow')}</p>
+        <h2 id="security-title" class="section-heading">{t('security.heading')}</h2>
+        <p class="security-lead">{lead}</p>
+      </div>
 
-      <ol class="research-steps" aria-label="調査で大切にしていること">
-        {researchSteps.map((step, index) => (
-          <li>
-            <span class="step-number" aria-hidden="true">{formatIndex(index + 1)}</span>
-            <span><strong>{step.label}</strong>{step.text}</span>
+      <ol class="research-steps" aria-label={t('security.process')}>
+        {steps.map((step, index) => (
+          <li data-reveal style={`--reveal-delay: ${index * 90}ms`}>
+            <span class="step-number mono" aria-hidden="true">{formatIndex(index + 1)}</span>
+            <span class="step-body">
+              <strong class="mono">{step.label}</strong>
+              <span>{step.text}</span>
+            </span>
           </li>
         ))}
       </ol>
 
       {hackerone && (
-        <a class="security-link" href={hackerone} target="_blank" rel="noopener noreferrer">
-          HackerOneのプロフィールを見る
-          <span aria-hidden="true">↗</span>
-          <span class="sr-only">（新しいタブで開きます）</span>
+        <a class="text-link security-link" href={hackerone} target="_blank" rel="noopener noreferrer" data-reveal>
+          {t('security.hackerone')}
+          <span class="arrow" aria-hidden="true">↗</span>
+          <span class="sr-only">{t('newTab')}</span>
         </a>
       )}
     </div>
 
-    <section class="research-board" aria-labelledby="focus-title">
-      <div class="board-header">
-        <h3 id="focus-title">Current focus</h3>
-        <span>03 areas</span>
+    <div class="research-board card spot" data-reveal="scale" style="--reveal-delay: 150ms" aria-labelledby="focus-title">
+      <div class="board-header mono">
+        <h3 id="focus-title">{t('security.focus')}</h3>
+        <span>{formatIndex(focus.length)} {t('security.areas')}</span>
       </div>
       <ul class="focus-list">
-        {focusAreas.map((area) => (
+        {focus.map((area, index) => (
           <li>
-            <span class="focus-number" aria-hidden="true">{area.number}</span>
+            <span class="focus-number mono" aria-hidden="true">{formatIndex(index + 1)}</span>
             <span class="focus-copy">
               <strong>{area.name}</strong>
               <span>{area.detail}</span>
             </span>
+            <span class="focus-bar" aria-hidden="true"></span>
           </li>
         ))}
       </ul>
-      <p class="disclosure-note">
-        <span aria-hidden="true"></span>
-        Responsible disclosure
+      <p class="disclosure-note mono">
+        <span class="disclosure-dot" aria-hidden="true"></span>
+        {t('security.disclosure')}
       </p>
-    </section>
+    </div>
   </div>
 </section>
 
 <style>
   .security {
-    --ring: var(--signal);
-    padding-block: clamp(4.5rem, 9vw, 7.5rem);
-    background: var(--security);
-    color: var(--security-ink);
+    overflow: hidden;
+  }
+
+  .security-bg {
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    background:
+      radial-gradient(50rem 30rem at 100% 50%, var(--glow), transparent 60%),
+      linear-gradient(to bottom, transparent, color-mix(in srgb, var(--surface) 60%, transparent), transparent);
   }
 
   .security-grid {
@@ -97,103 +89,61 @@ const researchSteps = [
     gap: clamp(3rem, 7vw, 6rem);
   }
 
-  .security-copy {
-    min-width: 0;
-  }
-
-  .security-eyebrow {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    margin: 0 0 1rem;
-    color: var(--signal);
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 0.875rem;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-  }
-
-  .security-eyebrow span,
-  .disclosure-note span {
-    width: 0.55rem;
-    height: 0.55rem;
-    flex: 0 0 auto;
-    border-radius: 50%;
-    background: var(--signal);
-  }
-
-  h2 {
-    max-width: 16ch;
-    margin: 0;
-    font-size: clamp(2rem, 1.6rem + 1.7vw, 3.5rem);
-    line-height: 1.38;
-    letter-spacing: -0.035em;
-  }
-
   .security-lead {
-    max-width: 42rem;
-    margin: 1.5rem 0 0;
-    color: var(--security-muted);
+    max-width: 40rem;
+    margin-top: 1.5rem;
+    color: var(--muted);
     font-size: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
     line-height: 1.9;
   }
 
   .research-steps {
     display: grid;
-    gap: 0;
-    margin: 2rem 0 0;
+    margin: 2.5rem 0 0;
     padding: 0;
-    border-block: 1px solid var(--security-line);
+    border-top: 1px solid var(--line);
     list-style: none;
   }
 
   .research-steps li {
     display: grid;
-    grid-template-columns: 2.5rem minmax(0, 1fr);
+    grid-template-columns: 2.75rem minmax(0, 1fr);
     gap: 0.75rem;
-    padding-block: 0.85rem;
-    border-bottom: 1px solid var(--security-line);
+    padding-block: 1rem;
+    border-bottom: 1px solid var(--line);
+    transition: padding-left 300ms var(--ease-out);
   }
 
-  .research-steps li:last-child {
-    border-bottom: 0;
+  .research-steps li:hover {
+    padding-left: 0.5rem;
   }
 
   .step-number {
     color: var(--signal);
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 0.875rem;
   }
 
-  .research-steps strong {
-    display: inline-block;
-    min-width: 6.5rem;
-    margin-right: 0.75rem;
-    color: var(--security-ink);
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 0.875rem;
-    text-transform: uppercase;
+  .step-body {
+    display: grid;
+    gap: 0.2rem;
+  }
+
+  .step-body strong {
+    color: var(--ink);
+  }
+
+  .step-body span {
+    color: var(--muted);
   }
 
   .security-link {
-    display: inline-flex;
-    min-height: 3rem;
-    align-items: center;
-    gap: 0.55rem;
     margin-top: 2rem;
-    color: var(--signal);
-    font-weight: 700;
+    font-size: 1rem;
   }
 
   .research-board {
     align-self: center;
-    min-width: 0;
     padding: clamp(1.25rem, 3vw, 1.75rem);
-    border: 1px solid var(--security-line);
-    border-radius: var(--radius-xl);
-    background: var(--security-panel);
-    box-shadow: 0.75rem 0.75rem 0 color-mix(in srgb, var(--signal) 16%, transparent);
+    border-color: color-mix(in srgb, var(--signal) 30%, var(--line));
   }
 
   .board-header {
@@ -201,16 +151,15 @@ const researchSteps = [
     justify-content: space-between;
     gap: 1rem;
     padding-bottom: 1rem;
-    border-bottom: 1px solid var(--security-line);
-    color: var(--security-muted);
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 0.875rem;
-    text-transform: uppercase;
+    border-bottom: 1px solid var(--line);
+    color: var(--muted);
   }
 
   .board-header h3 {
     margin: 0;
     font: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
   }
 
   .focus-list {
@@ -220,17 +169,16 @@ const researchSteps = [
   }
 
   .focus-list li {
+    position: relative;
     display: grid;
     grid-template-columns: 2.25rem minmax(0, 1fr);
     gap: 0.8rem;
     padding-block: 1.35rem;
-    border-bottom: 1px solid var(--security-line);
+    border-bottom: 1px solid var(--line);
   }
 
   .focus-number {
     color: var(--signal);
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 0.875rem;
   }
 
   .focus-copy {
@@ -240,15 +188,29 @@ const researchSteps = [
   }
 
   .focus-copy strong {
-    font-size: 1.1rem;
+    font-size: 1.15rem;
   }
 
   .focus-copy span {
-    color: var(--security-muted);
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 0.875rem;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
     line-height: 1.65;
     overflow-wrap: anywhere;
+  }
+
+  .focus-bar {
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--signal);
+    transition: width 600ms var(--ease-out);
+  }
+
+  .focus-list li:hover .focus-bar {
+    width: 100%;
   }
 
   .disclosure-note {
@@ -256,27 +218,21 @@ const researchSteps = [
     align-items: center;
     gap: 0.65rem;
     margin: 1.25rem 0 0;
-    color: var(--security-muted);
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 0.875rem;
+    color: var(--muted);
   }
 
-  @media (min-width: 54rem) {
+  .disclosure-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--signal);
+    animation: pulse 2.4s ease-out infinite;
+  }
+
+  @media (min-width: 56rem) {
     .security-grid {
       grid-template-columns: minmax(0, 1.15fr) minmax(20rem, 0.85fr);
       align-items: start;
-    }
-  }
-
-  @media (max-width: 30rem) {
-    .research-steps strong {
-      display: block;
-      min-width: 0;
-      margin: 0 0 0.2rem;
-    }
-
-    .research-board {
-      box-shadow: 0.45rem 0.45rem 0 color-mix(in srgb, var(--signal) 16%, transparent);
     }
   }
 </style>

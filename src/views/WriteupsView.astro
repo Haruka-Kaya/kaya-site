@@ -1,0 +1,110 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import WriteupCard from '../components/WriteupCard.astro';
+import { loadSiteContext, loadWriteups } from '../lib/site';
+import { localizePath, useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const [{ settings }, writeups] = await Promise.all([loadSiteContext(lang), loadWriteups(lang)]);
+const pageTitle = `Writeups | ${settings.name}`;
+const categories = Array.from(new Set(writeups.map((post) => post.data.category)));
+---
+
+<BaseLayout lang={lang} title={pageTitle} description={t('writeups.intro')} path="/writeups" settings={settings}>
+  <main id="main-content" class="list-page">
+    <div class="container">
+      <a href={localizePath('/', lang)} class="text-link back-link">
+        <span class="arrow arrow--back" aria-hidden="true">←</span>
+        {t('nav.home')}
+      </a>
+      <header class="page-header">
+        <p class="eyebrow">{t('writeups.eyebrow')}</p>
+        <h1 class="section-heading">{t('writeups.heading')}</h1>
+        <p class="section-intro">{t('writeups.intro')}</p>
+        <p class="meta-row mono">
+          <span class="count">{t('writeups.count', { n: writeups.length })}</span>
+          {categories.map((category) => (
+            <span class="pill">{category}</span>
+          ))}
+        </p>
+      </header>
+
+      {writeups.length > 0 ? (
+        <div class="writeup-grid">
+          {writeups.map((post, index) => (
+            <div data-reveal style={`--reveal-delay: ${(index % 2) * 90}ms`}>
+              <WriteupCard
+                lang={lang}
+                slug={post.slug}
+                title={post.data.title}
+                summary={post.data.summary}
+                date={post.data.date}
+                category={post.data.category}
+                tags={post.data.tags}
+                readingMinutes={post.readingMinutes}
+              />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p class="section-intro">{t('writeups.empty')}</p>
+      )}
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .list-page {
+    padding-block: clamp(2.5rem, 6vw, 5rem) clamp(3rem, 8vw, 6rem);
+  }
+
+  .back-link {
+    min-height: 2.75rem;
+  }
+
+  .arrow--back {
+    transition: transform 250ms var(--ease-out);
+  }
+
+  .back-link:hover .arrow--back {
+    transform: translateX(-0.25rem);
+  }
+
+  .page-header {
+    margin: 2rem 0 3rem;
+    animation: rise 700ms var(--ease-out) both;
+  }
+
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.25rem;
+  }
+
+  .count {
+    margin-right: 0.5rem;
+    color: var(--signal);
+  }
+
+  .writeup-grid {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .writeup-grid > * {
+    min-width: 0;
+  }
+
+  @media (min-width: 48rem) {
+    .writeup-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>
