@@ -72,19 +72,7 @@ const themeColor = '#0b1411';
     <meta name="twitter:image:alt" content={socialImageAlt} />
 
     <title>{title}</title>
-    <script is:inline>
-      (function () {
-        var theme = null;
-        try {
-          theme = localStorage.getItem('theme');
-        } catch (e) {}
-        if (theme !== 'light' && theme !== 'dark') {
-          theme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-        }
-        document.documentElement.setAttribute('data-theme', theme);
-        document.documentElement.classList.remove('no-js');
-      })();
-    </script>
+    <script is:inline src="/theme-init.js"></script>
     <ClientRouter />
     <slot name="head" />
   </head>
