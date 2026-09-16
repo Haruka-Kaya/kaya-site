@@ -105,8 +105,15 @@ export async function loadProjects(lang: Lang, { featuredOnly = false } = {}) {
 
 export type Writeup = Awaited<ReturnType<typeof loadWriteups>>[number];
 
-export async function loadWriteups(lang: Lang, { limit }: { limit?: number } = {}) {
-  const entries = await getCollection('writeups', (entry) => entry.id.startsWith(`${lang}/`) && !entry.data.draft);
+export function isTechnicalCategory(category: string) {
+  return category !== 'notes';
+}
+
+export const researchProjectSlugs = new Set(['agent-governance-toolkit', 'authorized-research-platform']);
+
+export async function loadWriteups(lang: Lang, { limit, surface }: { limit?: number; surface?: 'portfolio' | 'tech' } = {}) {
+  const entries = await getCollection('writeups', (entry) => entry.id.startsWith(`${lang}/`) && !entry.data.draft
+    && (!surface || isTechnicalCategory(entry.data.category) === (surface === 'tech')));
   const sorted = entries
     .map((entry) => ({ ...entry, slug: entry.id.slice(lang.length + 1), readingMinutes: readingTime(entry.body ?? '') }))
     .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());

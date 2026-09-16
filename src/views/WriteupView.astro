@@ -1,7 +1,7 @@
 ---
 import { render, type CollectionEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { hasWriteup, loadSiteContext, readingTime, absoluteUrl } from '../lib/site';
+import { hasWriteup, loadSiteContext, readingTime, absoluteUrl, isTechnicalCategory } from '../lib/site';
 import { alternateLang, formatDate, localizePath, useTranslations, type Lang } from '../i18n/ui';
 
 interface Props {
@@ -21,6 +21,8 @@ const [{ settings }, hasAlternate, { Content, headings }] = await Promise.all([
 const minutes = readingTime(entry.body ?? '');
 const pageTitle = `${entry.data.title} | ${settings.name}`;
 const path = `/writeups/${slug}`;
+const technical = isTechnicalCategory(entry.data.category);
+const archivePath = technical ? '/tech/writeups' : '/writeups';
 const toc = headings.filter((heading) => heading.depth === 2);
 
 const articleSchema = {
@@ -41,7 +43,8 @@ const articleSchema = {
   title={pageTitle}
   description={entry.data.summary}
   path={path}
-  alternatePath={hasAlternate ? path : '/writeups'}
+  alternatePath={hasAlternate ? path : archivePath}
+  surface={technical ? 'tech' : 'portfolio'}
   ogType="article"
   settings={settings}
   progress
@@ -54,7 +57,7 @@ const articleSchema = {
 
   <main id="main-content" class="post-page">
     <article class="container post">
-      <a href={localizePath('/writeups', lang)} class="text-link back-link">
+      <a href={localizePath(archivePath, lang)} class="text-link back-link">
         <span class="arrow arrow--back" aria-hidden="true">←</span>
         {t('writeups.back')}
       </a>
@@ -97,7 +100,7 @@ const articleSchema = {
 
       <footer class="post-footer card spot" data-reveal>
         <p>{lang === 'ja' ? 'ほかの記事も読む' : 'Read more writeups'}</p>
-        <a class="button button--secondary" href={localizePath('/writeups', lang)}>{t('writeups.all')}</a>
+        <a class="button button--secondary" href={localizePath(archivePath, lang)}>{t('writeups.all')}</a>
       </footer>
     </article>
   </main>

@@ -18,8 +18,8 @@ const { lang, name, altName, tagline, roles, location, focus, hackerone, github,
 const t = useTranslations(lang);
 const headline =
   lang === 'ja'
-    ? ['仕組みの境界を、', 'つくって確かめる。']
-    : ['Build the system.', 'Find where it breaks.'];
+    ? ['気になったら、', 'つくってみる。']
+    : ['Get curious.', 'Make something.'];
 
 const links = [
   { label: 'HackerOne', href: hackerone },
@@ -52,7 +52,7 @@ const links = [
       </ul>
       <div class="hero-actions" style="--i: 5">
         <a class="button button--primary" href={localizePath('/writeups', lang)}>{t('hero.cta.writeups')}</a>
-        <a class="button button--secondary" href="#security">{t('hero.cta.security')}</a>
+        <a class="button button--secondary" href="#interests">{t('nav.interests')}</a>
         {hackerone && (
           <a class="button button--ghost" href={hackerone} target="_blank" rel="noopener noreferrer">
             HackerOne
@@ -73,7 +73,7 @@ const links = [
         <div class="id-card-head">
           <span class="id-status mono">
             <span class="id-status-dot" aria-hidden="true"></span>
-            {t('security.disclosure')}
+            {lang === 'ja' ? 'つくる・飛ばす・遊ぶ' : 'Make / Fly / Explore'}
           </span>
           <span class="id-mark mono" aria-hidden="true">HK</span>
         </div>
@@ -88,7 +88,7 @@ const links = [
           )}
           {focus.length > 0 && (
             <div class="id-row">
-              <dt class="mono">{t('security.focus')}</dt>
+              <dt class="mono">{t('nav.interests')}</dt>
               <dd>{focus.join(' / ')}</dd>
             </div>
           )}

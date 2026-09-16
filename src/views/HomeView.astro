@@ -2,13 +2,11 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import About from '../components/About.astro';
-import SecurityResearch from '../components/SecurityResearch.astro';
 import SectionHeader from '../components/SectionHeader.astro';
-import Marquee from '../components/Marquee.astro';
 import WriteupCard from '../components/WriteupCard.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import HobbyCard from '../components/HobbyCard.astro';
-import { loadSiteContext, loadHobbies, loadProjects, loadWriteups, absoluteUrl } from '../lib/site';
+import { loadSiteContext, loadHobbies, loadProjects, loadWriteups, absoluteUrl, researchProjectSlugs } from '../lib/site';
 import { localizePath, useTranslations, type Lang } from '../i18n/ui';
 
 interface Props {
@@ -17,12 +15,13 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
-const [{ settings, about, security }, hobbies, projects, writeups] = await Promise.all([
+const [{ settings, about }, hobbies, allProjects, writeups] = await Promise.all([
   loadSiteContext(lang),
   loadHobbies(lang, { featuredOnly: true }),
-  loadProjects(lang, { featuredOnly: true }),
-  loadWriteups(lang, { limit: 3 }),
+  loadProjects(lang),
+  loadWriteups(lang, { limit: 3, surface: 'portfolio' }),
 ]);
+const projects = allProjects.filter((item) => !researchProjectSlugs.has(item.slug)).slice(0, 4);
 
 const personSchema = {
   '@context': 'https://schema.org',
@@ -47,17 +46,18 @@ const personSchema = {
       tagline={about.tagline}
       roles={about.roles}
       location={about.location}
-      focus={security.focus.map((area) => area.name)}
-      hackerone={settings.hackerone}
+      focus={lang === 'ja' ? ['ドローン', '電子工作', 'スキー'] : ['Drones', 'Electronics', 'Skiing']}
+      hackerone=""
       github={settings.github}
       twitter={settings.twitter}
     />
 
-    {about.skills.length > 0 && <Marquee items={about.skills} label={lang === 'ja' ? 'キーワード' : 'Keywords'} />}
-
     <About lang={lang} bio={about.bio} now={about.now} location={about.location} highlights={about.highlights} />
 
-    <SecurityResearch lang={lang} lead={security.lead} focus={security.focus} steps={security.steps} hackerone={settings.hackerone} />
+    <aside class="container tech-invitation" id="security">
+      <p>{lang === 'ja' ? 'セキュリティ研究や開発の詳しい話は、技術者向けのページにまとめています。' : 'For security research and detailed engineering notes, visit the technical side.'}</p>
+      <a class="text-link" href={localizePath('/tech', lang)}>{lang === 'ja' ? 'Tech & Researchへ →' : 'Explore Tech & Research →'}</a>
+    </aside>
 
     <section id="writeups" class="section section--line" aria-labelledby="writeups-title">
       <div class="container">
@@ -136,6 +136,7 @@ const personSchema = {
 </BaseLayout>
 
 <style>
+  .tech-invitation { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; padding-block: 1.5rem; border-block: 1px solid var(--line); color: var(--muted); }
   .writeup-grid {
     display: grid;
     gap: 1rem;

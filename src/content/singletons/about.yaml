@@ -1,40 +1,40 @@
-tagline: ものを作りながら、仕組みの境界を調べています。
-tagline_en: I build things and study where systems meet their boundaries.
+tagline: ドローンを飛ばしたり、思いついたものを作ったりしています。
+tagline_en: I fly drones and make the things that come to mind.
 roles:
-  - セキュリティリサーチャー
-  - HackerOne
   - ものづくり
+  - ドローン
+  - 電子工作
 roles_en:
-  - Security researcher
-  - HackerOne
   - Maker
+  - Drones
+  - Electronics
 bio: |-
   仕組みが気になると、まず自分で触って確かめたくなる性格です。HackerOneでセキュリティを調べたり、FPVドローンを組んだり、Raspberry PiやESP32で遊んだりしています。
 
-  セキュリティではAndroid、Web/API、AIエージェントを中心に、権限や入力の境界を追っています。許可された範囲で実際に動かし、どの条件で何が起きるのかを確かめる過程が好きです。
+  身近な面倒を少し減らす道具や、遊びながら学べるものを作っています。予定やメールを扱うAI、名札を彫るためのソフト、自作のレースゲーム。うまくいかなかった話も、制作のこぼれ話として残しています。
 
   画面の外では、組んだ機体が飛ぶこと、無線がつながること、作ったものを誰かが使ってくれることを楽しんでいます。スキーや空撮、最近始めたロープワークも好きです。
 bio_en: |-
   When something makes me curious, I want to try it and understand it for myself. I research security through HackerOne, build FPV drones, and experiment with Raspberry Pi and ESP32 boards.
 
-  My current security interests include Android, web APIs, and AI agents. I like tracing where permissions, inputs, and assumptions meet, then testing what actually happens within an authorized scope.
+  I build small tools to make everyday tasks easier and things I can learn from while playing: an AI for calendars and email, engraving software, and a racing game. The parts that go wrong also make it into my build outtakes.
 
   Away from the screen, I enjoy the moment when a quad I built takes off, a radio link connects, or a small tool becomes useful to someone. I also enjoy skiing, aerial photography, and learning rope work.
 now: |-
-  AIエージェントの権限境界（ツール実行の認可やプロンプトインジェクション）を中心に調査しています。あわせて、許可された範囲で安全に調査を進めるための内部基盤を育てています。
+  作ったものや試したことを、このサイトに少しずつまとめています。セキュリティ研究と詳しい開発記録は、技術者向けページに分けています。
 now_en: |-
-  Researching permission boundaries in AI agents, with a focus on tool authorization and prompt injection. Alongside that, I am growing an internal platform for running research safely within authorized scope.
+  Collecting the things I build and try on this site. Security research and detailed development records have their own technical section.
 location: 日本
 location_en: Japan
 highlights:
-  - label: 主な領域
-    label_en: Focus
-    value: Android / Web・API / AIエージェント
-    value_en: Android / Web & API / AI agents
-  - label: プラットフォーム
-    label_en: Platform
-    value: HackerOne（Responsible disclosure）
-    value_en: HackerOne (responsible disclosure)
+  - label: 好きなこと
+    label_en: Interests
+    value: ドローン / 電子工作 / スキー
+    value_en: Drones / Electronics / Skiing
+  - label: 作っているもの
+    label_en: Making
+    value: 日常の道具 / ゲーム / 小さな工作
+    value_en: Everyday tools / Games / Small builds
   - label: 資格
     label_en: Licenses
     value: 第二級陸上特殊無線技士 / 第四級アマチュア無線技士

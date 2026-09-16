@@ -64,7 +64,10 @@ describe('home page', () => {
     expect(html).toContain('href="/en/hobbies/fpvdrone"');
     expect(html).toContain('hreflang="ja" href="https://harukakaya.dev/"');
     expect(html).toContain('rel="canonical" href="https://harukakaya.dev/en/"');
-    expect(html).toContain('Find where it breaks.');
+    expect(html).toContain('Make something.');
+    expect(html).toContain('data-surface="portfolio"');
+    expect(html).toContain('href="/en/tech"');
+    expect(html).not.toContain('href="/en/writeups/android-exported-components"');
     expect(html).not.toContain('もう少し詳しく');
   });
 });

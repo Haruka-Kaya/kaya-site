@@ -35,6 +35,6 @@ describe('About', () => {
 
     expect(html).not.toContain('about-location');
     expect(html).not.toContain('now-title');
-    expect(html).toContain('An eye for building');
+    expect(html).toContain('Making things, flying things, taking detours.');
   });
 });

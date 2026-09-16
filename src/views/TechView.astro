@@ -1,0 +1,75 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { loadSiteContext, loadWriteups, loadProjects, researchProjectSlugs } from '../lib/site';
+import { localizePath, formatDate, type Lang } from '../i18n/ui';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const ja = lang === 'ja';
+const [{ settings, security }, posts, allProjects] = await Promise.all([
+  loadSiteContext(lang), loadWriteups(lang, { surface: 'tech' }), loadProjects(lang),
+]);
+const projects = allProjects.filter(p => researchProjectSlugs.has(p.slug) || ['attendance-system', 'vcarve-engraver'].includes(p.slug));
+const description = ja ? '賀屋悠のセキュリティ研究と開発記録。Android、Web/API、AIエージェントの権限境界、実装と検証。' : 'Security research and engineering by Haruka Kaya. Android, web APIs, AI agent authorization, implementation and verification.';
+---
+<BaseLayout lang={lang} title={`Tech & Research | ${settings.name}`} description={description} path="/tech" settings={settings} surface="tech">
+  <main id="main-content" class="container tech-shell">
+    <header class="tech-masthead">
+      <div>
+        <p class="tech-kicker">Haruka Kaya / Technical journal</p>
+        <h1 class="tech-title">Security research.<span>Systems engineering.</span></h1>
+        <p class="tech-lead">{ja ? '権限、入力、状態の境界を調べ、実装と検証の過程を記録しています。確認した挙動と、そこから推測する影響を分けて書きます。' : 'Investigating boundaries in permissions, inputs, and state. I document implementation and verification, separating observed behavior from inferred impact.'}</p>
+        <div class="tech-links">
+          <a href="#articles">{ja ? '技術記事を読む ↓' : 'Read the articles ↓'}</a>
+          <a href="#research">{ja ? '研究方針' : 'Research approach'}</a>
+        </div>
+      </div>
+      <aside class="tech-identity" aria-label={ja ? '研究者プロフィール' : 'Researcher profile'}>
+        <strong>{settings.name}</strong>
+        <p>Security researcher / Developer<br />Android · Web & API · AI Agents</p>
+        <div class="tech-links">
+          <a href={settings.hackerone} target="_blank" rel="noopener noreferrer">HackerOne ↗</a>
+          <a href={settings.github} target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        </div>
+        <a href={localizePath('/', lang)}>{ja ? '人柄・趣味のポートフォリオ →' : 'Personal portfolio →'}</a>
+      </aside>
+    </header>
+
+    <section id="articles" class="tech-section" aria-labelledby="tech-articles-title">
+      <div class="tech-section-head">
+        <h2 id="tech-articles-title"><span>01 /</span>{ja ? '技術記事' : 'Technical writing'}</h2>
+        <a href={localizePath('/tech/writeups', lang)}>{ja ? `全${posts.length}本の記事 →` : `All ${posts.length} articles →`}</a>
+      </div>
+      <ol class="tech-article-list">
+        {posts.slice(0, 4).map(post => (
+          <li><a href={localizePath(`/writeups/${post.slug}`, lang)}>
+            <div class="tech-article-meta"><span>{post.data.category}</span><time datetime={post.data.date.toISOString().slice(0, 10)}>{formatDate(post.data.date, lang)}</time></div>
+            <div><h3>{post.data.title}</h3><p>{post.data.summary}</p></div>
+            <span class="tech-arrow" aria-hidden="true">↗</span>
+          </a></li>
+        ))}
+      </ol>
+    </section>
+
+    <section id="research" class="tech-section" aria-labelledby="tech-research-title">
+      <div class="tech-section-head"><h2 id="tech-research-title"><span>02 /</span>{ja ? '研究領域と報告方針' : 'Research & disclosure'}</h2></div>
+      <div class="tech-columns">
+        <p class="tech-caption">{ja ? '許可された範囲で調査し、再現条件と証拠を残します。' : 'Research within authorized scope, with reproducible conditions and recorded evidence.'}</p>
+        <div>
+          <p>{security.lead}</p>
+          <div class="tech-areas">{security.focus.map(area => <div class="tech-area"><h3>{area.name}</h3><p>{area.detail}</p></div>)}</div>
+          <ol class="tech-method">{security.steps.map(step => <li><strong>{step.label}</strong>{step.text}</li>)}</ol>
+          <p class="tech-note">{ja ? '未公開の報告内容や対象サービスの機密情報は掲載しません。テスト結果、実環境での確認、未検証の仮説は区別して記載します。' : 'Undisclosed reports and confidential service details are excluded. Tests, real-environment observations, and unverified hypotheses are documented separately.'}</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="tech-section" aria-labelledby="tech-projects-title">
+      <div class="tech-section-head"><h2 id="tech-projects-title"><span>03 /</span>{ja ? '開発しているもの' : 'Engineering projects'}</h2></div>
+      <div class="tech-project-grid">{projects.map(project => (
+        <article class="tech-project"><h3>{project.name}</h3><p>{project.description}</p><ul aria-label={ja ? '使用技術' : 'Technologies'}>{project.tags.map(tag => <li>{tag}</li>)}</ul>
+          {project.url ? <a href={project.url} target="_blank" rel="noopener noreferrer">{ja ? 'プロジェクトを見る ↗' : 'View project ↗'}</a> : <p>{ja ? '内部プロジェクト / ソース非公開' : 'Internal project / Source not published'}</p>}
+        </article>
+      ))}</div>
+    </section>
+  </main>
+</BaseLayout>

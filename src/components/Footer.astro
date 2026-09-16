@@ -3,6 +3,7 @@ import { useTranslations, type Lang } from '../i18n/ui';
 
 interface Props {
   lang: Lang;
+  surface?: 'portfolio' | 'tech';
   settings: {
     name: string;
     github: string;
@@ -12,7 +13,7 @@ interface Props {
   };
 }
 
-const { lang, settings } = Astro.props;
+const { lang, settings, surface = 'portfolio' } = Astro.props;
 const t = useTranslations(lang);
 const year = new Date().getFullYear();
 ---
@@ -24,7 +25,7 @@ const year = new Date().getFullYear();
       <div class="contact-copy">
         <p class="eyebrow">{t('contact.eyebrow')}</p>
         <h2 id="contact-title">{t('contact.heading')}</h2>
-        <p class="contact-text">{t('contact.text')}</p>
+        <p class="contact-text">{surface === 'tech' ? (lang === 'ja' ? '研究方針や技術記事についての連絡は、メールまたは各プロフィールからどうぞ。' : 'For questions about research or technical writing, reach me by email or through my profiles.') : t('contact.text')}</p>
       </div>
       <ul class="contact-actions">
         {settings.email && (

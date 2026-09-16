@@ -5,20 +5,27 @@ interface Props {
   lang: Lang;
   name: string;
   alternatePath?: string | null;
+  surface?: 'portfolio' | 'tech';
 }
 
-const { lang, name, alternatePath } = Astro.props;
+const { lang, name, alternatePath, surface = 'portfolio' } = Astro.props;
 const t = useTranslations(lang);
 const other = alternateLang(lang);
-const home = localizePath('/', lang);
+const tech = surface === 'tech';
+const home = localizePath(tech ? '/tech' : '/', lang);
 const switchHref = localizePath(alternatePath ?? '/', other);
 
-const links = [
+const links = tech ? [
+  { href: `${home}#research`, label: lang === 'ja' ? '研究方針' : 'Research' },
+  { href: localizePath('/tech/writeups', lang), label: lang === 'ja' ? '技術記事' : 'Technical writing' },
+  { href: `${home}#projects`, label: lang === 'ja' ? '開発' : 'Engineering' },
+  { href: localizePath('/', lang), label: lang === 'ja' ? 'ポートフォリオ ↗' : 'Portfolio ↗' },
+] : [
   { href: `${home}#about`, label: t('nav.about') },
-  { href: `${home}#security`, label: t('nav.security') },
   { href: localizePath('/writeups', lang), label: t('nav.writeups') },
   { href: localizePath('/projects', lang), label: t('nav.projects') },
   { href: `${home}#interests`, label: t('nav.interests') },
+  { href: localizePath('/tech', lang), label: lang === 'ja' ? '技術者向け ↗' : 'Tech & research ↗' },
 ];
 ---
 
@@ -26,7 +33,7 @@ const links = [
   <nav class="container site-nav" aria-label={lang === 'ja' ? 'メインナビゲーション' : 'Main navigation'}>
     <a class="site-name" href={home} aria-label={t('nav.home')}>
       <span class="site-mark" aria-hidden="true">HK</span>
-      <span class="site-name-text">{name}</span>
+      <span class="site-name-text">{tech ? 'HK / TECH' : name}</span>
     </a>
 
     <ul class="nav-links">

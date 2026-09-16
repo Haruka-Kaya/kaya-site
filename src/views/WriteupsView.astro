@@ -6,26 +6,30 @@ import { localizePath, useTranslations, type Lang } from '../i18n/ui';
 
 interface Props {
   lang: Lang;
+  technical?: boolean;
 }
 
-const { lang } = Astro.props;
+const { lang, technical = false } = Astro.props;
 const t = useTranslations(lang);
-const [{ settings }, writeups] = await Promise.all([loadSiteContext(lang), loadWriteups(lang)]);
-const pageTitle = `Writeups | ${settings.name}`;
+const [{ settings }, writeups] = await Promise.all([loadSiteContext(lang), loadWriteups(lang, { surface: technical ? 'tech' : 'portfolio' })]);
+const pageTitle = `${technical ? 'Technical Writeups' : 'Notes'} | ${settings.name}`;
+const path = technical ? '/tech/writeups' : '/writeups';
+const intro = technical ? (lang === 'ja' ? 'セキュリティ、権限設計、実装と検証。前提と確認できた範囲を明記した技術記録。' : 'Security, authorization, implementation, and verification. Technical records with explicit assumptions and evidence.') : t('writeups.intro');
 const categories = Array.from(new Set(writeups.map((post) => post.data.category)));
 ---
 
-<BaseLayout lang={lang} title={pageTitle} description={t('writeups.intro')} path="/writeups" settings={settings}>
+<BaseLayout lang={lang} title={pageTitle} description={intro} path={path} settings={settings} surface={technical ? 'tech' : 'portfolio'}>
   <main id="main-content" class="list-page">
     <div class="container">
-      <a href={localizePath('/', lang)} class="text-link back-link">
+      <a href={localizePath(technical ? '/tech' : '/', lang)} class="text-link back-link">
         <span class="arrow arrow--back" aria-hidden="true">←</span>
         {t('nav.home')}
       </a>
       <header class="page-header">
-        <p class="eyebrow">{t('writeups.eyebrow')}</p>
-        <h1 class="section-heading">{t('writeups.heading')}</h1>
-        <p class="section-intro">{t('writeups.intro')}</p>
+        <p class="eyebrow">{technical ? 'Technical archive' : t('writeups.eyebrow')}</p>
+        <h1 class="section-heading">{technical ? (lang === 'ja' ? '技術記事' : 'Technical writing') : t('writeups.heading')}</h1>
+        <p class="section-intro">{intro}</p>
+        <a class="text-link" href={localizePath(technical ? '/writeups' : '/tech/writeups', lang)}>{technical ? (lang === 'ja' ? '制作こぼれ話はこちら →' : 'Build outtakes →') : (lang === 'ja' ? '技術記事を探している方はこちら →' : 'Looking for technical articles? →')}</a>
         <p class="meta-row mono">
           <span class="count">{t('writeups.count', { n: writeups.length })}</span>
           {categories.map((category) => (

@@ -37,9 +37,9 @@ describe('Hero', () => {
     const container = await AstroContainer.create();
     const html = await container.renderToString(Hero, { props: { ...baseProps, lang: 'en', hackerone: '', twitter: '' } });
 
-    expect(html).toContain('Read writeups');
+    expect(html).toContain('Read the outtakes');
     expect(html).toContain('href="/en/writeups"');
-    expect(html).toContain('Find where it breaks.');
+    expect(html).toContain('Make something.');
     expect(html).not.toContain('hackerone.com');
     expect(html).not.toContain('x.com');
   });

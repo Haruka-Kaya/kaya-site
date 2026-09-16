@@ -5,6 +5,7 @@ import Footer from '../components/Footer.astro';
 import { absoluteUrl } from '../lib/site';
 import { alternateLang, localizePath, useTranslations, type Lang } from '../i18n/ui';
 import '../styles/global.css';
+import '../styles/tech.css';
 
 interface Props {
   lang: Lang;
@@ -21,21 +22,22 @@ interface Props {
     twitter: string;
   };
   progress?: boolean;
+  surface?: 'portfolio' | 'tech';
 }
 
-const { lang, title, description, path, alternatePath = path, ogType = 'website', settings, progress = false } = Astro.props;
+const { lang, title, description, path, alternatePath = path, ogType = 'website', settings, progress = false, surface = 'portfolio' } = Astro.props;
 const t = useTranslations(lang);
 const other = alternateLang(lang);
 
 const canonical = absoluteUrl(localizePath(path, lang), Astro.site, Astro.url.origin);
 const alternateUrl = alternatePath ? absoluteUrl(localizePath(alternatePath, other), Astro.site, Astro.url.origin) : null;
 const socialImage = absoluteUrl('/og.png', Astro.site, Astro.url.origin);
-const socialImageAlt = `${settings.name} — Security Research & Systems Building`;
-const themeColor = '#0b1411';
+const socialImageAlt = `${settings.name} — ${surface === 'tech' ? 'Security Research & Systems Engineering' : 'Personal Portfolio'}`;
+const themeColor = surface === 'tech' ? '#0b1018' : '#0b1411';
 ---
 
 <!doctype html>
-<html lang={lang} class="no-js">
+<html lang={lang} class="no-js" data-surface={surface}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
@@ -79,9 +81,9 @@ const themeColor = '#0b1411';
   <body id="top">
     <a class="skip-link" href="#main-content">{t('skip')}</a>
     {progress && <div class="progress" aria-hidden="true"><span data-progress></span></div>}
-    <Nav lang={lang} name={settings.name} alternatePath={alternatePath} />
+    <Nav lang={lang} name={settings.name} alternatePath={alternatePath} surface={surface} />
     <slot />
-    <Footer lang={lang} settings={settings} />
+    <Footer lang={lang} settings={settings} surface={surface} />
     <script>
       import '../scripts/motion.ts';
     </script>

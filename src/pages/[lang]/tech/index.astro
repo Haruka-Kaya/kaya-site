@@ -1,0 +1,7 @@
+---
+export const prerender = true;
+import TechView from '../../../views/TechView.astro';
+import { prefixedLocales, langFromParam } from '../../../i18n/ui';
+export function getStaticPaths() { return prefixedLocales.map(lang => ({ params: { lang } })); }
+---
+<TechView lang={langFromParam(Astro.params.lang)} />

@@ -4,11 +4,12 @@ import { describe, expect, it } from 'vitest';
 import ProjectsPage from '../../src/pages/projects/index.astro';
 import EnProjectsPage from '../../src/pages/[lang]/projects/index.astro';
 import keystaticConfig from '../../keystatic.config';
+import { researchProjectSlugs } from '../../src/lib/site';
 
 describe('projects page', () => {
-  it('lists every project ordered by the order field', async () => {
+  it('lists portfolio projects ordered by the order field', async () => {
     const reader = createReader(process.cwd(), keystaticConfig);
-    const all = await reader.collections.projects.all();
+    const all = (await reader.collections.projects.all()).filter(p => !researchProjectSlugs.has(p.slug));
     const container = await AstroContainer.create();
     const html = await container.renderToString(ProjectsPage, {
       request: new Request('https://harukakaya.dev/projects'),
@@ -33,7 +34,7 @@ describe('projects page', () => {
     });
 
     expect(html).toContain('<html lang="en"');
-    expect(html).toContain('I build the tools I research with.');
+    expect(html).toContain('Things I have been making.');
     expect(html).toContain('hreflang="ja" href="https://harukakaya.dev/projects"');
   });
 });

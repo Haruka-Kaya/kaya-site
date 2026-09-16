@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
-import { loadProjects, loadSiteContext } from '../lib/site';
+import { loadProjects, loadSiteContext, researchProjectSlugs } from '../lib/site';
 import { localizePath, useTranslations, type Lang } from '../i18n/ui';
 
 interface Props {
@@ -10,7 +10,8 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
-const [{ settings }, projects] = await Promise.all([loadSiteContext(lang), loadProjects(lang)]);
+const [{ settings }, allProjects] = await Promise.all([loadSiteContext(lang), loadProjects(lang)]);
+const projects = allProjects.filter((item) => !researchProjectSlugs.has(item.slug));
 const pageTitle = `${t('projects.eyebrow')} | ${settings.name}`;
 ---
 

@@ -21,7 +21,9 @@ describe('writeups', () => {
       partial: false,
     });
 
-    expect(html).toContain('<title>Writeups | 賀屋 悠</title>');
+    expect(html).toContain('<title>Notes | 賀屋 悠</title>');
+    expect(html).toContain('forty-three-worktrees');
+    expect(html).not.toContain('href="/writeups/android-exported-components"');
     const dates = [...html.matchAll(/datetime="(\d{4}-\d{2}-\d{2})"/g)].map((m) => m[1]);
     expect(dates.length).toBeGreaterThan(1);
     expect(dates).toEqual([...dates].sort().reverse());
@@ -61,7 +63,8 @@ describe('writeups', () => {
 
     expect(html).toContain('<html lang="en"');
     expect(html).toContain('<pre');
-    expect(html).toContain('href="/en/writeups"');
+    expect(html).toContain('href="/en/tech/writeups"');
+    expect(html).toContain('data-surface="tech"');
     expect(html).toContain('min read');
   });
 });
