@@ -8,12 +8,20 @@ detail: |-
   いま探求しているのはMeshtasticです。LoRaを使ったメッシュネットワークで、インターネットなしで長距離通信ができる仕組みは、災害時の通信やオフグリッド運用の文脈で可能性が広いと感じています。
 
   M5Stack CardputerのようなESP32ベースの小さなハンドヘルドでも無線まわりのハックを試しています。電波の仕組みを理解することで、FPVもドローン運用もより深く楽しめるようになりました。
+
+  この趣味はドローンと電子工作の間にあります。FPVでは映像を送る側と受ける側を考え、ESP32では自分でソフトを書いて通信を扱う。機体を飛ばすために始めた勉強が、小さな端末同士をつなぐ興味へ広がりました。
+
+  Meshtasticについては、まだ実験中です。ここで紹介しているのは関心と試作の話で、実地の到達距離や災害現場での信頼性を確かめた記録ではありません。自分の構成でどこまで通信できるのか、何を変えると結果が変わるのかを、条件と一緒に記録していきたいです。
 detail_en: |-
   I hold a 2nd-class land special radio operator license and a 4th-class amateur radio license. I got them to run FPV digital video transmitters legally, and somewhere along the way radio itself became fascinating.
 
   What I am exploring now is Meshtastic, a LoRa-based mesh network. Long-range communication with no internet has real potential in disaster response and off-grid use.
 
   I also try radio-related hacks on small ESP32 handhelds like the M5Stack Cardputer. Understanding how radio works has made both FPV and drone operation far more enjoyable.
+
+  Radio sits between drones and electronics for me. FPV involves both sides of a video link; ESP32 projects let me write software that handles communication. What began as learning for a flying machine has grown into an interest in connecting small devices.
+
+  My Meshtastic work is still experimental. This introduction describes my interests and prototypes, not measured field range or verified reliability in disaster response. I want to record what my own setup can do, which changes affect the results, and the conditions of each test.
 icon: 📻
 order: 5
 featured: true

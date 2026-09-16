@@ -5,15 +5,19 @@ description_en: Studying poker through game theory and GTO strategy. I verify my
 detail: |-
   単なるカードゲームとしてではなく、不完全情報ゲームにおける意思決定の問題として取り組んでいます。
 
-  TexasSolverをコンソールから呼び出すスクリプトを自作し、特定のボードでのレンジ構成を定期的に検証しています。PokerNowと連携したAI支援ツール（Flask + ブラウザuserscript）も作りました。
+  TexasSolverをコンソールから呼び出すスクリプトを自作し、特定のボードでのレンジ構成を検証しています。自分の選び方と計算結果を見比べるための道具です。ポーカーを題材にすると、確率やゲーム理論を、具体的な局面に当てはめて考えられます。
 
-  マルチウェイは組み合わせ爆発で原理的にsolverの解を出しにくいことも理解したうえで、ヘッズアップに絞って精度を上げています。
+  自作ツールで検証している中心は、二人で対戦するヘッズアップです。参加者が増えるマルチウェイは、同じ精度で扱えているわけではありません。計算できた条件を外れてまで、結果を正解として使わないようにしています。
+
+  この趣味にも、プログラミングとの共通点があります。まず条件を決め、結果を比べ、どこまで言えるのかを考える。ソルバーの出力を読む練習と、それを扱うスクリプトを書く時間の両方を楽しんでいます。
 detail_en: |-
   I approach poker less as a card game and more as a decision-making problem under incomplete information.
 
-  I wrote scripts that drive TexasSolver from the console and regularly check my range construction on specific board textures. I also built an AI assistant that hooks into PokerNow (Flask plus a browser userscript).
+  I wrote scripts that drive TexasSolver from the console to check range construction on specific boards. They help me compare my choices with computed results. Poker gives me concrete situations in which to think about probability and game theory.
 
-  Multiway spots are hard to solve in principle because of combinatorial explosion, so I focus on heads-up, where I can push accuracy further.
+  My tool's main area of verification is heads-up play, with two participants. It does not handle multiway situations to the same standard. I try not to treat a result as an answer outside the conditions that were actually evaluated.
+
+  There is a connection to programming here too: define the conditions, compare results, and work out what they support. I enjoy both learning to read solver output and writing the scripts that handle it.
 icon: 🃏
 order: 7
 featured: false

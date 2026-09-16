@@ -1,19 +1,27 @@
 name: Linux と電子工作
 name_en: Linux & Electronics
-description: Debian・Ubuntu・Archを普段使いしながら、Raspberry PiやESP32で小さなものを作っています。思ったとおりに動かない時間も含めて好きです。
-description_en: I use Debian, Ubuntu, and Arch day to day, and build small things with Raspberry Pi and ESP32 boards. I even enjoy the part where nothing works quite as expected.
+description: Debian・Ubuntuを普段使いし、Archも試しています。Raspberry PiやESP32の工作から、Pythonで彫刻用の工具経路を作るGUIまで。画面の中と実物がつながる制作が好きです。
+description_en: I use Debian and Ubuntu, explore Arch, and build with Raspberry Pi and ESP32. My projects also include a Python GUI for engraving toolpaths. I enjoy making software connect to physical things.
 detail: |-
   Linuxを触り始めたことから、サーバーや小さなコンピューターにも興味が広がりました。DebianやUbuntuを普段使いしながら、最近はArch Linuxも少しずつ試しています。OSの内側への好奇心が出発点で、サーバー運用、ハードウェア制御、セキュリティ調査のすべてにLinuxが土台としてあります。
 
   自作のFlaskバックエンドは、さくらのレンタルサーバ（FreeBSD）でCGI方式で運用しています。JWT認証、SQLite、GitHub Actionsによる自動デプロイまで自分で組みました。以前はVPS上のCoolifyで動かしていましたが、コストを見直して移行しました。
 
   Raspberry Pi Zero 2 WをiPadから操作できる持ち歩き用端末にしたり、ESP32やM5Stackで無線を試したりもしています。DigiKeyで部品を探して、配線して、動かなければまた調べる。ソフトウェアとハードウェアを行き来しながらひとつのものを動かすのが、自分に合っています。
+
+  名札などを彫るために、PythonとTkinterでV字彫刻のGUIも作りました。図形の中心線と輪郭までの距離から、工具の通る場所と彫る深さを計算します。プレビューでは正しく見えていたのに、生成した経路の上下が反転していたこともあり、入力画像に出力経路を重ねて確認する形に直しました。
+
+  ホイールやリセットで設定を変えたときだけ、再計算が走らない不具合もありました。表示された値と、出力に使う値が一致しているか。工作を支えるソフトを作ると、画面だけを見ていては気づけないことがあります。工具経路を確認できても実加工の検証は別なので、その違いも忘れずに進めたいです。
 detail_en: |-
   Getting into Linux led me to servers and small computers. I use Debian and Ubuntu daily and have started exploring Arch Linux. Curiosity about how the OS works underneath is the starting point, and Linux is the foundation for everything from server operations to hardware control to security research.
 
   I self-host a Flask backend on a Sakura shared server (FreeBSD) via CGI, with JWT authentication, SQLite, and automated deploys through GitHub Actions, all built by hand. It used to run on Coolify on a VPS before I moved it to cut costs.
 
   I also turned a Raspberry Pi Zero 2 W into a portable terminal controlled from an iPad, and experiment with radio on ESP32 and M5Stack boards. Find the parts on DigiKey, wire them up, and go back to reading when it does not work. Moving between software and hardware to make one thing run is where I feel most at home.
+
+  I also built a V-carving GUI in Python and Tkinter for engraving things such as nameplates. It uses a shape's centerline and distance to its outline to calculate the toolpath and cutting depth. At one point the preview looked right while the generated path was vertically flipped. I changed it to overlay the output path on the input outline.
+
+  Another bug skipped recalculation when settings changed through the mouse wheel or reset action. A value on screen is not necessarily the value used for output. Building software for physical work keeps exposing these gaps. Inspecting a toolpath is useful, but testing an actual cut is still a separate step.
 icon: 🔧
 order: 2
 featured: true

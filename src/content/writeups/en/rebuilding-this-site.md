@@ -14,7 +14,7 @@ I rebuilt my profile site from scratch. The previous version was a single page w
 
 ## Structure
 
-- **Astro**: every page is prerendered as static HTML
+- **Astro**: public articles and hobby pages are prerendered as static HTML, while CMS administration endpoints run on the server
 - **Keystatic**: a CMS that edits YAML and Markdown directly in the GitHub repository
 - **Vercel**: hosting and security headers
 
@@ -39,7 +39,7 @@ All of it is small vanilla JS and CSS, no libraries.
 
 ## Theme
 
-Dark is the default, to match the OG image. There is a light theme too, toggled from the header. Theme detection runs in an inline script inside `<head>` to avoid a flash on first paint.
+Dark is the default, to match the OG image. There is a light theme too, toggled from the header. Theme detection runs in the external `theme-init.js` script loaded from `<head>` to avoid a flash on first paint.
 
 ---
 

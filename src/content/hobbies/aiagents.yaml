@@ -7,13 +7,25 @@ detail: |-
 
   自由研究の話を聞いてレポートづくりを手伝う仕組み、予定やメールをまとめて扱う個人用ツールなどを作ってきました。
 
+  個人用アシスタントでは、n8nとDiscordを使い、GoogleのCalendar、Tasks、Drive、Gmail、Contacts、Docs、Sheetsを扱うツールを組み込みました。予定を探したり、メールから次にやることを整理したりするための試作です。2026年7月に進めた実装で、9月のMacへの開発環境移行後は、再接続や起動確認の作業も残っています。
+
+  つまずいたのは会話の指示だけではありません。権限を設定に足してもOAuthの同意を取り直す必要があったり、配列の入力定義にitemsがなくてリクエスト全体が失敗したりしました。接続確認用のスクリプトを用意し、認証、API、会話のどこで止まっているのかを分けて調べました。
+
   便利さだけでなく、勝手な操作をしないことや、使う人に理由が伝わることも大切にしています。AIに任せる部分と、人が決める部分の境目を考えながら試作しています。
+
+  別の運用ツールでは、メールの宛先、CC、本文、添付を承認対象に含めました。承認後に内容が変わったら、古い承認のまま送らず、再確認が必要な状態に戻します。「承認済み」という表示だけで済ませず、何に対する承認なのかを実装に持たせるところまでが、使える道具を作る仕事だと感じています。
 detail_en: |-
   I treat AI as a tool for testing my own ideas rather than something that just hands me answers.
 
   I have built a system that listens to a child talk about their summer research project and helps turn it into a report, and personal tools that handle my calendar and email in one place.
 
+  For a personal assistant using n8n and Discord, I integrated tools for Google Calendar, Tasks, Drive, Gmail, Contacts, Docs, and Sheets. It is a prototype for finding plans and organizing follow-up work from email. This implementation dates to July 2026; reconnecting services and checking startup after moving development to a Mac in September remained separate work.
+
+  Some failures had little to do with prompting. Adding an OAuth scope still required renewed consent, and an array schema missing its items definition caused an entire request to fail. I added a connection-check script so I could investigate authentication, API calls, and conversation separately.
+
   Beyond convenience, I care that these tools never act on their own and that the person using them can see why something happened. Prototyping means constantly deciding where AI should act and where a human should decide.
+
+  In another operational tool, I made email approval cover the recipient, CC, body, and attachments. Changes after approval require another review instead of reusing the old approval. Making that relationship explicit in the implementation matters more to me than simply displaying an approved label.
 icon: 🤖
 order: 4
 featured: true

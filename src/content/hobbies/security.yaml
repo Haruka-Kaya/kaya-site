@@ -8,12 +8,20 @@ detail: |-
   いまはHackerOneをメインプラットフォームに、プログラムのポリシーと対象範囲を読んだうえで、実際のサービスで見つけた問題を報告しています。挙動を小さく切り分け、確認できた事実、再現に必要な条件、まだ分からないことを分けて伝えるようにしています。調査を安全に進めるため、実行前にスコープを評価し、判断と証拠を監査ログに残す内部ツールも作っています。
 
   TryHackMeやCTFにはソロで取り組んでいます。Web、pwn、リバースエンジニアリング、暗号と、どれかに偏らず幅広く基礎を固めることを意識しています。まだ詰まることも多いですが、解けた瞬間の感覚はほかに代えがたく、実際の環境に出ていくためのトレーニングとして続けています。
+
+  作る側でも、権限と状態のずれを考える機会があります。個人用AIツールでは「ログインできる」と「必要な操作が許可されている」が別だと実感しました。運用ツールでは、メールの宛先や本文が変更されたら古い承認を無効にする仕組みを作っています。誰が、何を、どの内容に対して許可したのかを追うところは、調査と開発でつながっています。
+
+  記事にするときも、再現した挙動と、そこから想像できる影響を混ぜないようにしています。テストが通ったこと、実際の環境で確認したこと、まだ試せていないことは別々に書く。派手な説明にするより、読んだ人が同じ根拠をたどれる記録を残したいです。ここでは未公開の報告内容を載せず、調査や制作で学んだ考え方を中心に書いています。
 detail_en: |-
   Security started for me with a simple question while using Linux: why does it behave this way? Looking for the answer pulled me in.
 
   HackerOne is my main platform now. I read each program's policy and scope first, then report issues I find in real services. I break behavior down into small pieces and separate what I confirmed, what is needed to reproduce it, and what I still do not know. To keep research safe, I also build internal tooling that evaluates scope before execution and keeps decisions and evidence in an audit log.
 
   I play TryHackMe and CTFs solo. Web, pwn, reverse engineering, crypto: I try to build broad fundamentals rather than lean on one category. I still get stuck often, but nothing quite matches the feeling of a solve, and it is the training ground for working in real environments.
+
+  Building software gives me related questions about permissions and state. My personal AI tools taught me that being signed in does not mean an operation is authorized. In an operational tool, I made changes to an email's recipients or content invalidate its previous approval. Tracking who authorized which action against which version connects development with research for me.
+
+  When writing, I try to keep observed behavior separate from possible impact. Passing tests, checking a real environment, and leaving something untested are different states. I want readers to be able to follow the evidence, rather than just read an impressive claim. This site focuses on research and development lessons without publishing undisclosed report details.
 icon: 🔐
 order: 3
 featured: true
