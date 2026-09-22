@@ -103,11 +103,6 @@ function initMenu() {
 }
 
 function initTheme() {
-  // レイアウトが出力するテーマ設定からトグルの初期値を受け取る
-  const prefs = document.querySelector<HTMLElement>('[data-theme-prefs]');
-  const initial = prefs.dataset.themePrefs === 'light' ? 'light' : 'dark';
-  document.documentElement.dataset.theme = initial;
-
   const buttons = document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]');
   if (buttons.length === 0) return;
   const apply = (theme: 'dark' | 'light') => {
